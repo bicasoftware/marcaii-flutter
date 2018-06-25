@@ -1,8 +1,5 @@
-# marcaii_flutter
+## App Android para controle pessoal de horas extras.
 
-Horas Extras
+App escrito em **Dart e Flutter**, replicando a mesma estrutura de https://github.com/bicasoftware/marcaii-opensource
 
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+*Usar o source apenas como referência.*
