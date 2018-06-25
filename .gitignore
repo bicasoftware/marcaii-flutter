@@ -12,3 +12,4 @@ build/
 /test/
 .directory
 .metadata
+pubspec.lock
