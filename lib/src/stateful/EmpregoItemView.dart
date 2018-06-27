@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/models/EmpregoItem.dart';
+import 'package:marcaii_flutter/models/EmpregoItemDto.dart';
 import 'package:marcaii_flutter/src/stateful/ContentText.dart';
 import 'package:marcaii_flutter/src/stateless/AccentText.dart';
 import 'package:marcaii_flutter/res/Strings.dart';
