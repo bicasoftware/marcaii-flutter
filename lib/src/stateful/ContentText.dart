@@ -24,7 +24,7 @@ class _ContentTextState extends State<ContentText> {
             this.value,
             style: TextStyle(
                 color: Colors.black87,
-                fontSize: 20.0
+                fontSize: 18.0
             )
         );
     }

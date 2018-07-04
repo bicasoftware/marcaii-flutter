@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import'package:marcaii_flutter/res/Strings.dart';
 import 'package:marcaii_flutter/main.dart';
 import 'PageEmpregoInfo.dart';
+import 'PageEmpregoPorcentagens.dart';
 
 class ActInsertEmpregos extends StatefulWidget {
     @override
@@ -49,7 +50,7 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with SingleTicker
                 controller: controller,
                 children: <Widget>[
                     PageEmpregoInfo(),
-                    Act2(),
+                    PageEmpregoPorcentagens(),
                 ],
             )
         );

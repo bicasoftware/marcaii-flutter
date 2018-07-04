@@ -6,6 +6,7 @@ class Strings{
     static String dadosCargo = "Dados do Cargo";
     static String porcentagens = "Porcentagens";
     static String valorSalario = "Valor Salário";
+    static String valor = "Valor";
     static String cargaHoraria = "Carga Horária";
     static String bancoHoras = "Banco de Horas";
     static String diaFechamento = "Dia Fechamento";
@@ -15,6 +16,11 @@ class Strings{
     static String hintSalario = "R\$ 1200,00";
     static String hintHorarioSaida = "18:00";
     static String hintFechamento = "18:00";
+    static String porcNormal = "% Normal";
+    static String hintPorc = "30 %";
+    static String porcFeriados = "% Feriados";
+    static String porcDifer = "% Diferencial";
+
 
 
 }

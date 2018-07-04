@@ -15,7 +15,7 @@ class AccentText extends StatelessWidget {
                     color: Theme
                         .of(context)
                         .accentColor,
-                    fontSize: 14.0)
+                    fontSize: 12.0)
             );
     }
 
