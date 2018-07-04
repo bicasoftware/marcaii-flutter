@@ -39,8 +39,8 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with SingleTicker
                 bottom: TabBar(
                     controller: controller,
                     tabs: <Widget>[
-                        Tab(icon: Icon(Icons.subtitles), text: Strings.dadosCargo,),
-                        Tab(icon: Icon(Icons.list), text: Strings.porcentagens,),
+                        Tab(text: Strings.dadosCargo,),
+                        Tab(text: Strings.porcentagens,),
                     ],
                 ),
             ),

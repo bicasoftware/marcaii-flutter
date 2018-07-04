@@ -25,6 +25,12 @@ class _PageEmpregoInfoState extends State<PageEmpregoInfo> {
         });
     }
 
+    void _setBancoHoras(bool st) {
+        setState(() {
+            _emprego.bancoHoras = st == true ? 1 : false;
+        });
+    }
+
     @override
     void initState() {
         _emprego = MdEmpregos(
@@ -60,21 +66,10 @@ class _PageEmpregoInfoState extends State<PageEmpregoInfo> {
                     children: <Widget>[
                         ListTile(
                             title: TextFormField(
-                                validator: (v) {
-                                    if (v.isEmpty) return Warn.warNomeEmprego;
-
-                                    final nameExp = RegExp(r'^[A-Za-z ]+$');
-
-                                    if (!nameExp.hasMatch(v))
-                                        return Warn.warTextApenas;
-
-                                    return null;
-                                },
                                 decoration: InputDecoration(
                                     hintText: Strings.hintEmprego,
-                                    labelText: Strings.empregos
+                                    labelText: Strings.nomeEmprego
                                 ),
-                                onSaved: (v) {  },
                                 controller: ctNomeEmprego,
                             ),
                             leading: Icon(Icons.layers, color: Colors.red,),
@@ -82,27 +77,18 @@ class _PageEmpregoInfoState extends State<PageEmpregoInfo> {
                         ListTile(
                             title: TextFormField(
                                 initialValue: CurrencyUtils.doubleToCurrency(1500.0),
-                                validator: (v) {
-                                    if (v.isEmpty) {
-                                        return Warn.warSalarioInvalido;
-                                    }
-                                },
                                 decoration: InputDecoration(
                                     hintText: Strings.hintSalario,
                                     labelText: Strings.valorSalario
                                 ),
-                                keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true, signed: false),
                             ),
                             leading: Icon(Icons.monetization_on, color: Colors.green,),
                         ),
                         ListTile(
                             title: TextFormField(
                                 controller: ctHorarioSaida,
-                                validator: (v) {
-                                    if (v.isEmpty) {
-                                        return Warn.warHorarioInvalido;
-                                    }
-                                },
                                 decoration: InputDecoration(
                                     hintText: Strings.hintHorarioSaida,
                                     labelText: Strings.horarioSaida
@@ -112,32 +98,62 @@ class _PageEmpregoInfoState extends State<PageEmpregoInfo> {
                         ),
 
                         ListTile(
-                            leading: Icon(Icons.timelapse, color: Colors.teal,),
-                            //hideunline preenche o
-                            title: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _emprego.cargaHoraria,
-                                    onChanged: (c) => _setCargaHoraria(c),
-                                    items: cargas.map((c) =>
-                                        DropdownMenuItem(child: Text(c,), value: c,))
-                                        .toList(),
+                            leading: Icon(Icons.calendar_today, color: Colors.orange,),
+                            title: TextFormField(
+                                controller: ctFechamento,
+                                decoration: InputDecoration(
+                                    hintText: Warn.warFechamento,
+                                    labelText: Strings.diaFechamento
                                 ),
                             ),
                         ),
 
                         ListTile(
-                            leading: Icon(Icons.calendar_today, color: Colors.orange,),
-                            title: TextFormField(
-                                controller: ctFechamento,
-                                validator: (v) {
-                                    if (v.isEmpty || int.parse(v) < 0 || int.parse(v) > 29 ) {
-                                        return Warn.warHorarioInvalido;
-                                    }
-                                },
-                                decoration: InputDecoration(
-                                    hintText: Warn.warFechamento,
-                                    labelText: Strings.diaFechamento
-                                ),
+                            leading: Icon(Icons.timelapse, color: Colors.teal,),
+                            //hideunline preenche o dropdown
+                            title: Row(
+                                children: <Widget>[
+                                    Expanded(
+                                        child: Text(
+                                            Strings.cargaHoraria,
+                                            style: TextStyle(
+                                                color: Theme.of(context).primaryColor,
+                                                fontSize: 14.0
+                                            ),
+                                        )
+                                    ),
+
+                                    DropdownButton(
+                                        value: _emprego.cargaHoraria,
+                                        onChanged: (c) => _setCargaHoraria(c),
+                                        items: cargas.map((c) =>
+                                            DropdownMenuItem(child: Text(c,), value: c,))
+                                            .toList(),
+                                    ),
+
+                                ],
+                            ),
+                        ),
+
+                        ListTile(
+                            leading: Icon(Icons.local_activity, color: Colors.deepPurple,),
+                            title: Row(
+                                children: <Widget>[
+                                    Expanded(
+                                        child: Text(
+                                            Strings.bancoHoras,
+                                            style: TextStyle(
+                                                color: Theme.of(context).primaryColor,
+                                                fontSize: 14.0
+                                            ),
+                                        ),
+                                    ),
+                                    Switch(
+                                        value: _emprego.bancoHoras == 1 ? true : false,
+                                        onChanged: _setBancoHoras,
+
+                                    ),
+                                ],
                             ),
                         )
                     ],

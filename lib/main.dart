@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
             title: "Marcaii - Flutter",
             theme: ThemeData(
-                primaryColor: Colors.teal,
-                accentColor: Colors.red,
+                primaryColor: Colors.indigo,
+                accentColor: Colors.blue,
                 brightness: Brightness.light,
-                bottomAppBarColor: Colors.teal,
+                bottomAppBarColor: Colors.indigo,
                 dividerColor: Colors.blueGrey,
             ),
             home: MainAct(),

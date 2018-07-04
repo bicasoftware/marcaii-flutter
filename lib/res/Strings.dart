@@ -7,6 +7,7 @@ class Strings{
     static String porcentagens = "Porcentagens";
     static String valorSalario = "Valor Salário";
     static String cargaHoraria = "Carga Horária";
+    static String bancoHoras = "Banco de Horas";
     static String diaFechamento = "Dia Fechamento";
     static String horarioSaida = "Horário Saída";
     static String nomeEmprego = "Descrição do cargo";
