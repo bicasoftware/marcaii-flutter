@@ -11,14 +11,8 @@ class MdEmpregos {
         this.bancoHoras,
     });
 
-    int id;
-    String nomeEmprego;
-    int diaFechamento;
-    int porcNormal;
-    int porcFeriados;
-    int cargaHoraria;
-    String horarioSaida;
-    int bancoHoras;
+    int id, bancoHoras;
+    String nomeEmprego, diaFechamento, porcNormal, porcFeriados, cargaHoraria, horarioSaida;
 
     Map toMap() {
         Map<String, dynamic> map = {

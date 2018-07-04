@@ -1,127 +1,178 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/res/Strings.dart';
-import 'package:marcaii_flutter/res/ActivityManager.dart';
-import 'package:marcaii_flutter/models/EmpregoItemDto.dart';
-import 'package:marcaii_flutter/src/stateful/EmpregoItemView.dart';
-import 'package:marcaii_flutter/src/db/DBManager.dart';
-import 'package:marcaii_flutter/models/MdHoras.dart';
-import 'package:marcaii_flutter/models/MdPorcDifer.dart';
+import 'package:marcaii_flutter/src/stateful/ActInsertEmpregos.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-            title: Strings.appName,
-            theme: ActivityManager.customTheme,
-            home: Scaffold(
-                appBar: ActivityManager.baseAppBar,
-                body: Row(
+            title: "Marcaii - Flutter",
+            theme: ThemeData(
+                primaryColor: Colors.teal,
+                accentColor: Colors.red,
+                brightness: Brightness.light,
+                bottomAppBarColor: Colors.teal,
+                dividerColor: Colors.blueGrey,
+            ),
+            home: MainAct(),
+            routes: <String, WidgetBuilder>{
+                Refs.refActGetEmprego: (BuildContext context) => ActInsertEmpregos(),
+            }
+        );
+    }
+}
+
+class MainAct extends StatefulWidget {
+    @override
+    State createState() => _MainState();
+}
+
+class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
+
+    TabController tabController;
+    int _tabIndex = 0;
+    final fabIcons = [
+        Icon(Icons.add),
+        Icon(Icons.list)
+    ];
+
+    final subtitles = [Strings.empregos, Strings.calendario];
+
+    void _setIndex(int i) {
+        setState(() {
+            _tabIndex = i;
+        });
+    }
+
+    @override
+    void initState() {
+        super.initState();
+        tabController = TabController(length: 2, vsync: this);
+    }
+
+    @override
+    void dispose() {
+        super.dispose();
+        tabController.dispose();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+            resizeToAvoidBottomPadding: true,
+            appBar: AppBar(
+                title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        new Expanded(
-                            flex: 1,
-                            child: FlatButton(
-                                child: Text("Criar db"),
-                                onPressed: () => _lerHoras()),
+                        Text(
+                            Strings.appName,
+                            style: TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.white
+                            ),
                         ),
-
-                        Expanded(
-                            flex: 1,
-                            child: MaterialButton(
-                                child: Text("Inserir"),
-                                color: Theme
-                                    .of(context)
-                                    .primaryColor,
-                                onPressed: () => _insertHora()),
-                        ),
-
-                        Expanded(
-                            flex: 1,
-                            child: MaterialButton(
-                                child: Text("Porc Difer"),
-                                color: Theme
-                                    .of(context)
-                                    .primaryColor,
-                                onPressed: () => _insertPorcDifer()),
-                        ),
-                        /*ListView(children: getEmpregoList(),),*/
+                        Text(
+                            subtitles[_tabIndex],
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.white
+                            ),
+                        )
                     ],
                 ),
 
-                floatingActionButton: FloatingActionButton(
-                    child: Icon(Icons.add),
-                    elevation: 2.0,
-                    onPressed: null,
-                ),
+            ),
+
+            body: TabBarView(
+                children: <Widget>[
+                    Act2(),
+                    Act3()
+                ],
+
+                controller: tabController,
+            ),
+
+            bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _tabIndex,
+
+                items: [
+                    BottomNavigationBarItem(
+                        title: Text("Empregos",),
+                        icon: Icon(Icons.work,),
+                    ),
+                    BottomNavigationBarItem(
+                        title: Text("Calendário",),
+                        icon: Icon(Icons.date_range,),
+                    )
+                ],
+
+                onTap: (i) {
+                    tabController.animateTo(i);
+                    _setIndex(i);
+                },
+            ),
+
+            floatingActionButton: FloatingActionButton(
+                //onPressed: () => Navigator.of(context).pushNamed(Refs.refActGetEmprego),
+                onPressed: (){
+                    _callActGetEmpregos(context);
+                },
+                child: fabIcons[_tabIndex],
+            ),
+
+        );
+    }
+
+    _callActGetEmpregos(BuildContext ctx) async {
+        final result = await Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ActInsertEmpregos())
+        );
+
+        print(result);
+    }
+}
+
+class Act2 extends StatelessWidget {
+
+    @override
+    Widget build(BuildContext context) {
+        return Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
+
+            child: Column(
+                children: <Widget>[
+                    Text("Activity 2"),
+                ],
             ),
         );
     }
+}
 
-    _lerHoras() async {
-        try {} catch (e) {
-            print(e);
-        }
-    }
+class Act3 extends StatelessWidget {
 
-    _insertHora() async {
-        var h = MdHoras(
-            idEmprego: 1,
-            horaInicial: "18:00",
-            horaTermino: "19:00",
-            dta: "2018-06-20",
-            quantidade: 60,
-            tipoHora: 1,
+    @override
+    Widget build(BuildContext context) {
+        return Container(
+            margin: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+                children: <Widget>[
+                    Text("Activity 3"),
+                    FlatButton(
+                        child: Text("Voltar"),
+                        onPressed: () => Navigator.pop(context, "OPAAAAA, popiou"),
+                    ),
+                ],
+            )
         );
-
-        try {
-            var manager = DBManager();
-            await manager.create();
-
-            h = await manager.upsertHora(h);
-            print("inserido: ${h.id}");
-        } catch (e) {
-            print(e);
-        }
-    }
-
-    _insertPorcDifer() async {
-        var pd = MdPorcDifer(diaSemana: 1, porcAdicional: 200, idEmprego: 1);
-        try {
-            var manager = DBManager();
-            await manager.create();
-            pd = await manager.upsertPorcDifer(pd);
-            print("id Difer: ${pd.id}");
-        } catch (e) {
-            print(e);
-        }
     }
 }
 
-final empregos = [
-    EmpregoItemDto(
-        nomeEmprego: "Analista",
-        cargaHoraria: 220,
-        diaFechamento: 25,
-        horarioSaida: "18:00",
-        valorSalario: 4000.0
-    ),
-    EmpregoItemDto(
-        nomeEmprego: "Programador",
-        cargaHoraria: 220,
-        diaFechamento: 25,
-        horarioSaida: "18:00",
-        valorSalario: 2000.0
-    ),
-    EmpregoItemDto(
-        nomeEmprego: "Suporte Técnico",
-        cargaHoraria: 220,
-        diaFechamento: 25,
-        horarioSaida: "18:00",
-        valorSalario: 1200.0
-    ),
-];
 
-List<EmpregoItemView> getEmpregoList() {
-    return empregos.map((e) => EmpregoItemView(emprego: e,)).toList();
-}
+
