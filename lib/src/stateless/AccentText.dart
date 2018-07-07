@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AccentText extends StatelessWidget {
+  const AccentText({Key key, this.caption}) : super(key: key);
 
-    const AccentText({Key key, this.caption}) : super(key: key);
+  final String caption;
 
-    final String caption;
-
-    @override
-    Widget build(BuildContext context) {
-        return
-            Text(
-                this.caption,
-                style: TextStyle(
-                    color: Theme
-                        .of(context)
-                        .accentColor,
-                    fontSize: 12.0)
-            );
-    }
-
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      this.caption,
+      style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12.0),
+    );
+  }
 }
