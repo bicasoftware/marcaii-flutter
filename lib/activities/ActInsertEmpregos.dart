@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import'package:marcaii_flutter/res/Strings.dart';
-import 'package:marcaii_flutter/main.dart';
-import 'PageEmpregoInfo.dart';
-import 'PageEmpregoPorcentagens.dart';
+import 'package:marcaii_flutter/fragments/PageEmpregoInfo.dart';
+import 'package:marcaii_flutter/fragments/PageEmpregoPorcentagens.dart';
 
 class ActInsertEmpregos extends StatefulWidget {
     @override

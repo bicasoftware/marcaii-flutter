@@ -33,22 +33,6 @@ class _PageEmpregoPorcentagensState extends State<PageEmpregoPorcentagens> {
     super.initState();
   }
 
-  void _inc() {
-    setState(() {
-      valor += 2;
-      _itensDifer[1].valor = valor;
-    });
-  }
-
-  void _dec() {
-    setState(() {
-      valor -= 2;
-      _itensDifer[1].valor = valor;
-    });
-
-    print(_itensDifer[1].valor);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(

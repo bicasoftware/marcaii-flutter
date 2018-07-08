@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/res/Strings.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/res/CurrencyUtils.dart';
-import 'package:marcaii_flutter/src/stateless/AccentText.dart';
 
 class PageEmpregoInfo extends StatefulWidget {
     @override
