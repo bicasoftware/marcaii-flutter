@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/res/CurrencyUtils.dart';
-import 'package:marcaii_flutter/res/Strings.dart';
+import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
+import 'package:marcaii_flutter/Strings.dart';
 
 class ItensDifer {
   ItensDifer({this.diaSemana, this.porcent, this.valor});
@@ -63,10 +63,11 @@ class _PageEmpregoPorcentagensState extends State<PageEmpregoPorcentagens> {
         ),
         Expanded(
           child: ListView.builder(
+
             itemCount: _itensDifer.length,
             itemBuilder: (c, i) {
               var item = _itensDifer[i];
-              return _getPorcDifWidget(item);
+              return _getPorcDifWidget(item, i < _itensDifer.length-1);
             },
           ),
         )
@@ -74,62 +75,63 @@ class _PageEmpregoPorcentagensState extends State<PageEmpregoPorcentagens> {
     );
   }
 
-  Widget _getPorcDifWidget(ItensDifer item) {
-    return Card(
-      margin: EdgeInsets.all(2.0),
-      elevation: 1.0,
-      child: Container(
-        child: ListTile(
-          leading: Icon(
-            Icons.av_timer,
-            color: Colors.black87,
-          ),
-          trailing: Icon(
-            Icons.delete_sweep,
-            color: Theme.of(context).dividerColor,
-          ),
-          title: Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      _weekDays[item.diaSemana],
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Theme.of(context).accentColor,
+  Widget _getPorcDifWidget(ItensDifer item, bool isLast) {
+    return Column(
+      children: <Widget>[
+        Container(
+          child: ListTile(
+            leading: Icon(
+              Icons.av_timer,
+              color: Colors.black87,
+            ),
+            trailing: Icon(
+              Icons.delete_sweep,
+              color: Theme.of(context).dividerColor,
+            ),
+            title: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        _weekDays[item.diaSemana],
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Theme.of(context).accentColor,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "${item.porcent} %",
-                      style: TextStyle(color: Colors.black87, fontSize: 16.0),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      Strings.valor,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Theme.of(context).accentColor,
+                      Text(
+                        "${item.porcent} %",
+                        style: TextStyle(color: Colors.black87, fontSize: 16.0),
                       ),
-                    ),
-                    Text(
-                      CurrencyUtils.doubleToCurrency(item.valor),
-                      style: TextStyle(color: Colors.black87, fontSize: 16.0),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        Strings.valor,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      Text(
+                        CurrencyUtils.doubleToCurrency(item.valor),
+                        style: TextStyle(color: Colors.black87, fontSize: 16.0),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
+        isLast ? Divider() : Container(),
+      ],
     );
   }
 }

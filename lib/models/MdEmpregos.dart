@@ -1,52 +1,80 @@
+import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
+
 class MdEmpregos {
 
-    MdEmpregos({
-        this.id,
-        this.nomeEmprego,
-        this.diaFechamento,
-        this.porcNormal,
-        this.porcFeriados,
-        this.cargaHoraria,
-        this.horarioSaida,
-        this.bancoHoras,
-    });
+  MdEmpregos({
+    this.id,
+    this.nomeEmprego,
+    this.diaFechamento,
+    this.porcNormal,
+    this.porcFeriados,
+    this.cargaHoraria,
+    this.horarioSaida,
+    this.bancoHoras,
+  });
 
-    int id, bancoHoras;
-    String nomeEmprego, diaFechamento, porcNormal, porcFeriados, cargaHoraria, horarioSaida;
+  int id, bancoHoras;
+  String nomeEmprego, diaFechamento, porcNormal, porcFeriados, cargaHoraria, horarioSaida;
 
-    Map toMap() {
-        Map<String, dynamic> map = {
-            "nomeEmprego": nomeEmprego,
-            "diaFechamento": diaFechamento,
-            "porcNormal": porcNormal,
-            "porcFeriados": porcFeriados,
-            "cargaHoraria": cargaHoraria,
-            "horarioSaida": horarioSaida,
-            "bancoHoras": bancoHoras,
-        };
+  Map toMap() {
+    Map<String, dynamic> map = {
+      "nomeEmprego": nomeEmprego,
+      "diaFechamento": diaFechamento,
+      "porcNormal": porcNormal,
+      "porcFeriados": porcFeriados,
+      "cargaHoraria": cargaHoraria,
+      "horarioSaida": horarioSaida,
+      "bancoHoras": bancoHoras,
+    };
 
-        if (id != null) {
-            map["id"] = id;
-        }
-
-        return map;
+    if (id != null) {
+      map["id"] = id;
     }
 
-    static fromMap(Map emp) {
-        return MdEmpregos(
-            id: emp["id"],
-            nomeEmprego: emp["nomeEmprego"],
-            diaFechamento: emp["diaFechamento"],
-            porcNormal: emp["porcNormal"],
-            porcFeriados: emp["porcFeriados"],
-            cargaHoraria: emp["cargaHoraria"],
-            horarioSaida: emp["horarioSaida"],
-            bancoHoras: emp["bancoHoras"],
-        );
-    }
+    return map;
+  }
 
-    static String createSql() {
-        return """
+  static fromMap(Map emp) {
+    return MdEmpregos(
+      id: emp["id"],
+      nomeEmprego: emp["nomeEmprego"],
+      diaFechamento: emp["diaFechamento"],
+      porcNormal: emp["porcNormal"],
+      porcFeriados: emp["porcFeriados"],
+      cargaHoraria: emp["cargaHoraria"],
+      horarioSaida: emp["horarioSaida"],
+      bancoHoras: emp["bancoHoras"],
+    );
+  }
+
+  static MdEmpregos getNewInstance() {
+    return MdEmpregos(
+      nomeEmprego: "Novo Emprego",
+      bancoHoras: 0,
+      cargaHoraria: "220",
+      horarioSaida: "18:00",
+      porcNormal: "50",
+      porcFeriados: "100",
+      diaFechamento: "25"
+    );
+  }
+
+  EmpregoState toState(){
+    return EmpregoState(
+      id: id,
+      nomeEmprego: nomeEmprego,
+      bancoHoras: bancoHoras,
+      cargaHoraria: cargaHoraria,
+      diaFechamento: diaFechamento,
+      horarioSaida: horarioSaida,
+      porcFeriados: porcFeriados,
+      porcNormal: porcNormal,
+      valorSalario: 1200.0, //todo - selecionar salário junto com a query no sqlite
+    );
+  }
+
+  static String createSql() {
+    return """
             create table if not exists empregos(
                 id integer not null primary key autoincrement,
                 nomeEmprego varchar(30) not null default "",
@@ -58,6 +86,6 @@ class MdEmpregos {
                 bancoHoras int not null default 0
             )
             """;
-    }
+  }
 
 }

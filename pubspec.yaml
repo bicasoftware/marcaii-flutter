@@ -10,7 +10,6 @@ dependencies:
   cupertino_icons: ^0.1.0
   sqflite: any
   path_provider: any
-  rxdart: any
   scoped_model: "^0.2.0"
 
 dev_dependencies:
