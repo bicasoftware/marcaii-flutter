@@ -5,6 +5,7 @@ import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/pages/PageEmpregoInfo.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/pages/PageEmpregoPorcentagens.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class ActInsertEmpregos extends StatefulWidget {
 
@@ -41,15 +42,35 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProvid
           title: Text(Strings.actGetEmprego),
           actions: <Widget>[
             ScopedModelDescendant<EmpregoState>(
-              builder: (context, child, model) => IconButton(
-                icon: Icon(Icons.save),
-                onPressed: () {
-                  if(model.isValidated()) {
-                    return Navigator.pop(context, model.provideEmprego());
-                  }
-                },
-              ),
-            )
+              builder: (context, child, model) =>
+                IconButton(
+                  icon: Icon(Icons.save),
+                  onPressed: () {
+                    if (model.isValidated()) {
+                      return Navigator.pop(context, model.provideEmprego());
+                    }
+                  },
+                ),
+            ),
+            ScopedModelDescendant<EmpregoState>(
+              builder: (ct, ch, md) =>
+                IconButton(
+                  icon: Icon(Icons.access_time),
+                  onPressed: () {
+                    //todo - adicionar isso a um dialog, ou alterar o layout do dia do fechamento
+                    NumberPicker.integer(
+                      initialValue: 1,
+                      minValue: 1,
+                      maxValue: 28,
+                      onChanged: (num) {
+                        if (num != null) {
+                          md.setDiaFechamento(num.toString());
+                        }
+                      }
+                    );
+                  },
+                ),
+            ),
           ],
 
           bottom: TabBar(

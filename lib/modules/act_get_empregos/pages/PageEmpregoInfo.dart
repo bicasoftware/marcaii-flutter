@@ -5,7 +5,6 @@ import 'package:scoped_model/scoped_model.dart';
 
 class PageEmpregoInfo extends StatelessWidget {
   ///criar mask para salários, validar melhor os valores, criar dialog para pegar horário de saída
-
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<EmpregoState>(
@@ -63,20 +62,6 @@ class PageEmpregoInfo extends StatelessWidget {
                   leading: Icon(Icons.monetization_on, color: Colors.green,),
                 ),
                 ListTile(
-                  title: TextFormField(
-                    initialValue: md.horarioSaida,
-
-                    decoration: InputDecoration(
-                      hintText: Strings.hintHorarioSaida,
-                      labelText: Strings.horarioSaida
-                    ),
-
-                    onSaved: (e) => md.setHorarioSaida(e),
-                  ),
-                  leading: Icon(Icons.time_to_leave, color: Colors.blueAccent,),
-                ),
-
-                ListTile(
                   leading: Icon(Icons.calendar_today, color: Colors.orange,),
                   title: TextFormField(
                     initialValue: md.diaFechamento,
@@ -85,6 +70,51 @@ class PageEmpregoInfo extends StatelessWidget {
                       labelText: Strings.diaFechamento
                     ),
                     onSaved: (e) => md.setDiaFechamento(e),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    var seltime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+
+                    if (seltime != null) {
+                      md.setHorarioSaida(
+                        MaterialLocalizations.of(context).formatTimeOfDay(
+                          seltime,
+                          alwaysUse24HourFormat: true
+                        )
+                      );
+                    }
+                  },
+                  child: ListTile(
+                    leading: Icon(Icons.exit_to_app, color: Colors.blueAccent,),
+                    title: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            Strings.horarioSaida,
+                            style: TextStyle(
+                              color: Theme
+                                .of(context)
+                                .primaryColor,
+                              fontSize: 14.0
+                            ),
+                          )
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            md.horarioSaida,
+                            style: TextStyle(
+                              fontSize: 16.0
+                            ),
+                          )
+                        ),
+                      ],
+                    ),
                   ),
                 ),
 
@@ -118,7 +148,7 @@ class PageEmpregoInfo extends StatelessWidget {
                 ),
 
                 ListTile(
-                  leading: Icon(Icons.local_activity, color: Colors.deepPurple,),
+                  leading: Icon(Icons.local_activity, color: Colors.cyan,),
                   title: Row(
                     children: <Widget>[
                       Expanded(
