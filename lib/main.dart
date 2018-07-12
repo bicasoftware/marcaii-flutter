@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.deepPurple,
           accentColor: Colors.red,
           brightness: Brightness.light,
-          dividerColor: Colors.blueGrey,
+          dividerColor: Colors.grey,
         ),
         home: MainAct(),
         routes: <String, WidgetBuilder>{

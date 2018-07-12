@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/pages/PageEmpregoInfo.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/pages/page_emprego_info/PageEmpregoInfo.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/pages/PageEmpregoPorcentagens.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -49,25 +49,6 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProvid
                     if (model.isValidated()) {
                       return Navigator.pop(context, model.provideEmprego());
                     }
-                  },
-                ),
-            ),
-            ScopedModelDescendant<EmpregoState>(
-              builder: (ct, ch, md) =>
-                IconButton(
-                  icon: Icon(Icons.access_time),
-                  onPressed: () {
-                    //todo - adicionar isso a um dialog, ou alterar o layout do dia do fechamento
-                    NumberPicker.integer(
-                      initialValue: 1,
-                      minValue: 1,
-                      maxValue: 28,
-                      onChanged: (num) {
-                        if (num != null) {
-                          md.setDiaFechamento(num.toString());
-                        }
-                      }
-                    );
                   },
                 ),
             ),

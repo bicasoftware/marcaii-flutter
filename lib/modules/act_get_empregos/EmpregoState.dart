@@ -80,12 +80,26 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
+  void setBancoHoras(bool selected) {
+    this.bancoHoras = selected ? 1 : 0;
+    notifyListeners();
+  }
+
+  bool isBancoHoras() {
+    return this.bancoHoras == 1 ? true : false;
+  }
+
   void clearPorcDifer(int weekDay) {
     porcList[weekDay].clear();
     notifyListeners();
   }
 
-  MdEmpregos provideEmprego(){
+  void toggleBancoHoras() {
+    bancoHoras = bancoHoras == 0 ? 1 : 0;
+    notifyListeners();
+  }
+
+  MdEmpregos provideEmprego() {
     return MdEmpregos(
       id: id,
       nomeEmprego: nomeEmprego,
@@ -101,14 +115,14 @@ class EmpregoState extends Model {
   ///o formkey deve ser sempre final static
   ///caso não seja, irá gerar uma nova key ao clicar em cada TextInput
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   GlobalKey<FormState> get formKey {
-    print("formkey: ${_formKey.hashCode}");
     return _formKey;
   }
 
   bool isValidated() {
     var form = _formKey.currentState;
-    if(form.validate() == true){
+    if (form.validate() == true) {
       form.save();
       return true;
     } else {
