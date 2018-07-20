@@ -7,8 +7,6 @@ import 'package:marcaii_flutter/modules/act_relacao/ActRelacao.dart';
 import 'package:marcaii_flutter/modules/main_act/MainAct.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-void main() => runApp(new MyApp());
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,10 +15,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: Strings.appName,
         theme: ThemeData(
-          primaryColor: Colors.indigo,
+          primaryColor: Colors.deepPurple,
           accentColor: Colors.red,
-          buttonColor: Colors.redAccent,
-          disabledColor: Colors.blueGrey,          
           brightness: Brightness.light,
           dividerColor: Colors.grey,
         ),

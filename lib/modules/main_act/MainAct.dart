@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/MarcaiiState.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/ActInsertEmpregos.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MainAct extends StatefulWidget {
@@ -11,12 +10,11 @@ class MainAct extends StatefulWidget {
 }
 
 class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
-
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MarcaiiState>(
-      builder: (context, child, model) =>
-        Scaffold(
+      builder: (context, child, model) {
+        return Scaffold(
           resizeToAvoidBottomPadding: true,
           appBar: AppBar(
             title: Column(
@@ -27,46 +25,41 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
                   Strings.appName,
                   style: TextStyle(
                     fontSize: 22.0,
-                    color: Colors.white
+                    color: Colors.white,
                   ),
                 ),
                 Text(
                   model.title,
                   style: TextStyle(
                     fontSize: 12.0,
-                    color: Colors.white
+                    color: Colors.white,
                   ),
                 )
               ],
             ),
-
           ),
-
           body: model.currentPage,
-
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: model.pos,
             items: [
               BottomNavigationBarItem(
-                title: Text("Empregos",),
-                icon: Icon(Icons.work,),
+                title: Text("Empregos"),
+                icon: Icon(Icons.work),
               ),
               BottomNavigationBarItem(
-                title: Text("Calendário",),
-                icon: Icon(Icons.date_range,),
+                title: Text("Calendário"),
+                icon: Icon(Icons.date_range),
               )
             ],
-
             onTap: (i) {
               model.setCurrentPagePos(i);
             },
           ),
-
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               if (model.pos == 0) {
                 final result = await Navigator.pushNamed(context, Refs.refActGetEmprego);
-                if(result is MdEmpregos && result != null){
+                if (result is MdEmpregos && result != null) {
                   model.appendEmprego(result);
                 }
               } else {
@@ -75,7 +68,8 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
             },
             child: model.currentFabIcon,
           ),
-        ),
+        );
+      },
     );
   }
 }

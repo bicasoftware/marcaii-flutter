@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/pages/page_emprego_info/PageEmpregoInfo.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/pages/PageEmpregoPorcentagens.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_porcentagem/PageEmpregoPorcentagens.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/PageEmpregoInfo.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 class ActInsertEmpregos extends StatefulWidget {
-
   final MdEmpregos emprego;
 
   const ActInsertEmpregos({Key key, this.emprego}) : super(key: key);
@@ -18,7 +16,6 @@ class ActInsertEmpregos extends StatefulWidget {
 }
 
 class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProviderStateMixin {
-
   TabController controller;
 
   @override
@@ -42,34 +39,33 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProvid
           title: Text(Strings.actGetEmprego),
           actions: <Widget>[
             ScopedModelDescendant<EmpregoState>(
-              builder: (context, child, model) =>
-                IconButton(
+              builder: (context, child, model) {
+                return IconButton(
                   icon: Icon(Icons.save),
                   onPressed: () {
                     if (model.isValidated()) {
                       return Navigator.pop(context, model.provideEmprego());
                     }
                   },
-                ),
+                );
+              },
             ),
           ],
-
           bottom: TabBar(
             controller: controller,
             tabs: <Widget>[
-              Tab(text: Strings.dadosCargo,),
-              Tab(text: Strings.porcentagens,),
+              Tab(text: Strings.dadosCargo),
+              Tab(text: Strings.porcentagens),
             ],
           ),
         ),
-
         body: TabBarView(
           controller: controller,
           children: <Widget>[
             PageEmpregoInfo(),
             PageEmpregoPorcentagens(),
           ],
-        )
+        ),
       ),
     );
   }

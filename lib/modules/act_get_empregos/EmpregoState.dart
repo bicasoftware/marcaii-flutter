@@ -6,18 +6,16 @@ import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EmpregoState extends Model {
-
-  EmpregoState({
-    this.id,
-    this.nomeEmprego,
-    this.bancoHoras,
-    this.cargaHoraria,
-    this.diaFechamento,
-    this.horarioSaida,
-    this.porcNormal,
-    this.porcFeriados,
-    this.valorSalario
-  });
+  EmpregoState(
+      {this.id,
+      this.nomeEmprego,
+      this.bancoHoras,
+      this.cargaHoraria,
+      this.diaFechamento,
+      this.horarioSaida,
+      this.porcNormal,
+      this.porcFeriados,
+      this.valorSalario});
 
   int id, bancoHoras;
   String nomeEmprego;
@@ -28,7 +26,7 @@ class EmpregoState extends Model {
   String horarioSaida;
   double valorSalario = 1200.0;
 
-  List<PorcDiferDto> porcList = [
+  static final List<PorcDiferDto> porcList = [
     PorcDiferDto(diaSemana: 0, porcent: 0, valor: 0.0),
     PorcDiferDto(diaSemana: 1, porcent: 0, valor: 0.0),
     PorcDiferDto(diaSemana: 2, porcent: 0, valor: 0.0),
@@ -37,6 +35,8 @@ class EmpregoState extends Model {
     PorcDiferDto(diaSemana: 5, porcent: 0, valor: 0.0),
     PorcDiferDto(diaSemana: 6, porcent: 0, valor: 0.0),
   ];
+
+  PorcDiferDto getPorcDiferAt(int weekDay) => porcList[weekDay];
 
   String get valorSalarioParsed => CurrencyUtils.doubleToCurrency(valorSalario);
 
@@ -98,6 +98,10 @@ class EmpregoState extends Model {
     bancoHoras = bancoHoras == 0 ? 1 : 0;
     notifyListeners();
   }
+
+  int get getPorcNormal => int.parse(porcNormal);
+
+  int get getPorcFeriados => int.parse(porcFeriados);
 
   MdEmpregos provideEmprego() {
     return MdEmpregos(

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
-
 class DefaultListItem extends StatelessWidget {
-
-  const DefaultListItem({
-    Key key,
+  const DefaultListItem({Key key,
     @required this.title,
     @required this.icon,
     @required this.color,
     @required this.contentChild,
     @required this.onTap,
-    this.isLast: false
-  }) : super(key: key);
+    this.isLast: false})
+    : super(key: key);
 
   final String title;
   final IconData icon;
@@ -20,8 +17,8 @@ class DefaultListItem extends StatelessWidget {
   final Widget contentChild;
   final bool isLast;
 
-  Widget _paintDivider(BuildContext context){
-    if(!isLast){
+  Widget _paintDivider(BuildContext context) {
+    if (!isLast) {
       return Divider(
         height: 1.0,
         color: Theme
@@ -40,10 +37,12 @@ class DefaultListItem extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: ListTile(
-            leading: Icon(icon, color: color,),
+            leading: Icon(icon, color: color),
             title: Row(
               children: <Widget>[
-                ExpandedListTitle(title: title,),
+                ExpandedListTitle(
+                  title: title,
+                ),
                 Container(
                   margin: EdgeInsets.only(right: 8.0),
                   child: contentChild,
@@ -59,9 +58,7 @@ class DefaultListItem extends StatelessWidget {
 }
 
 class ExpandedListTitle extends StatelessWidget {
-
   const ExpandedListTitle({Key key, this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -72,9 +69,7 @@ class ExpandedListTitle extends StatelessWidget {
         style: TextStyle(color: Theme
           .of(context)
           .primaryColor, fontSize: 14.0),
-      )
+      ),
     );
   }
 }
-
-

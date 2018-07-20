@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/pages/page_emprego_info/DefaultListItem.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/DefaultListItem.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:marcaii_flutter/utils/Validation.dart';
+
+///todo - Aplicar Decimal picker pra pegar o salário
+///repassar rotina para pegar as porcentagens e as diferenciais
+///se necessário, alterar o DecimalPicker para pegar Integers
 
 class PageEmpregoInfo extends StatelessWidget {
   ///criar mask para salários
@@ -16,7 +21,6 @@ class PageEmpregoInfo extends StatelessWidget {
           child: Form(
             key: md.formKey,
             child: ListView(
-
               shrinkWrap: true,
               children: <Widget>[
                 _nomeEmpregoHolder(md, ct),
@@ -39,22 +43,21 @@ class PageEmpregoInfo extends StatelessWidget {
         ListTile(
           title: TextFormField(
             initialValue: md.nomeEmprego,
-            decoration: InputDecoration(
-              hintText: Strings.hintEmprego,
-              labelText: Strings.nomeEmprego
-            ),
-
+            decoration:
+                InputDecoration(hintText: Strings.hintEmprego, labelText: Strings.nomeEmprego),
             validator: (t) {
               if (t.isEmpty) {
                 return Warn.warNomeEmprego;
               }
             },
-
             onSaved: (e) {
               md.setNomeEmprego(e);
             },
           ),
-          leading: Icon(Icons.layers, color: Colors.red,),
+          leading: Icon(
+            Icons.layers,
+            color: Colors.red,
+          ),
         ),
         BaseDivider(),
       ],
@@ -70,24 +73,20 @@ class PageEmpregoInfo extends StatelessWidget {
             decoration: InputDecoration(
               prefixText: Strings.cashReal,
               hintText: Strings.hintSalario,
-              labelText: Strings.valorSalario
+              labelText: Strings.valorSalario,
             ),
-
-            keyboardType: TextInputType.numberWithOptions(
-              decimal: true,
-              signed: false,
-            ),
+            keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
             validator: (e) {
-              if (e == null) return Warn.warSalarioInvalido;
-              if (e.isEmpty) return Warn.warSalarioInvalido;
-              if (double.parse(e.replaceAll(",", ".")) < 0) return Warn.warSalarioInvalido;
+              return !Validation.isCash(e) ? Warn.warSalarioInvalido : null;
             },
-
             onSaved: (e) {
               md.setValorSalario(double.parse(e.replaceAll(",", ".")));
             },
           ),
-          leading: Icon(Icons.monetization_on, color: Colors.green,),
+          leading: Icon(
+            Icons.monetization_on,
+            color: Colors.green,
+          ),
         ),
         BaseDivider(),
       ],
@@ -110,7 +109,6 @@ class PageEmpregoInfo extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 
@@ -123,11 +121,14 @@ class PageEmpregoInfo extends StatelessWidget {
       contentChild: DropdownButton(
         value: md.cargaHoraria,
         onChanged: (c) => md.setCargaHoraria(c),
-        items: Arrays.cargas.map((c) =>
-          DropdownMenuItem(
-            child: Text(c,),
-            value: c,)
-        ).toList(),
+        items: Arrays.cargas
+            .map((c) => DropdownMenuItem(
+                  child: Text(
+                    c,
+                  ),
+                  value: c,
+                ))
+            .toList(),
       ),
     );
   }
@@ -139,14 +140,11 @@ class PageEmpregoInfo extends StatelessWidget {
       color: Colors.blue,
       onTap: () => _showHoraSaidaDialog(md, ct),
       contentChild: Container(
-        margin: EdgeInsets.only(right: 8.0),
-        child: Text(
-          md.horarioSaida,
-          style: TextStyle(
-            fontSize: 16.0
-          ),
-        )
-      ),
+          margin: EdgeInsets.only(right: 8.0),
+          child: Text(
+            md.horarioSaida,
+            style: TextStyle(fontSize: 16.0),
+          )),
     );
   }
 
@@ -157,45 +155,48 @@ class PageEmpregoInfo extends StatelessWidget {
       color: Colors.cyan,
       onTap: () => md.toggleBancoHoras(),
       isLast: true,
-      contentChild: Switch(
-        value: md.isBancoHoras(),
-        onChanged: (st) => md.setBancoHoras(st)
-      ),
+      contentChild: Switch(value: md.isBancoHoras(), onChanged: (st) => md.setBancoHoras(st)),
     );
   }
 
-  void _showDiaFechamentoDialog(BuildContext ct, EmpregoState md,) {
-    showDialog(context: ct, barrierDismissible: false, builder: (ct) {
-      num selnum;
-      return AlertDialog(
-        title: Text(Strings.diaFechamento),
-        content: NumberPicker.integer(
-          initialValue: int.parse(md.diaFechamento),
-          minValue: 1,
-          maxValue: 28,
-          onChanged: (num) {
-            if (num != null) {
-              selnum = num;
-            }
-          },
-        ),
-        contentPadding: EdgeInsets.all(16.0),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("Cancelar"),
-            onPressed: () => Navigator.pop(ct),
-          ),
-          FlatButton(
-            child: Text("Salvar"),
-            onPressed: () {
-              print(selnum.toString());
-              md.setDiaFechamento(selnum.toString());
-              Navigator.pop(ct);
-            },
-          ),
-        ],
-      );
-    });
+  void _showDiaFechamentoDialog(
+    BuildContext ct,
+    EmpregoState md,
+  ) {
+    showDialog(
+        context: ct,
+        barrierDismissible: false,
+        builder: (ct) {
+          num selnum;
+          return AlertDialog(
+            title: Text(Strings.diaFechamento),
+            content: NumberPicker.integer(
+              initialValue: int.parse(md.diaFechamento),
+              minValue: 1,
+              maxValue: 28,
+              onChanged: (num) {
+                if (num != null) {
+                  selnum = num;
+                }
+              },
+            ),
+            contentPadding: EdgeInsets.all(16.0),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Cancelar"),
+                onPressed: () => Navigator.pop(ct),
+              ),
+              FlatButton(
+                child: Text("Salvar"),
+                onPressed: () {
+                  print(selnum.toString());
+                  md.setDiaFechamento(selnum.toString());
+                  Navigator.pop(ct);
+                },
+              ),
+            ],
+          );
+        });
   }
 
   void _showHoraSaidaDialog(EmpregoState md, BuildContext context) async {
@@ -206,11 +207,7 @@ class PageEmpregoInfo extends StatelessWidget {
 
     if (seltime != null) {
       md.setHorarioSaida(
-        MaterialLocalizations.of(context).formatTimeOfDay(
-          seltime,
-          alwaysUse24HourFormat: true
-        )
-      );
+          MaterialLocalizations.of(context).formatTimeOfDay(seltime, alwaysUse24HourFormat: true));
     }
   }
 }
@@ -220,9 +217,7 @@ class BaseDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Divider(
       height: 8.0,
-      color: Theme
-        .of(context)
-        .dividerColor,
+      color: Theme.of(context).dividerColor,
     );
   }
 }
