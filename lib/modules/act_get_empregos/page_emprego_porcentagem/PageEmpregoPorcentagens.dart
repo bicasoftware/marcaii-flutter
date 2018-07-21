@@ -38,12 +38,14 @@ class PercentHolder extends StatelessWidget {
                 percent: md.getPorcNormal,
                 value: 12.0,
                 onClean: null,
+                onTap: () => print("showDialogPorcNormal"),
               ),
               PercentCard(
                 title: Strings.porcFeriados,
                 percent: 100,
                 value: 24.0,
                 onClean: null,
+                onTap: () => print("showDialogPorcNormal"),
               ),
             ],
           );

@@ -6,6 +6,8 @@ class Strings {
   static const String dadosCargo = "Dados do Cargo";
   static const String diferenciais = "Diferenciais";
   static const String porcentagens = "Porcentagens";
+  static const String digiteValor = "Digite o novo valor";
+  static const String novaPorcentagem = "Nova porcentagem";
   static const String valorSalario = "Valor Salário";
   static const String valor = "Valor";
   static const String cargaHoraria = "Carga Horária";
@@ -26,6 +28,9 @@ class Strings {
   static const String titleRelatorioHoras = "Relatórios de Horas";
 
   static const String cashReal = "R\$";
+
+  static const String salvar = "Salvar";
+  static const String cancelar = "Cancelar";
 }
 
 class Refs {

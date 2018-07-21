@@ -9,6 +9,7 @@ class PercentCard extends StatelessWidget {
     this.value: 0.0,
     this.pos,
     @required this.onClean,
+    @required this.onTap,
   }) : super(key: key);
 
   final String title;
@@ -16,66 +17,71 @@ class PercentCard extends StatelessWidget {
   final double value;
   final int pos;
   final Function(int) onClean;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Card(
         elevation: 1.0,
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          title,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
+        child: InkWell(
+          onTap: onTap,          
+          splashColor: Colors.grey,
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            title,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        alignment: AlignmentDirectional.centerEnd,
-                        iconSize: 12.0,
-                        icon: Icon(
-                          Icons.clear,
-                          color: Colors.black87,
-                        ),
-                        onPressed: () => null,
-                      )
-                    ],
-                  ),
-                  Divider(height: 1.0),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          "$percent %",
-                          style: TextStyle(fontSize: 20.0, color: Colors.black54),
-                        ),
-                        Text(
-                          CurrencyUtils.doubleToCurrency(value),
-                          style: TextStyle(fontSize: 14.0, color: Theme.of(context).accentColor),
-                        ),
+                        IconButton(
+                          alignment: AlignmentDirectional.centerEnd,
+                          iconSize: 12.0,
+                          icon: Icon(
+                            Icons.clear,
+                            color: Colors.black87,
+                          ),
+                          onPressed: () => null,
+                        )
                       ],
                     ),
-                  ),
-                ],
+                    Divider(height: 1.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            "$percent %",
+                            style: TextStyle(fontSize: 20.0, color: Colors.black54),
+                          ),
+                          Text(
+                            CurrencyUtils.doubleToCurrency(value),
+                            style: TextStyle(fontSize: 14.0, color: Theme.of(context).accentColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
