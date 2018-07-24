@@ -20,61 +20,58 @@ class PercentListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1.0,
-      child: ListTile(
-        onTap: onTap,
-        leading: IconButton(
-          icon: Icon(Icons.timer),
-          onPressed: onClear,
-        ),
-        trailing: IconButton(
-          icon: Icon(Icons.delete_sweep),
-          onPressed: onClear,
-        ),
-        title: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold,
+    return ListTile(
+      onTap: onTap,
+      leading: IconButton(
+        icon: Icon(Icons.timer),
+        onPressed: onClear,
+      ),
+      trailing: IconButton(
+        icon: Icon(Icons.delete_sweep),
+        onPressed: onClear,
+      ),
+      title: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              title,
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Divider(
+              height: 16.0,
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    "$percent %",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-              Divider(
-                height: 16.0,
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      "$percent %",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                Expanded(
+                  child: Text(
+                    CurrencyUtils.doubleToCurrency(value),
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      CurrencyUtils.doubleToCurrency(value),
-                      style: TextStyle(
-                        color: Theme.of(context).accentColor,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

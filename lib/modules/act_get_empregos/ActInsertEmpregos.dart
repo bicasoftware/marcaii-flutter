@@ -56,7 +56,7 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProvid
             controller: controller,
             tabs: <Widget>[
               Tab(text: Strings.dadosCargo),
-              Tab(text: Strings.porcentagens),
+              Tab(text: Strings.diferenciais),
             ],
           ),
         ),

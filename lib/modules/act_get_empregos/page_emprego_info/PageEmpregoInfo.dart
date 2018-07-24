@@ -14,8 +14,7 @@ class PageEmpregoInfo extends StatelessWidget {
     return ScopedModelDescendant<EmpregoState>(
       rebuildOnChange: false,
       builder: (ct, ch, md) {
-        return Container(
-          margin: EdgeInsets.all(8.0),
+        return Container(          
           child: Form(
             key: md.formKey,
             child: ListView(
