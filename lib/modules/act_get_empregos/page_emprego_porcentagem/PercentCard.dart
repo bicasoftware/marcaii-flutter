@@ -8,7 +8,6 @@ class PercentCard extends StatelessWidget {
     this.percent: 0,
     this.value: 0.0,
     this.pos,
-    @required this.onClean,
     @required this.onTap,
   }) : super(key: key);
 
@@ -16,7 +15,6 @@ class PercentCard extends StatelessWidget {
   final int percent;
   final double value;
   final int pos;
-  final Function(int) onClean;
   final VoidCallback onTap;
 
   @override
@@ -25,12 +23,12 @@ class PercentCard extends StatelessWidget {
       child: Card(
         elevation: 1.0,
         child: InkWell(
-          onTap: onTap,          
+          onTap: onTap,
           splashColor: Colors.grey,
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 8.0, right: 8.0),
+                margin: EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -47,18 +45,9 @@ class PercentCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        IconButton(
-                          alignment: AlignmentDirectional.centerEnd,
-                          iconSize: 12.0,
-                          icon: Icon(
-                            Icons.clear,
-                            color: Colors.black87,
-                          ),
-                          onPressed: () => null,
-                        )
                       ],
                     ),
-                    Divider(height: 1.0),
+                    Divider(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(

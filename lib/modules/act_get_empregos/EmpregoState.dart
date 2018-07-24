@@ -6,22 +6,23 @@ import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EmpregoState extends Model {
-  EmpregoState(
-      {this.id,
-      this.nomeEmprego,
-      this.bancoHoras,
-      this.cargaHoraria,
-      this.diaFechamento,
-      this.horarioSaida,
-      this.porcNormal,
-      this.porcFeriados,
-      this.valorSalario});
+  EmpregoState({
+    this.id,
+    this.nomeEmprego,
+    this.bancoHoras,
+    this.cargaHoraria,
+    this.diaFechamento,
+    this.horarioSaida,
+    this.porcNormal,
+    this.porcFeriados,
+    this.valorSalario,
+  });
 
   int id, bancoHoras;
   String nomeEmprego;
-  String diaFechamento;
-  String porcNormal;
-  String porcFeriados;
+  int porcNormal;
+  int porcFeriados; 
+  int diaFechamento;
   String cargaHoraria;
   String horarioSaida;
   double valorSalario = 1200.0;
@@ -45,18 +46,18 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  void setDiaFechamento(String dia) {
+  void setDiaFechamento(int dia) {
     diaFechamento = dia;
     notifyListeners();
   }
 
-  void setPorcNormal(String porcNormal) {
-    this.porcNormal = porcNormal;
+  void setPorcNormal(int porc) {
+    this.porcNormal = porc;
     notifyListeners();
   }
 
-  void setPorcFeriados(String porcFeriados) {
-    this.porcFeriados = porcFeriados;
+  void setPorcFeriados(int porc) {
+    this.porcFeriados = porc;
     notifyListeners();
   }
 
@@ -99,9 +100,9 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  int get getPorcNormal => int.parse(porcNormal);
+  int get getPorcNormal => porcNormal;
 
-  int get getPorcFeriados => int.parse(porcFeriados);
+  int get getPorcFeriados => porcFeriados;
 
   MdEmpregos provideEmprego() {
     return MdEmpregos(

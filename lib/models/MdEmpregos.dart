@@ -1,7 +1,6 @@
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
 
 class MdEmpregos {
-
   MdEmpregos({
     this.id,
     this.nomeEmprego,
@@ -14,7 +13,8 @@ class MdEmpregos {
   });
 
   int id, bancoHoras;
-  String nomeEmprego, diaFechamento, porcNormal, porcFeriados, cargaHoraria, horarioSaida;
+  int porcNormal, porcFeriados, diaFechamento;
+  String nomeEmprego, cargaHoraria, horarioSaida;
 
   Map toMap() {
     Map<String, dynamic> map = {
@@ -53,13 +53,13 @@ class MdEmpregos {
       bancoHoras: 0,
       cargaHoraria: "220",
       horarioSaida: "18:00",
-      porcNormal: "50",
-      porcFeriados: "100",
-      diaFechamento: "25"
+      porcNormal: 50,
+      porcFeriados: 100,
+      diaFechamento: 25,
     );
   }
 
-  EmpregoState toState(){
+  EmpregoState toState() {
     return EmpregoState(
       id: id,
       nomeEmprego: nomeEmprego,
@@ -87,5 +87,4 @@ class MdEmpregos {
             )
             """;
   }
-
 }

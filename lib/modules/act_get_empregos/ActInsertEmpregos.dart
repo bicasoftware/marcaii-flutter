@@ -39,6 +39,7 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProvid
           title: Text(Strings.actGetEmprego),
           actions: <Widget>[
             ScopedModelDescendant<EmpregoState>(
+              rebuildOnChange: false,
               builder: (context, child, model) {
                 return IconButton(
                   icon: Icon(Icons.save),

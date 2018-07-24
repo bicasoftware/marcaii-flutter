@@ -23,6 +23,8 @@ class Strings {
   static const String hintPorc = "Ex: 30";
   static const String porcFeriados = "Extra Feriados";
   static const String extrasDifer = "Extra Diferencial";
+  static const String confirmacao = "Confirmar ação";
+  static const String confirmar_remocao_difer = "Deseja remover o valor diferencial?";
 
   static const String porcDifer = "% Diferencial";
   static const String titleRelatorioHoras = "Relatórios de Horas";

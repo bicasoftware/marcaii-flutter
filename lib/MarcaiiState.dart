@@ -29,10 +29,10 @@ class MarcaiiState extends Model {
     MdEmpregos(
       id: 1,
       nomeEmprego: "Exemplo 1",
-      diaFechamento: "25",
+      diaFechamento: 25,
       bancoHoras: 0,
-      porcNormal: "50",
-      porcFeriados: "100",
+      porcNormal: 50,
+      porcFeriados: 100,
       cargaHoraria: "220",
       horarioSaida: "18:00",
     ),

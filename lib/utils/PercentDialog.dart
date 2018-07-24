@@ -16,18 +16,18 @@ Future<int> showPercentDialog({BuildContext context, int percent}) {
         content: _PercentDialog(percent: percent, formKey: _key),
         actions: <Widget>[
           FlatButton(
+            child: Text(Strings.cancelar),
+            onPressed: () {
+              Navigator.of(ct).pop();
+            },
+          ),
+          FlatButton(
             child: Text(Strings.salvar),
             onPressed: () {
               final state = _key.currentState;
               if (state.validate()) {
                 state.save();
               }
-            },
-          ),
-          FlatButton(
-            child: Text(Strings.cancelar),
-            onPressed: () {
-              Navigator.of(ct).pop();
             },
           ),
         ],
@@ -44,8 +44,7 @@ class _PercentDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      
+    return Column(      
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Form(
@@ -67,9 +66,9 @@ class _PercentDialog extends StatelessWidget {
               }
             },
             onSaved: (e) {
-              if (Navigator.of(context).canPop()) {
-                Navigator.of(context).pop(int.parse(e));
-              }
+              //if (Navigator.of(context).canPop()) {
+                Navigator.pop(context, int.parse(e));
+              //}
             },
           ),
         )
