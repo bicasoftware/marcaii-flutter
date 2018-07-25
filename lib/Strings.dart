@@ -52,4 +52,6 @@ class Arrays {
   static const cargas = ["220", "200", "180", "150"];
   static const weekDays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
   static const weekDaysAbrev = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+  static const opt_salarios = ["Adicionar Aumento", "Ver Todos"];
+
 }

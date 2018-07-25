@@ -14,7 +14,7 @@ class PageEmpregoInfo extends StatelessWidget {
     return ScopedModelDescendant<EmpregoState>(
       rebuildOnChange: false,
       builder: (ct, ch, md) {
-        return Container(          
+        return Container(
           child: Form(
             key: md.formKey,
             child: ListView(
@@ -51,7 +51,6 @@ class PageEmpregoInfo extends StatelessWidget {
   }
 
   Widget _valorSalarioHolder() {
-    //todo - validar pq não está salvando
     return ScopedModelDescendant<EmpregoState>(
       builder: (ct, ch, md) {
         return ValorSalarioHolder(

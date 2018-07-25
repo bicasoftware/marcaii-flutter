@@ -19,18 +19,20 @@ class ValorSalarioHolder extends StatelessWidget {
   final Function(double) onSave;
 
   @override
-  Widget build(BuildContext context) => ValidatableListItem(
-    formKey: formKey,
-    title: title,
-    icon: Icon(Icons.monetization_on,color: Colors.indigo),
-    initValue: CurrencyUtils.doubleToCurrency(valorSalario),
-    hint: Strings.hintSalario,
-    onSave: _onSave,
-    onValidate: _validate,
-  );
+  Widget build(BuildContext context) {
+    return ValidatableListItem(
+      formKey: formKey,
+      title: title,
+      icon: Icon(Icons.monetization_on, color: Colors.indigo),
+      initValue: CurrencyUtils.doubleToCurrency(valorSalario),
+      hint: Strings.hintSalario,
+      onSave: _onSave,
+      onValidate: _validate,
+    );
+  }
 
   String _validate(String e) {
-    if(!Validation.isCash(e)) return Warn.warSalarioInvalido;
+    if (!Validation.isCash(e)) return Warn.warSalarioInvalido;
     return null;
   }
 

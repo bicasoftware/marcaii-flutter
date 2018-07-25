@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 
-class PercentListItem extends StatelessWidget {
-  const PercentListItem({
+class PorcDiferencialListItem extends StatelessWidget {
+  const PorcDiferencialListItem({
     Key key,
     @required this.title,
     @required this.percent,

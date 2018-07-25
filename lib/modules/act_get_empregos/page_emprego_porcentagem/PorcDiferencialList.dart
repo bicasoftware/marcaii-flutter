@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_porcentagem/PercentListItem.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_porcentagem/PorcDiferencialListItem.dart';
 import 'package:marcaii_flutter/utils/PercentDialog.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -18,7 +18,7 @@ class PorcDiferencialList extends StatelessWidget {
           itemCount: 7,
           itemBuilder: (context, pos) {
             final PorcDiferDto p = md.getPorcDiferAt(pos);
-            return PercentListItem(
+            return PorcDiferencialListItem(
               title: Arrays.weekDays[pos],
               percent: p.porcent,
               value: p.valor,
