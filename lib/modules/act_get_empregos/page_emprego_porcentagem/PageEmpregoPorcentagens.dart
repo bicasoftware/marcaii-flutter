@@ -7,8 +7,8 @@ class PageEmpregoPorcentagens extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        //Expanded(child: PorcDiferencialList()),
-        Expanded(child: PorcDiferencialGrid(),)
+        Expanded(child: PorcDiferencialList()),
+        //Expanded(child: PorcDiferencialGrid(),)
       ],
     );
   }

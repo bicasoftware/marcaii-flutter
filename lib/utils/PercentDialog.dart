@@ -66,9 +66,7 @@ class _PercentDialog extends StatelessWidget {
               }
             },
             onSaved: (e) {
-              //if (Navigator.of(context).canPop()) {
-                Navigator.pop(context, int.parse(e));
-              //}
+                Navigator.of(context, rootNavigator: true).pop(int.parse(e));
             },
           ),
         )
