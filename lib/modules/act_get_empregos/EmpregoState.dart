@@ -27,7 +27,7 @@ class EmpregoState extends Model {
   String horarioSaida;
   double valorSalario = 1200.0;
 
-  final List<PorcDiferDto> porcList = [
+  static final List<PorcDiferDto> porcList = [
     PorcDiferDto(diaSemana: 0, porcent: 0, valor: 0.0),
     PorcDiferDto(diaSemana: 1, porcent: 0, valor: 0.0),
     PorcDiferDto(diaSemana: 2, porcent: 0, valor: 0.0),

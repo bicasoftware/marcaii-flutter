@@ -21,9 +21,10 @@ class PorcDiferencialGrid extends StatelessWidget {
             children: List.generate(7, (i) {
               return ScopedModelDescendant<EmpregoState>(
                 builder: (ct, ch, md) {
+                  var difer = md.getPorcDiferAt(i);
                   return PorcDiferencialGridItem(
-                    porcent: md.porcList[i].porcent,
-                    valor: md.porcList[i].valor,
+                    porcent: difer.porcent,
+                    valor: difer.valor,
                     weekDay: Arrays.weekDays[i],
                     onClean: () async {
                       final bool action = await showConfirmationDialog(
@@ -35,7 +36,7 @@ class PorcDiferencialGrid extends StatelessWidget {
                     },
                     onTap: () async {
                       final int newPercent = await showPercentDialog(
-                        percent: md.porcList[i].porcent,
+                        percent: difer.porcent,
                         context: context,
                       );
 
