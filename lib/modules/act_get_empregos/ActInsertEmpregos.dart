@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/MdEmpregos.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_porcentagem/PageEmpregoPorcentagens.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/PageEmpregoInfo.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ActInsertEmpregos extends StatefulWidget {
-  final MdEmpregos emprego;
+  final EmpregoDto emprego;
 
   const ActInsertEmpregos({Key key, this.emprego}) : super(key: key);
 

@@ -55,3 +55,7 @@ class Arrays {
   static const opt_salarios = ["Adicionar Aumento", "Ver Todos"];
 
 }
+
+class Exceptions {
+  static const recordWithoutOwner = "Record without father ID";
+}

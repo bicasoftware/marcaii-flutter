@@ -1,59 +1,67 @@
 class MdHoras {
+  MdHoras({
+    this.id,
+    this.idEmprego,
+    this.quantidade,
+    this.horaInicial,
+    this.horaTermino,
+    this.dta,
+    this.tipoHora,
+  });
 
-    MdHoras({
-        this.id,
-        this.idEmprego,
-        this.quantidade,
-        this.horaInicial,
-        this.horaTermino,
-        this.dta,
-        this.tipoHora
-    });
+  int id;
+  int idEmprego;
+  int quantidade;
+  String horaInicial;
+  String horaTermino;
+  String dta;
+  String tipoHora;
 
-    int id;
-    int idEmprego;
-    int quantidade;
-    String horaInicial;
-    String horaTermino;
-    String dta;
-    int tipoHora;
+  static const tableName = "horas";
 
-    static final cols = [
-        "id",
-        "idEmprego",
-        "quantidade",
-        "horaInicial",
-        "horaTermino",
-        "dta",
-        "tipoHora"
-    ];
+  static final cols = [
+    "id",
+    "idEmprego",
+    "quantidade",
+    "horaInicial",
+    "horaTermino",
+    "dta",
+    "tipoHora",
+  ];
 
-    Map toMap() {
-        Map<String, dynamic> map = {"idEmprego": idEmprego, "quantidade": quantidade, "horaInicial": horaInicial, "horaTermino": horaTermino, "dta": dta, "tipoHora": tipoHora};
+  Map toMap() {
+    Map<String, dynamic> map = {
+      "idEmprego": idEmprego,
+      "quantidade": quantidade,
+      "horaInicial": horaInicial,
+      "horaTermino": horaTermino,
+      "dta": dta,
+      "tipoHora": tipoHora,
+    };
 
-        if (id != null) {
-            map["id"] = id;
-        }
-
-        return map;
+    if (id != null) {
+      map["id"] = id;
     }
 
-    static fromMap(Map map){
-        final h = MdHoras();
-        h.id = map["id"];
-        h.idEmprego = map["idEmprego"];
-        h.quantidade = map["quantidade"];
-        h.horaInicial = map["horaInicial"];
-        h.horaTermino = map["horaTermino"];
-        h.dta = map["dta"];
-        h.tipoHora = map["tipoHora"];
+    return map;
+  }
 
-        return h;
-    }
+  static fromMap(Map map) {
+    final h = MdHoras();
+    h.id = map["id"];
+    h.idEmprego = map["idEmprego"];
+    h.quantidade = map["quantidade"];
+    h.horaInicial = map["horaInicial"];
+    h.horaTermino = map["horaTermino"];
+    h.dta = map["dta"];
+    h.tipoHora = map["tipoHora"];
 
-    static String createSql(){
-        return """
-            create table if not exists Horas(
+    return h;
+  }
+
+  static String createSql() {
+    return """
+            create table if not exists $tableName(
                 id integer not null primary key autoincrement,
                 idEmprego int not null,
                 quantidade int not null default 0,
@@ -63,5 +71,5 @@ class MdHoras {
                 tipoHora int not null default 0
             )
             """;
-    }
+  }
 }

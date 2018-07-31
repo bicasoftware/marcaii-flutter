@@ -1,31 +1,44 @@
 class MdPorcDifer {
-    int id;
-    int idEmprego;
-    int diaSemana;
-    int porcAdicional;
+  int id;
+  int idEmprego;
+  int diaSemana;
+  int porcAdicional;
 
-    MdPorcDifer({this.id, this.idEmprego, this.diaSemana, this.porcAdicional});
+  MdPorcDifer({this.id, this.idEmprego, this.diaSemana, this.porcAdicional});
 
-    Map toMap() {
-        Map<String, dynamic> map = {
-            "idEmprego": idEmprego,
-            "diaSemana": diaSemana,
-            "porcAdicional": porcAdicional
-        };
+  static const tableName = "porcentagemdifer";
+  static const cols = [
+    "id",
+    "idEmprego",
+    "diaSemana",
+    "porcAdicional",
+  ];
 
-        if (id != null) {
-            map["id"] = id;
-        }
+  Map toMap() {
+    Map<String, dynamic> map = {
+      "idEmprego": idEmprego,
+      "diaSemana": diaSemana,
+      "porcAdicional": porcAdicional
+    };
 
-        return map;
+    if (id != null) {
+      map["id"] = id;
     }
 
-    static fromMap(Map map) {
-        return MdPorcDifer(id: map["id"], idEmprego: map["idEmprego"], diaSemana: map["diaSemana"], porcAdicional: map["porcAdicional"]);
-    }
+    return map;
+  }
 
-    static String createSql(){
-        return """
+  static fromMap(Map map) {
+    return MdPorcDifer(
+      id: map["id"],
+      idEmprego: map["idEmprego"],
+      diaSemana: map["diaSemana"],
+      porcAdicional: map["porcAdicional"],
+    );
+  }
+
+  static String createSql() {
+    return """
             create table if not exists porcentagemdifer(
                 id integer not null primary key autoincrement,
                 idEmprego int not null,
@@ -33,5 +46,5 @@ class MdPorcDifer {
                 porcAdicional int not null default 0
             )
             """;
-    }
+  }
 }

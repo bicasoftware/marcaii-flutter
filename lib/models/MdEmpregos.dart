@@ -12,9 +12,20 @@ class MdEmpregos {
     this.bancoHoras,
   });
 
-  int id, bancoHoras;
-  int porcNormal, porcFeriados, diaFechamento;
-  String nomeEmprego, cargaHoraria, horarioSaida;
+  int id, bancoHoras, porcNormal, porcFeriados, diaFechamento, cargaHoraria;
+  String nomeEmprego, horarioSaida;
+
+  static const tableName = "empregos";
+  static final cols = [
+    "id",
+    "nomeEmprego",
+    "diaFechamento",
+    "porcNormal",
+    "porcFeriados",
+    "cargaHoraria",
+    "horarioSaida",
+    "bancoHoras",
+  ];
 
   Map toMap() {
     Map<String, dynamic> map = {
@@ -51,7 +62,7 @@ class MdEmpregos {
     return MdEmpregos(
       nomeEmprego: "Novo Emprego",
       bancoHoras: 0,
-      cargaHoraria: "220",
+      cargaHoraria: 220,
       horarioSaida: "18:00",
       porcNormal: 50,
       porcFeriados: 100,
@@ -63,7 +74,7 @@ class MdEmpregos {
     return EmpregoState(
       id: id,
       nomeEmprego: nomeEmprego,
-      bancoHoras: bancoHoras,
+      bancoHoras: bancoHoras == 1 ? true : false,
       cargaHoraria: cargaHoraria,
       diaFechamento: diaFechamento,
       horarioSaida: horarioSaida,
@@ -75,7 +86,7 @@ class MdEmpregos {
 
   static String createSql() {
     return """
-            create table if not exists empregos(
+            create table if not exists $tableName(
                 id integer not null primary key autoincrement,
                 nomeEmprego varchar(30) not null default "",
                 diaFechamento int not null default 25,

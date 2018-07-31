@@ -18,13 +18,10 @@ class EmpregoState extends Model {
     this.valorSalario,
   });
 
-  int id, bancoHoras;
-  String nomeEmprego;
-  int porcNormal;
-  int porcFeriados; 
-  int diaFechamento;
-  String cargaHoraria;
-  String horarioSaida;
+  int id;
+  bool bancoHoras;
+  String nomeEmprego, horarioSaida;
+  int porcNormal, porcFeriados, diaFechamento, cargaHoraria;
   double valorSalario = 1200.0;
 
   static final List<PorcDiferDto> porcList = [
@@ -62,7 +59,7 @@ class EmpregoState extends Model {
   }
 
   void setCargaHoraria(String cargaHoraria) {
-    this.cargaHoraria = cargaHoraria;
+    this.cargaHoraria = int.parse(cargaHoraria);
     notifyListeners();
   }
 
@@ -82,12 +79,12 @@ class EmpregoState extends Model {
   }
 
   void setBancoHoras(bool selected) {
-    this.bancoHoras = selected ? 1 : 0;
+    this.bancoHoras = selected;
     notifyListeners();
   }
 
   bool isBancoHoras() {
-    return this.bancoHoras == 1 ? true : false;
+    return this.bancoHoras;
   }
 
   void clearPorcDifer(int weekDay) {
@@ -96,7 +93,7 @@ class EmpregoState extends Model {
   }
 
   void toggleBancoHoras() {
-    bancoHoras = bancoHoras == 0 ? 1 : 0;
+    bancoHoras = bancoHoras;
     notifyListeners();
   }
 
@@ -108,7 +105,7 @@ class EmpregoState extends Model {
     return MdEmpregos(
       id: id,
       nomeEmprego: nomeEmprego,
-      bancoHoras: bancoHoras,
+      bancoHoras: bancoHoras == true ? 1 : 0,
       cargaHoraria: cargaHoraria,
       diaFechamento: diaFechamento,
       horarioSaida: horarioSaida,
@@ -117,8 +114,6 @@ class EmpregoState extends Model {
     );
   }
 
-  ///o formkey deve ser sempre final static
-  ///caso não seja, irá gerar uma nova key ao clicar em cada TextInput
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   GlobalKey<FormState> get formKey {
