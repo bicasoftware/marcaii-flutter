@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:marcaii_flutter/MainState.dart';
-import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/MdHoras.dart';
 import 'package:marcaii_flutter/models/MdPorcDifer.dart';
 import 'package:marcaii_flutter/models/MdSalarios.dart';
@@ -16,10 +15,10 @@ class MarcaiiStateBuilder {
     final db = DBManager();
     await db.create();
 
-    var emprego = MdEmpregos(
+    var emprego = EmpregoDto(
       nomeEmprego: "Analista Show",
       cargaHoraria: 220,
-      bancoHoras: 0,
+      bancoHoras: false,
       diaFechamento: 25,
       horarioSaida: "18:00",
       porcFeriados: 100,

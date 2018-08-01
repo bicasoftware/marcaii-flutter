@@ -1,4 +1,5 @@
 import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:path/path.dart';
@@ -22,7 +23,7 @@ class DBManager {
     return _db;
   }
 
-  Future create() async {
+  Future<Database> create() async {
     var path = await getApplicationDocumentsDirectory();
     var dbPath = join(path.path, _DBNAME);
 
@@ -55,7 +56,7 @@ class DBManager {
     return await db.execute(MdPorcDifer.createSql());
   }
 
-  Future insertEmprego(MdEmpregos emprego) async {
+  Future insertEmprego(EmpregoDto emprego) async {
     if (emprego.id == null) {
       emprego.id = await _db.insert(MdEmpregos.tableName, emprego.toMap());
       return emprego;

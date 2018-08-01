@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
+import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -58,8 +60,8 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  void setCargaHoraria(String cargaHoraria) {
-    this.cargaHoraria = int.parse(cargaHoraria);
+  void setCargaHoraria(int cargaHoraria) {
+    this.cargaHoraria = cargaHoraria;
     notifyListeners();
   }
 
@@ -100,6 +102,27 @@ class EmpregoState extends Model {
   int get getPorcNormal => porcNormal;
 
   int get getPorcFeriados => porcFeriados;
+
+  EmpregoDto provideResult() {
+    final empregoDto = EmpregoDto(
+      id: id,
+      nomeEmprego: nomeEmprego,
+      bancoHoras: bancoHoras,
+      cargaHoraria: cargaHoraria,
+      diaFechamento: diaFechamento,
+      horarioSaida: horarioSaida,
+      porcFeriados: porcFeriados,
+      porcNormal: porcNormal,
+    );
+
+    porcList
+        .where((it) => it.diaSemana != 0)
+        .map((it) => DiferenciaisDto(idEmprego: id, diaSemana: it.diaSemana, porcAdd: it.porcent))
+        .forEach((f) => empregoDto.appendPorcDifer(f));
+
+    return empregoDto;
+    //todo - gerenciar salários aqui
+  }
 
   MdEmpregos provideEmprego() {
     return MdEmpregos(

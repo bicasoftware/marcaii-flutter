@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/MainState.dart';
-import 'package:marcaii_flutter/MarcaiiStateBuilder.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ActInsertEmpregos.dart';
@@ -11,25 +8,20 @@ import 'package:marcaii_flutter/modules/main_act/MainAct.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class Marcaii extends StatefulWidget {
+  const Marcaii({Key key, this.state}) : super(key: key);
+  final MainState state;
+
   @override
   MarcaiiState createState() => MarcaiiState();
 }
 
 class MarcaiiState extends State<Marcaii> {
-  MainState appState;
-  String nome;
-
-  @override
-  Future initState() async {
-    MarcaiiStateBuilder.buildState().then((state) => appState = state);
-    nome == "";
-    super.initState();
-  }
+  MainState state;
 
   @override
   Widget build(BuildContext context) {
     return ScopedModel<MainState>(
-      model: appState,
+      model: widget.state,
       child: MaterialApp(
         title: Strings.appName,
         theme: ThemeData(

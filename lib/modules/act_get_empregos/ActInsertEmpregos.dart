@@ -45,7 +45,7 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProvid
                   icon: Icon(Icons.save),
                   onPressed: () {
                     if (model.isValidated()) {
-                      return Navigator.pop(context, model.provideEmprego());
+                      return Navigator.pop(context, model.provideResult());
                     }
                   },
                 );

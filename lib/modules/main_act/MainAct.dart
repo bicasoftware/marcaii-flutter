@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/MainState.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/MdEmpregos.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/PageCalendar.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_list_empregos/PageListEmpregos.dart';
 import 'package:marcaii_flutter/utils/DualLineAppBar.dart';
@@ -67,8 +67,8 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
             onPressed: () async {
               if (_mainPagePos == 0) {
                 final result = await Navigator.pushNamed(context, Refs.refActGetEmprego);
-                if (result != null && result is MdEmpregos) {
-                  //model.appendEmprego(result);
+                if (result != null && result is EmpregoDto) {
+                  model.appendEmprego(result);
                 }
               } else {
                 Navigator.of(context).pushNamed(Refs.refActRelatorio);

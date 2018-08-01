@@ -19,7 +19,7 @@ class EmpregoDto {
   int id, diaFechamento, porcNormal, porcFeriados, cargaHoraria;
   bool bancoHoras;
   String nomeEmprego, horarioSaida;
-  double salario; //todo - carregar salário atual separadamente
+  double salario;
 
   final listSalarios = List<SalariosDto>();
   final listHoras = List<HoraDto>();
@@ -59,6 +59,24 @@ class EmpregoDto {
       porcNormal: porcNormal,
       valorSalario: 1200.0, //todo - selecionar salário junto com a query no sqlite
     );
+  }
+
+  Map toMap() {
+    Map<String, dynamic> map = {
+      "nomeEmprego": nomeEmprego,
+      "diaFechamento": diaFechamento,
+      "porcNormal": porcNormal,
+      "porcFeriados": porcFeriados,
+      "cargaHoraria": cargaHoraria,
+      "horarioSaida": horarioSaida,
+      "bancoHoras": bancoHoras,
+    };
+
+    if(id != null) {
+      map["id"] == id;
+    }
+
+    return map;
   }
 
   static EmpregoDto newInstance() {    

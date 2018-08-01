@@ -130,10 +130,12 @@ class PageEmpregoInfo extends StatelessWidget {
           color: Colors.teal,
           onTap: null,
           contentChild: DropdownButton(
-            value: md.cargaHoraria,
-            onChanged: (c) => md.setCargaHoraria(c),
-            items: Arrays.cargas.map((c) => DropdownMenuItem(child: Text(c), value: c)).toList(),
-          ),
+              value: md.cargaHoraria,
+              onChanged: (c) => md.setCargaHoraria(c),
+              items: Arrays.cargas
+                  .map((c) => int.parse(c))
+                  .map((c) => DropdownMenuItem(child: Text("$c"), value: c))
+                  .toList()),
         );
       },
     );
