@@ -1,13 +1,14 @@
-import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
-import 'package:sqflite/sqflite.dart';
 import 'dart:async';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/MdHoras.dart';
-import 'package:marcaii_flutter/models/MdSalarios.dart';
 import 'package:marcaii_flutter/models/MdPorcDifer.dart';
+import 'package:marcaii_flutter/models/MdSalarios.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DBManager {
   static const String _DBNAME = "marcaii_flutter";
@@ -56,15 +57,58 @@ class DBManager {
     return await db.execute(MdPorcDifer.createSql());
   }
 
+  ///insere emprego e porcentagens diferenciais
   Future insertEmprego(EmpregoDto emprego) async {
     if (emprego.id == null) {
       emprego.id = await _db.insert(MdEmpregos.tableName, emprego.toMap());
+
+      for (final d in emprego.listDiferenciais) {
+        d.idEmprego = emprego.id;
+        d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
+      }
+
+      emprego.listDiferenciais.forEach((it) => print(it.toString()));
+
       return emprego;
-    } else {
-      await _db.update(MdEmpregos.tableName, emprego.toMap());
     }
   }
 
+  ///atualiza emprego, dropa todas as diferencias do emprego e recria
+  Future updateEmprego(EmpregoDto emprego) async {
+    if (emprego.id != null) {
+      await _db.update(
+        MdEmpregos.tableName,
+        emprego.toMap(),
+        where: "id = ?",
+        whereArgs: [emprego.id],
+      );
+      await dropPorcDiferByIdEmprego(emprego.id);
+
+      for (final d in emprego.listDiferenciais) {
+        d.idEmprego = emprego.id;
+        d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
+      }
+
+      return emprego;
+    }
+  }
+
+  Future deleteEmprego(int idEmprego) async {
+    final modified = await _db.delete(
+      MdEmpregos.tableName,
+      where: "id = ?",
+      whereArgs: [idEmprego],
+    );
+    
+    return modified > 0;
+  }
+
+  ///deleta todas as porcentagens diferenciais do emprego
+  Future dropPorcDiferByIdEmprego(int idEmprego) async {
+    _db.delete(MdPorcDifer.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
+  }
+
+  ///todo - remover após remover o método doOnFirstRun
   Future upsertPorcDifer(MdPorcDifer pd) async {
     if (pd.id == null) {
       pd.id = await _db.insert(MdPorcDifer.tableName, pd.toMap());

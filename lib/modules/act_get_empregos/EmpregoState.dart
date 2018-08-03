@@ -26,14 +26,16 @@ class EmpregoState extends Model {
   int porcNormal, porcFeriados, diaFechamento, cargaHoraria;
   double valorSalario = 1200.0;
 
-  static final List<PorcDiferDto> porcList = [
-    PorcDiferDto(diaSemana: 0, porcent: 0, valor: 0.0),
-    PorcDiferDto(diaSemana: 1, porcent: 0, valor: 0.0),
-    PorcDiferDto(diaSemana: 2, porcent: 0, valor: 0.0),
-    PorcDiferDto(diaSemana: 3, porcent: 0, valor: 0.0),
-    PorcDiferDto(diaSemana: 4, porcent: 0, valor: 0.0),
-    PorcDiferDto(diaSemana: 5, porcent: 0, valor: 0.0),
-    PorcDiferDto(diaSemana: 6, porcent: 0, valor: 0.0),
+  bool needUdpate = false;
+
+  final List<PorcDiferDto> porcList = [
+    PorcDiferDto(id: 0, diaSemana: 0, porcent: 0, valor: 0.0),
+    PorcDiferDto(id: 0, diaSemana: 1, porcent: 0, valor: 0.0),
+    PorcDiferDto(id: 0, diaSemana: 2, porcent: 0, valor: 0.0),
+    PorcDiferDto(id: 0, diaSemana: 3, porcent: 0, valor: 0.0),
+    PorcDiferDto(id: 0, diaSemana: 4, porcent: 0, valor: 0.0),
+    PorcDiferDto(id: 0, diaSemana: 5, porcent: 0, valor: 0.0),
+    PorcDiferDto(id: 0, diaSemana: 6, porcent: 0, valor: 0.0),
   ];
 
   PorcDiferDto getPorcDiferAt(int weekDay) => porcList[weekDay];
@@ -75,8 +77,21 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  void setPorcDifer(int weekday, int porc) {
-    porcList[weekday].porcent = porc;
+  void setPorcDifer(int weekday, int porc, {int id: 0}) {
+    porcList[weekday]
+      ..porcent = porc
+      ..valor = CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc)
+      ..id = id;
+
+    notifyListeners();
+  }
+
+  void clearAllPorcs(){
+    porcList.forEach((it) => it.clear());
+  }
+
+  void clearPorcDifer(int weekDay) {
+    porcList[weekDay].clear();
     notifyListeners();
   }
 
@@ -87,11 +102,6 @@ class EmpregoState extends Model {
 
   bool isBancoHoras() {
     return this.bancoHoras;
-  }
-
-  void clearPorcDifer(int weekDay) {
-    porcList[weekDay].clear();
-    notifyListeners();
   }
 
   void toggleBancoHoras() {
@@ -115,10 +125,15 @@ class EmpregoState extends Model {
       porcNormal: porcNormal,
     );
 
-    porcList
-        .where((it) => it.diaSemana != 0)
-        .map((it) => DiferenciaisDto(idEmprego: id, diaSemana: it.diaSemana, porcAdd: it.porcent))
-        .forEach((f) => empregoDto.appendPorcDifer(f));
+    try {
+      porcList
+          .where((it) => it.porcent != 0)
+          .map((it) =>
+              DiferenciaisDto(idEmprego: id, diaSemana: it.diaSemana, porcAdicional: it.porcent))
+          .forEach((f) => empregoDto.appendPorcDifer(f));
+    } catch (e) {
+      print(e);
+    }
 
     return empregoDto;
     //todo - gerenciar salários aqui
@@ -144,7 +159,7 @@ class EmpregoState extends Model {
   }
 
   bool isValidated() {
-    var form = _formKey.currentState;
+    final form = formKey.currentState;
     if (form.validate() == true) {
       form.save();
       return true;

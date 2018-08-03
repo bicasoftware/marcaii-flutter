@@ -77,7 +77,7 @@ class MarcaiiStateBuilder {
       final empregos = await db.fetchAllEmpregos();
       if (empregos.length > 0) {
         for (final emprego in empregos) {
-          final empregoDto = EmpregoDto(
+          var empregoDto = EmpregoDto(
             id: emprego.id,
             diaFechamento: emprego.diaFechamento,
             porcNormal: emprego.porcNormal,
@@ -88,13 +88,13 @@ class MarcaiiStateBuilder {
             cargaHoraria: emprego.cargaHoraria,
           );
 
-          final salarios = await db.fetchSalariosByEmprego(emprego.id);
+          var salarios = await db.fetchSalariosByEmprego(emprego.id);
           for (MdSalarios salario in salarios) {
             if (salario.status == 1) {
               empregoDto.salario = salario.valorSalario;
             }
 
-            final salarioDto = SalariosDto(
+            var salarioDto = SalariosDto(
               id: salario.id,
               idEmprego: emprego.id,
               salario: salario.valorSalario,
@@ -105,21 +105,21 @@ class MarcaiiStateBuilder {
             empregoDto.listSalarios.add(salarioDto);
           }
 
-          final porcentagens = await db.fetchPorcentagensDiferByEmprego(emprego.id);
+          var porcentagens = await db.fetchPorcentagensDiferByEmprego(emprego.id);
           for (MdPorcDifer porc in porcentagens) {
             final diferenciaDto = DiferenciaisDto(
               id: porc.id,
               idEmprego: emprego.id,
               diaSemana: porc.diaSemana,
-              porcAdd: porc.porcAdicional,
+              porcAdicional: porc.porcAdicional,
             );
 
             empregoDto.listDiferenciais.add(diferenciaDto);
           }
 
-          final horas = await db.fetchHorasByEmprego(emprego.id);
+          var horas = await db.fetchHorasByEmprego(emprego.id);
           for (MdHoras hora in horas) {
-            final horaDto = HoraDto(
+            var  horaDto = HoraDto(
                 id: hora.id,
                 idEmprego: emprego.id,
                 dta: hora.dta,

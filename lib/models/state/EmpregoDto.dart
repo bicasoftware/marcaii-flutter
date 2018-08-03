@@ -48,7 +48,7 @@ class EmpregoDto {
   }
 
   EmpregoState toState() {
-    return EmpregoState(
+    final state = EmpregoState(
       id: id,
       nomeEmprego: nomeEmprego,
       bancoHoras: bancoHoras,
@@ -57,8 +57,14 @@ class EmpregoDto {
       horarioSaida: horarioSaida,
       porcFeriados: porcFeriados,
       porcNormal: porcNormal,
-      valorSalario: 1200.0, //todo - selecionar salário junto com a query no sqlite
+      valorSalario: salario ?? 1200.0,
     );
+
+    for (final dif in listDiferenciais) {
+      state.setPorcDifer(dif.diaSemana, dif.porcAdicional);
+    }
+
+    return state;
   }
 
   Map toMap() {
@@ -72,14 +78,14 @@ class EmpregoDto {
       "bancoHoras": bancoHoras,
     };
 
-    if(id != null) {
+    if (id != null) {
       map["id"] == id;
     }
 
     return map;
   }
 
-  static EmpregoDto newInstance() {    
+  static EmpregoDto newInstance() {
     return EmpregoDto(
       nomeEmprego: "Novo Emprego",
       bancoHoras: false,
@@ -89,5 +95,11 @@ class EmpregoDto {
       porcFeriados: 100,
       diaFechamento: 25,
     );
+  }
+
+  @override
+  String toString() {
+    return """nomeEmprego $nomeEmprego diaFechamento $diaFechamento porcNormal $porcNormal
+    porcFeriados $porcFeriados cargaHoraria $cargaHoraria horarioSaida $horarioSaida bancoHoras""";
   }
 }

@@ -17,10 +17,22 @@ class MainState extends Model {
   EmpregoDto getEmpregoAt(int pos) => empregos[pos];
 
   void appendEmprego(EmpregoDto emprego) {
-    manager.insertEmprego(emprego).then((e) => emprego = e).whenComplete(() {
-      empregos.add(emprego);
+    manager.insertEmprego(emprego).then((e) => empregos.add(e)).whenComplete(() {
       notifyListeners();
     });
+  }
+
+  void updateEmprego(EmpregoDto emprego) {
+    manager.updateEmprego(emprego).then((e) {
+      final int pos = empregos.indexWhere((it) => it.id == e.id);
+      empregos[pos] = e;
+    }).whenComplete(() => notifyListeners());
+  }
+
+  void deleteEmprego(int idEmprego) {
+    manager.deleteEmprego(idEmprego).then((success) {
+      if (success) empregos.removeWhere((e) => e.id == idEmprego);
+    }).whenComplete(() => notifyListeners());
   }
 
   void appendHora(int empregoPos, HoraDto hora) {

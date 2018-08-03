@@ -1,10 +1,11 @@
 class PorcDiferDto {
-  PorcDiferDto({this.diaSemana, this.porcent, this.valor});
+  PorcDiferDto({this.id, this.diaSemana, this.porcent, this.valor});
 
-  int diaSemana, porcent;
+  int id, diaSemana, porcent;
   double valor;
 
   void clear() {
+    id = 0;
     porcent = 0;
     valor = 0.0;
   }
