@@ -26,13 +26,17 @@ class MainState extends Model {
     manager.updateEmprego(emprego).then((e) {
       final int pos = empregos.indexWhere((it) => it.id == e.id);
       empregos[pos] = e;
-    }).whenComplete(() => notifyListeners());
+    }).whenComplete(() {
+      notifyListeners();
+    });
   }
 
   void deleteEmprego(int idEmprego) {
     manager.deleteEmprego(idEmprego).then((success) {
       if (success) empregos.removeWhere((e) => e.id == idEmprego);
-    }).whenComplete(() => notifyListeners());
+    }).whenComplete(() {
+      notifyListeners();
+    });
   }
 
   void appendHora(int empregoPos, HoraDto hora) {

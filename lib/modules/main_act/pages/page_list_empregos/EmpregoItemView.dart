@@ -6,11 +6,16 @@ import 'package:marcaii_flutter/utils/Themes.dart';
 
 class PageListEmpregoItem extends StatelessWidget {
   final EmpregoDto emprego;
+
   PageListEmpregoItem({Key key, this.emprego}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: 0.0, color: Theme.of(context).dividerColor),
+      ),
+      elevation: 0.0,
       margin: EdgeInsets.only(left: 4.0, right: 4.0, top: 2.0, bottom: 2.0),
       child: Container(
         padding: EdgeInsets.all(8.0),

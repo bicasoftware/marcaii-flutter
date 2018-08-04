@@ -86,7 +86,7 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  void clearAllPorcs(){
+  void clearAllPorcs() {
     porcList.forEach((it) => it.clear());
   }
 
