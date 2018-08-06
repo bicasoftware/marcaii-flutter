@@ -5,8 +5,8 @@ class PorcDiferDto {
   double valor;
 
   void clear() {
-    id = 0;
-    porcent = 0;
-    valor = 0.0;
+    this.id = 0;
+    this.porcent = 0;
+    this.valor = 0.0;
   }
 }

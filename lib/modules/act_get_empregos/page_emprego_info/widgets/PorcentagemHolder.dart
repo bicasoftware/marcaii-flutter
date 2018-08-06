@@ -11,20 +11,23 @@ class PorcentagemHolder extends StatelessWidget {
     @required this.iconColor,
     @required this.formKey,
     @required this.onSave,
+    this.isLast: false,
   }) : super(key: key);
 
   final GlobalKey<FormState> formKey;
   final int porcent;
   final Color iconColor;
   final String title;
+  final bool isLast;
   final Function(int) onSave;
 
   @override
   Widget build(BuildContext context) {
-    return ValidatableListItem(
+    return ValidatableListItem(      
+      isLast: isLast,
       formKey: formKey,
       hint: Strings.hintPorc,
-      icon: Icon(Icons.move_to_inbox, color: iconColor),
+      icon: Icons.move_to_inbox,
       initValue: porcent.toString(),
       title: title,
       onValidate: _onValidate,

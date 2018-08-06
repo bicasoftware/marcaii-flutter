@@ -23,7 +23,7 @@ class ValorSalarioHolder extends StatelessWidget {
     return ValidatableListItem(
       formKey: formKey,
       title: title,
-      icon: Icon(Icons.monetization_on, color: Colors.indigo),
+      icon: Icons.monetization_on,
       initValue: CurrencyUtils.doubleToCurrency(valorSalario),
       hint: Strings.hintSalario,
       onSave: _onSave,

@@ -28,7 +28,9 @@ class EmpregoState extends Model {
 
   bool needUdpate = false;
 
-  final List<PorcDiferDto> porcList = [
+  //static final List<PorcDiferDto> porcList = List<PorcDiferDto>();
+
+  static final List<PorcDiferDto> porcList = [
     PorcDiferDto(id: 0, diaSemana: 0, porcent: 0, valor: 0.0),
     PorcDiferDto(id: 0, diaSemana: 1, porcent: 0, valor: 0.0),
     PorcDiferDto(id: 0, diaSemana: 2, porcent: 0, valor: 0.0),
@@ -38,9 +40,9 @@ class EmpregoState extends Model {
     PorcDiferDto(id: 0, diaSemana: 6, porcent: 0, valor: 0.0),
   ];
 
-  PorcDiferDto getPorcDiferAt(int weekDay) => porcList[weekDay];
+  List<PorcDiferDto> get getPorcList => porcList;
 
-  String get valorSalarioParsed => CurrencyUtils.doubleToCurrency(valorSalario);
+  PorcDiferDto getPorcDiferAt(int weekDay) => porcList[weekDay];
 
   void setNomeEmprego(String nome) {
     nomeEmprego = nome;
@@ -82,7 +84,6 @@ class EmpregoState extends Model {
       ..porcent = porc
       ..valor = CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc)
       ..id = id;
-
     notifyListeners();
   }
 
@@ -90,7 +91,7 @@ class EmpregoState extends Model {
     porcList.forEach((it) => it.clear());
   }
 
-  void clearPorcDifer(int weekDay) {
+  void clearPorcDifer(int weekDay) {    
     porcList[weekDay].clear();
     notifyListeners();
   }

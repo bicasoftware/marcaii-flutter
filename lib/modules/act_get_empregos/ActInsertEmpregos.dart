@@ -2,39 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_porcentagem/PageEmpregoPorcentagens.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/PageEmpregoInfo.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class ActInsertEmpregos extends StatefulWidget {
+class ActInsertEmpregos extends StatelessWidget {
   final EmpregoDto emprego;
 
   const ActInsertEmpregos({Key key, this.emprego}) : super(key: key);
 
   @override
-  _ActInsertEmpregosState createState() => _ActInsertEmpregosState();
-}
-
-class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProviderStateMixin {
-  TabController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ScopedModel<EmpregoState>(
-      model: widget.emprego.toState(),
+      model: emprego.toState(),
       child: Scaffold(
+        body: PageEmpregoInfo(),
         appBar: AppBar(
           title: Text(Strings.actGetEmprego),
           actions: <Widget>[
@@ -51,20 +32,6 @@ class _ActInsertEmpregosState extends State<ActInsertEmpregos> with TickerProvid
                 );
               },
             ),
-          ],
-          bottom: TabBar(
-            controller: controller,
-            tabs: <Widget>[
-              Tab(text: Strings.dadosCargo),
-              Tab(text: Strings.diferenciais),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          controller: controller,
-          children: <Widget>[
-            PageEmpregoInfo(),
-            PageEmpregoPorcentagens(),
           ],
         ),
       ),

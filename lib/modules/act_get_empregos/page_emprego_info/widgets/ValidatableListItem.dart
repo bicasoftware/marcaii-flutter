@@ -11,13 +11,15 @@ class ValidatableListItem extends StatelessWidget {
     @required this.formKey,
     @required this.onValidate,
     @required this.onSave,
+    this.isLast: false,
   }) : super(key: key);
 
   final String title, hint, initValue;
-  final Icon icon;
+  final IconData icon;
   final GlobalKey<FormState> formKey;
   final Function(String) onSave;
   final String Function(String) onValidate;
+  final bool isLast;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +39,9 @@ class ValidatableListItem extends StatelessWidget {
               onSave(e);
             },
           ),
-          leading: icon,
+          leading: Icon(icon, color: Colors.black54,),
         ),
-        BaseDivider(),
+        isLast == false ? BaseDivider() : Container(),
       ],
     );
   }

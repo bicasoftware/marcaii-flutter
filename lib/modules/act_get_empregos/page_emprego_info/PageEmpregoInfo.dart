@@ -2,39 +2,80 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DefaultListItem.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DiferenciaisListItem.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/ListHeader.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/NomeEmpregoHolder.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/PorcentagemHolder.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/ValorSalarioHolder.dart';
+import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
+import 'package:marcaii_flutter/utils/PercentDialog.dart';
+import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PageEmpregoInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<EmpregoState>(
-      rebuildOnChange: false,
-      builder: (ct, ch, md) {
-        return Container(
-          child: Form(
-            key: md.formKey,
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                _nomeEmpregoHolder(),
-                _valorSalarioHolder(),
-                _porcNormal(),
-                _porcFeriados(),
-                _diaFechamentoHolder(),
-                _horarioSaidaHolder(),
-                _cargaHorariaHolder(),
-                _bancoHorasHolder(),
-              ],
-            ),
-          ),
-        );
-      },
+    return Card(
+      elevation: 4.0,
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        child: ScopedModelDescendant<EmpregoState>(
+          rebuildOnChange: true,
+          builder: (ct, ch, md) => Form(
+                key: md.formKey,
+                child: ScopedModelDescendant<EmpregoState>(
+                  rebuildOnChange: false,
+                  builder: (ct, ch, md) {
+                    return ListView(
+                      shrinkWrap: false,
+                      addAutomaticKeepAlives: true,
+                      children: _contentList(ct, md),
+                    );
+                  },
+                ),
+              ),
+        ),
+      ),
     );
   }
+
+  List<Widget> _contentList(BuildContext context, EmpregoState model) {
+    final List<Widget> contentList = [
+      _nomeEmpregoHolder(),
+      _valorSalarioHolder(),
+      _diaFechamentoHolder(),
+      _horarioSaidaHolder(),
+      _cargaHorariaHolder(),
+      _bancoHorasHolder(),
+      _headerPorcentagem(),
+      _porcNormal(),
+      _porcFeriados(),
+      _headerDiferenciais(),
+    ];
+
+    final dias = Arrays.weekDays;
+    model.getPorcList.forEach((d) {
+      contentList.add(DiferenciaisListItem(
+        isLast: d == model.getPorcList.last,
+        title: dias[d.diaSemana],
+        percent: d.porcent,
+        value: CurrencyUtils.calcPorcentExtra(model.valorSalario, model.cargaHoraria, d.porcent),
+        onClear: () => _showClearDiferencialDialog(context, model, d.diaSemana),
+        onEdit: (int percent) {
+          return showPercentDialog(percent: percent, context: context).then((int p) {
+            if (p != null) model.setPorcDifer(d.diaSemana, p);
+          });
+        },
+      ));
+    });
+
+    return contentList;
+  }
+
+  Widget _headerPorcentagem() => ListHeader(title: "Porcentagens");
+
+  Widget _headerDiferenciais() => ListHeader(title: "Diferenciais");
 
   Widget _nomeEmpregoHolder() {
     return ScopedModelDescendant<EmpregoState>(
@@ -85,6 +126,7 @@ class PageEmpregoInfo extends StatelessWidget {
       rebuildOnChange: false,
       builder: (ct, ch, md) {
         return PorcentagemHolder(
+          isLast: true,
           formKey: md.formKey,
           iconColor: Colors.orange,
           title: Strings.porcFeriados,
@@ -103,7 +145,6 @@ class PageEmpregoInfo extends StatelessWidget {
         return DefaultListItem(
           title: Strings.diaFechamento,
           icon: Icons.calendar_today,
-          color: Colors.purple,
           onTap: () => _showDiaFechamentoDialog(ct, md),
           contentChild: Container(
             margin: EdgeInsets.only(right: 8.0),
@@ -127,15 +168,19 @@ class PageEmpregoInfo extends StatelessWidget {
         return DefaultListItem(
           title: Strings.cargaHoraria,
           icon: Icons.timelapse,
-          color: Colors.teal,
           onTap: null,
-          contentChild: DropdownButton(
+          contentChild: DropdownButtonHideUnderline(
+            child: DropdownButton(
               value: md.cargaHoraria,
-              onChanged: (c) => md.setCargaHoraria(c),
+              onChanged: (c) {
+                md.setCargaHoraria(c);
+              },
               items: Arrays.cargas
                   .map((c) => int.parse(c))
                   .map((c) => DropdownMenuItem(child: Text("$c"), value: c))
-                  .toList()),
+                  .toList(),
+            ),
+          ),
         );
       },
     );
@@ -147,7 +192,6 @@ class PageEmpregoInfo extends StatelessWidget {
         return DefaultListItem(
           title: Strings.horarioSaida,
           icon: Icons.exit_to_app,
-          color: Colors.blue,
           onTap: () => _showHoraSaidaDialog(md, ct),
           contentChild: Container(
             margin: EdgeInsets.only(right: 8.0),
@@ -168,7 +212,6 @@ class PageEmpregoInfo extends StatelessWidget {
         return DefaultListItem(
           title: Strings.bancoHoras,
           icon: Icons.local_activity,
-          color: Colors.cyan,
           onTap: () => md.toggleBancoHoras(),
           isLast: true,
           contentChild: Switch(value: md.isBancoHoras(), onChanged: (st) => md.setBancoHoras(st)),
@@ -222,6 +265,17 @@ class PageEmpregoInfo extends StatelessWidget {
     if (seltime != null) {
       md.setHorarioSaida(
           MaterialLocalizations.of(context).formatTimeOfDay(seltime, alwaysUse24HourFormat: true));
+    }
+  }
+
+  void _showClearDiferencialDialog(BuildContext context, EmpregoState model, int weekDay) async {
+    final status = await showConfirmationDialog(
+      context: context,
+      message: Strings.confirmar_remocao_difer,
+    );
+
+    if (status != null && status == true) {
+      model.clearPorcDifer(weekDay);
     }
   }
 }

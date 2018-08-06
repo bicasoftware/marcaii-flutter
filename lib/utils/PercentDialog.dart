@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/utils/Validation.dart';
 
-Future<int> showPercentDialog({BuildContext context, int percent}) {
+Future<int> showPercentDialog({
+  BuildContext context,
+  @required int percent
+}) {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   return showDialog(
@@ -13,7 +16,10 @@ Future<int> showPercentDialog({BuildContext context, int percent}) {
     builder: (ct) {
       return AlertDialog(
         title: Text(Strings.novaPorcentagem),
-        content: _PercentDialog(percent: percent, formKey: _key),
+        content: _PercentDialog(
+          percent: percent,
+          formKey: _key,
+        ),
         actions: <Widget>[
           FlatButton(
             child: Text(Strings.cancelar),
@@ -44,30 +50,35 @@ class _PercentDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(      
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Form(
           key: formKey,
-          child: TextFormField(
-            initialValue: percent.toString(),
-            keyboardType: TextInputType.numberWithOptions(
-              decimal: false,
-              signed: false,
-            ),
-            decoration: InputDecoration(
-              labelText: Strings.digiteValor,
-              hintText: Strings.hintPorc,
-              suffixText: "%",
-            ),
-            validator: (e) {
-              if (!Validation.isValidPercent(e.trim())) {
-                return Warn.warPorcInvalida;
-              }
-            },
-            onSaved: (e) {
-                Navigator.of(context, rootNavigator: true).pop(int.parse(e));
-            },
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                initialValue: percent.toString(),
+                keyboardType: TextInputType.numberWithOptions(
+                  decimal: false,
+                  signed: false,
+                ),
+                decoration: InputDecoration(
+                  labelText: Strings.digiteValor,
+                  hintText: Strings.hintPorc,
+                  suffixText: "%",
+                ),
+                validator: (e) {
+                  if (!Validation.isValidPercent(e.trim())) {
+                    return Warn.warPorcInvalida;
+                  }
+                },
+                onSaved: (e) {
+                  //Navigator.of(context, rootNavigator: true).pop(int.parse(e));
+                  Navigator.of(context).pop(int.parse(e));
+                },
+              ),
+            ],
           ),
         )
       ],

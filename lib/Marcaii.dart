@@ -26,10 +26,8 @@ class MarcaiiState extends State<Marcaii> {
         title: Strings.appName,
         theme: ThemeData(
           primaryColor: Colors.indigo,
-          accentColor: Colors.red,
-          buttonColor: Colors.redAccent,
-          disabledColor: Colors.blueGrey,
-          brightness: Brightness.light,
+          accentColor: Colors.blueAccent,
+          brightness: Brightness.light,          
           dividerColor: Colors.grey,
         ),
         home: MainAct(),

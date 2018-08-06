@@ -21,7 +21,7 @@ class NomeEmpregoHolder extends StatelessWidget {
     return ValidatableListItem(
       formKey: formKey,
       hint: Strings.hintEmprego,
-      icon: Icon(Icons.layers, color: Colors.red),
+      icon: Icons.layers,
       initValue: nomeEmprego,
       title: title,
       onValidate: _onValidate,

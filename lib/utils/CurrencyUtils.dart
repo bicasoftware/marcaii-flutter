@@ -6,7 +6,11 @@ class CurrencyUtils {
   static String doubleToCurrency(double value) => f.format(value);
 
   static double calcPorcentExtra(double salario, int cargaHoraria, int porc) {
-    final rounded = ((salario / cargaHoraria) * (1 + (porc / 100))).toStringAsFixed(2);
-    return double.parse(rounded);
+    if (porc == 0) {
+      return 0.0;
+    } else {
+      final rounded = ((salario / cargaHoraria) * (1 + (porc / 100))).toStringAsFixed(2);
+      return double.parse(rounded);
+    }
   }
 }
