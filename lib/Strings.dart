@@ -54,7 +54,20 @@ class Arrays {
   static const weekDays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
   static const weekDaysAbrev = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   static const opt_salarios = ["Adicionar Aumento", "Ver Todos"];
-
+  static const months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
 }
 
 class Exceptions {

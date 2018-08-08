@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarHeader.dart';
+import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarNavigator.dart';
 
 class PageCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
-      margin: EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
-          Text("Calendário Show"),
+          CalendarNavigator(
+            currentMonth: 0,
+            onPrevMonth: () => print("Prev"),
+            onNextMonth: () => print("Next"),
+            onMonthClicked: (month) => print(month),
+          ),
+          CalendarHeader(),
         ],
       ),
     );
