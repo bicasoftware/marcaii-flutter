@@ -6,7 +6,9 @@ import 'package:marcaii_flutter/utils/DBManager.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MainState extends Model {
-  MainState({this.empregos});
+  MainState(this.currentDate, {this.empregos});
+
+  DateTime currentDate;
 
   final List<EmpregoDto> empregos;
 
@@ -15,6 +17,35 @@ class MainState extends Model {
   List<EmpregoDto> get getEmpregos => empregos;
 
   EmpregoDto getEmpregoAt(int pos) => empregos[pos];
+
+  
+  void addMonth() {
+
+    if(currentMonth == 11){
+      currentDate = DateTime.utc(currentDate.year + 1, 1, currentDate.day);
+    } else {
+      currentDate = DateTime.utc(currentDate.year, currentDate.month + 1, currentDate.day);
+    }
+
+    notifyListeners();
+  }
+
+  int get currentMonth => currentDate.month-1;
+  
+  void decMonth() {
+    if(currentMonth == 0){
+      currentDate = DateTime.utc(currentDate.year -1, 12, currentDate.day);
+    } else {
+      currentDate = DateTime.utc(currentDate.year, currentDate.month - 1, currentDate.day);
+    }
+    notifyListeners();
+  }
+  
+  void setYear(int year){
+    currentDate = DateTime.utc(year, currentDate.month, currentDate.day);
+    notifyListeners();
+  }
+  int get currentYear => currentDate.year;
 
   void appendEmprego(EmpregoDto emprego) {
     manager.insertEmprego(emprego).then((e) => empregos.add(e)).whenComplete(() {

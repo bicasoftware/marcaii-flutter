@@ -21,6 +21,7 @@ class CalendarHeader extends StatelessWidget {
   }
 
   Widget _getDayItem(BuildContext context, String day, bool itsDay) {
+    final Color accentColor = Theme.of(context).accentColor;
     final style = TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.black,
@@ -28,11 +29,13 @@ class CalendarHeader extends StatelessWidget {
     );
 
     final itsDayStyle = style.copyWith(
-      color: Colors.lightGreen,
+      color: accentColor,
     );
 
     return Expanded(
       child: SquaredCard(
+        borderColor: itsDay ? accentColor : Colors.grey,
+        fillColor: itsDay ? Colors.white10 : Colors.white,
         margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 1.0),
         padding: 2.0,
         child: Text(

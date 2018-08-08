@@ -4,7 +4,8 @@ import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/PageCalendar.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_list_empregos/PageListEmpregos.dart';
-import 'package:marcaii_flutter/utils/DualLineAppBar.dart';
+import 'package:marcaii_flutter/utils/DropDownAction.dart';
+import 'package:marcaii_flutter/utils/Range.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MainAct extends StatefulWidget {
@@ -19,6 +20,15 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
     setState(() {
       _mainPagePos = i;
     });
+  }
+
+  static List<DropdownMenuItem> get listAnos {
+    final l = List<DropdownMenuItem>();
+    for (final i in Range.range(2013, 2022)) {
+      l.add(DropdownMenuItem(child: Text(i.toString()), value: i));
+    }
+
+    return l;
   }
 
   static final _mainPages = [
@@ -50,7 +60,23 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
-      appBar: DualLineAppbar(bitText: Strings.appName, smallText: title),
+      //appBar: DualLineAppbar(bitText: Strings.appName, smallText: title),
+      appBar: AppBar(
+        title: Text(title),
+        actions: <Widget>[
+          ScopedModelDescendant<MainState>(
+            builder: (_, __, st) {
+              return DropDownAction<int>(
+                onChanged: (i) {
+                  st.setYear(i);
+                },
+                currentValue: st.currentYear,
+                children: listAnos,
+              );
+            },
+          ),
+        ],
+      ),
       body: currentPage,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _mainPagePos,

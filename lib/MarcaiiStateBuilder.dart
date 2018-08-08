@@ -138,6 +138,6 @@ class MarcaiiStateBuilder {
       print(e);
     }
 
-    return MainState(empregos: listEmpregos);
+    return MainState(DateTime.now(), empregos: listEmpregos);
   }
 }

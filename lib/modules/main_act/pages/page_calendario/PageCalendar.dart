@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/MainState.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarHeader.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarNavigator.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class PageCalendar extends StatelessWidget {
   @override
@@ -8,11 +10,18 @@ class PageCalendar extends StatelessWidget {
     return Container(
       child: Column(
         children: <Widget>[
-          CalendarNavigator(
-            currentMonth: 0,
-            onPrevMonth: () => print("Prev"),
-            onNextMonth: () => print("Next"),
-            onMonthClicked: (month) => print(month),
+          ScopedModelDescendant<MainState>(
+            builder: (_, __, st) {
+              return CalendarNavigator(
+                currentMonth: st.currentMonth,
+                onPrevMonth: () => st.decMonth(),
+                onNextMonth: () => st.addMonth(),
+                onMonthClicked: (month) {
+                  print(month);
+                  print(st.currentMonth);
+                },
+              );
+            },
           ),
           CalendarHeader(),
         ],
