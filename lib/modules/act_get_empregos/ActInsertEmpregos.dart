@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/PageEmpregoInfo.dart';
+import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ActInsertEmpregos extends StatelessWidget {

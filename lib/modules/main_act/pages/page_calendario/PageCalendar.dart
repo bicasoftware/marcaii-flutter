@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/MainState.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarHeader.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarNavigator.dart';
+import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PageCalendar extends StatelessWidget {

@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:marcaii_flutter/MainState.dart';
 import 'package:marcaii_flutter/models/MdHoras.dart';
 import 'package:marcaii_flutter/models/MdPorcDifer.dart';
 import 'package:marcaii_flutter/models/MdSalarios.dart';
-import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
-import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
-import 'package:marcaii_flutter/models/state/HoraDto.dart';
-import 'package:marcaii_flutter/models/state/SalariosDto.dart';
+import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/state/MainState.dart';
+import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/DBManager.dart';
 
 class MarcaiiStateBuilder {

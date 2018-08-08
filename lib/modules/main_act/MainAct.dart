@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/MainState.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/PageCalendar.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_list_empregos/PageListEmpregos.dart';
+import 'package:marcaii_flutter/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:marcaii_flutter/utils/DropDownAction.dart';
 import 'package:marcaii_flutter/utils/Range.dart';
 import 'package:scoped_model/scoped_model.dart';

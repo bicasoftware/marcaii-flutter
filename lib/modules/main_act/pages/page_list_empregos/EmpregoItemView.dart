@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/Themes.dart';
 

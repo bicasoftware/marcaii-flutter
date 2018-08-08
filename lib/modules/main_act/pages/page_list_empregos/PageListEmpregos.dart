@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/MainState.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ActInsertEmpregos.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_list_empregos/EmpregoItemView.dart';
+import 'package:marcaii_flutter/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 

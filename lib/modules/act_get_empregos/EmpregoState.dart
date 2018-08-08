@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
-import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
-import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
