@@ -4,8 +4,6 @@ import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/PageCalen
 import 'package:marcaii_flutter/modules/main_act/pages/page_list_empregos/PageListEmpregos.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
-import 'package:marcaii_flutter/utils/DropDownAction.dart';
-import 'package:marcaii_flutter/utils/Range.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MainAct extends StatefulWidget {
@@ -22,18 +20,9 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
     });
   }
 
-  static List<DropdownMenuItem> get listAnos {
-    final l = List<DropdownMenuItem>();
-    for (final i in Range.range(2013, 2022)) {
-      l.add(DropdownMenuItem(child: Text(i.toString()), value: i));
-    }
-
-    return l;
-  }
-
   static final _mainPages = [
-    PageListEmpregos(),
-    PageCalendar(),
+    PageListEmpregos(title: Strings.empregos),
+    PageCalendar(title: Strings.calendario),
   ];
 
   static final _bottomBarIcons = [
@@ -46,6 +35,12 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
     Icon(Icons.list),
   ];
 
+  static final _fabLabel = [
+    Strings.novo,
+    Strings.relatorio,
+  ];
+  
+
   static final _titles = ["Cargos", "Calendario"];
 
   String get title => _titles[_mainPagePos];
@@ -54,31 +49,15 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
 
   Icon get currentBottonIcon => _bottomBarIcons[_mainPagePos];
 
-  Icon get currentFabIcon => _fabIcons[_mainPagePos];
+  Icon get currentFabIcon => _fabIcons[_mainPagePos];  
+
+  String get currentFabLabel => _fabLabel[_mainPagePos];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
-      //appBar: DualLineAppbar(bitText: Strings.appName, smallText: title),
-      appBar: AppBar(
-        title: Text(title),
-        actions: <Widget>[
-          ScopedModelDescendant<MainState>(
-            builder: (_, __, st) {
-              return DropDownAction<int>(
-                onChanged: (i) {
-                  st.setYear(i);
-                },
-                currentValue: st.currentYear,
-                children: listAnos,
-              );
-            },
-          ),
-        ],
-      ),
       body: currentPage,
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(        
         currentIndex: _mainPagePos,
         items: [
           BottomNavigationBarItem(title: Text("Empregos"), icon: Icon(Icons.work)),
@@ -86,10 +65,14 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
         ],
         onTap: (i) => _setPagePos(i),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: ScopedModelDescendant<MainState>(
         rebuildOnChange: false,
         builder: (context, child, model) {
-          return FloatingActionButton(
+          return FloatingActionButton.extended(
+            icon: currentFabIcon,
+            label: Text(currentFabLabel),
+
             onPressed: () async {
               if (_mainPagePos == 0) {
                 final result = await Navigator.pushNamed(context, Refs.refActGetEmprego);
@@ -100,7 +83,6 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
                 Navigator.of(context).pushNamed(Refs.refActRelatorio);
               }
             },
-            child: currentFabIcon,
           );
         },
       ),

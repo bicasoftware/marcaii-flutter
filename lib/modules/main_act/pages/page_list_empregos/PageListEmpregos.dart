@@ -4,10 +4,26 @@ import 'package:marcaii_flutter/modules/act_get_empregos/ActInsertEmpregos.dart'
 import 'package:marcaii_flutter/modules/main_act/pages/page_list_empregos/EmpregoItemView.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class PageListEmpregos extends StatelessWidget {
+  const PageListEmpregos({Key key, @required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: _ListEmpregosBody(),
+    );
+  }
+}
+
+class _ListEmpregosBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainState>(

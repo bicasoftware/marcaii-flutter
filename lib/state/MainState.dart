@@ -17,7 +17,15 @@ class MainState extends Model {
   List<EmpregoDto> get getEmpregos => empregos;
 
   EmpregoDto getEmpregoAt(int pos) => empregos[pos];
+  
+  int _currentEmprego;
 
+  int get idEmprego => _currentEmprego;
+
+  void setCurrentEmprego(int pos){
+    this._currentEmprego = empregos[pos].id;
+    notifyListeners();
+  }
   
   void addMonth() {
 
