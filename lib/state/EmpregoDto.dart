@@ -1,3 +1,4 @@
+import 'package:marcaii_flutter/models/CalendarPageDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
@@ -20,10 +21,12 @@ class EmpregoDto {
   bool bancoHoras;
   String nomeEmprego, horarioSaida;
   double salario;
+  CalendarPageDto currentPage;
 
   final listSalarios = List<SalariosDto>();
   final listHoras = List<HoraDto>();
   final listDiferenciais = List<DiferenciaisDto>();
+  final listCalendarPages = List<CalendarPageDto>();
 
   void appendSalario(SalariosDto salario) {
     //atualiza o valor do salário no model

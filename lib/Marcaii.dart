@@ -26,6 +26,7 @@ class MarcaiiState extends State<Marcaii> {
         title: Strings.appName,
         theme: ThemeData(
           primaryColor: Colors.indigo,
+          primaryColorLight: Colors.white70,
           accentColor: Colors.blueAccent,
           brightness: Brightness.light,          
           dividerColor: Colors.grey,

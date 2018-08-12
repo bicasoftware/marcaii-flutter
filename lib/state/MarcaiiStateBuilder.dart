@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:marcaii_flutter/models/CalendarPageDto.dart';
 import 'package:marcaii_flutter/models/MdHoras.dart';
 import 'package:marcaii_flutter/models/MdPorcDifer.dart';
 import 'package:marcaii_flutter/models/MdSalarios.dart';
+import 'package:marcaii_flutter/state/CalendarBuilder.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
@@ -70,6 +72,9 @@ class MarcaiiStateBuilder {
   static Future<MainState> buildState() async {
     final db = DBManager();
     final listEmpregos = List<EmpregoDto>();
+    final date = DateTime.now();
+    final year = date.year;
+    final month = date.month;
 
     try {
       await db.create();
@@ -117,9 +122,15 @@ class MarcaiiStateBuilder {
             empregoDto.listDiferenciais.add(diferenciaDto);
           }
 
+          //todo - linkar horas e valores do calendário
+          final calendar = CalendarBuilder.buildCalendarByMonth(year, month);
+          final currentPage = CalendarPageDto(year: year, month: month, cells: calendar);
+          empregoDto.listCalendarPages.add(currentPage);
+          empregoDto.currentPage = currentPage;
+
           var horas = await db.fetchHorasByEmprego(emprego.id);
           for (MdHoras hora in horas) {
-            var  horaDto = HoraDto(
+            var horaDto = HoraDto(
                 id: hora.id,
                 idEmprego: emprego.id,
                 dta: hora.dta,

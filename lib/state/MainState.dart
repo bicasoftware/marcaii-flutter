@@ -1,3 +1,5 @@
+import 'package:marcaii_flutter/models/CalendarPageDto.dart';
+import 'package:marcaii_flutter/state/CalendarBuilder.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
@@ -27,33 +29,54 @@ class MainState extends Model {
     notifyListeners();
   }
   
+  int get currentMonth => currentDate.month-1;
   void addMonth() {
-
     if(currentMonth == 11){
       currentDate = DateTime.utc(currentDate.year + 1, 1, currentDate.day);
     } else {
       currentDate = DateTime.utc(currentDate.year, currentDate.month + 1, currentDate.day);
     }
 
+    refreshCalendar();
+
     notifyListeners();
   }
 
-  int get currentMonth => currentDate.month-1;
-  
   void decMonth() {
     if(currentMonth == 0){
       currentDate = DateTime.utc(currentDate.year -1, 12, currentDate.day);
     } else {
       currentDate = DateTime.utc(currentDate.year, currentDate.month - 1, currentDate.day);
     }
+    refreshCalendar();
     notifyListeners();
   }
   
+  int get currentYear => currentDate.year;
   void setYear(int year){
     currentDate = DateTime.utc(year, currentDate.month, currentDate.day);
+    refreshCalendar();
     notifyListeners();
   }
-  int get currentYear => currentDate.year;
+
+  void refreshCalendar(){
+    final mes = currentDate.month;
+    final ano = currentDate.year;
+    
+    //se já existir uma página salva, retorna, senão gera uma nova pra cada ano;
+    for(EmpregoDto e in empregos){      
+      final index = e.listCalendarPages.indexWhere((it) => it.year == ano && it.month == mes);
+      if(index >= 0){
+        e.currentPage = e.listCalendarPages[index];
+      } else {
+        final cells = CalendarBuilder.buildCalendarByMonth(ano, mes);
+        final newPage = CalendarPageDto(year: ano, month: mes, cells: cells);
+        e.listCalendarPages.add(newPage);
+        e.currentPage = newPage;
+      }
+    }
+  }
+
 
   void appendEmprego(EmpregoDto emprego) {
     manager.insertEmprego(emprego).then((e) => empregos.add(e)).whenComplete(() {

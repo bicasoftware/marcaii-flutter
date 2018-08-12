@@ -76,3 +76,9 @@ class Arrays {
 class Exceptions {
   static const recordWithoutOwner = "Record without father ID";
 }
+
+class Consts{
+  static const horaNormal = "CONST_HORANORMAL";
+  static const horaFeriados = "CONST_HORAFERIADOS";
+  static const horaDiferencial = "CONST_HORADIFF";
+}
