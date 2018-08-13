@@ -11,16 +11,30 @@ class CalendarBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.count(
+        shrinkWrap: true,
+        childAspectRatio: 1.0,
         crossAxisCount: 7,
-        crossAxisSpacing: 2.0,
-        mainAxisSpacing: 2.0,
+        crossAxisSpacing: 0.0,
+        mainAxisSpacing: 0.0,
         padding: EdgeInsets.all(1.0),
         children: _preparedList(),
+
       ),
     );
   }
 
   List<CalendarBodyItem> _preparedList() {
-    return cells.map((cell) => CalendarBodyItem(cell: cell)).toList();
+    return cells.map((cell) {
+      return CalendarBodyItem(
+        cell: cell,
+        onCellTap: (data, hora){
+          if(hora == null){
+            ///mostrar ActGetHoras
+          } else {
+            ///mostrar BottomSheetTotais
+          }
+        },
+      );
+    }).toList();
   }
 }

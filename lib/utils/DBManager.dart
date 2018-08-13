@@ -58,7 +58,7 @@ class DBManager {
   }
 
   ///insere emprego e porcentagens diferenciais
-  Future insertEmprego(EmpregoDto emprego) async {
+  Future<EmpregoDto> insertEmprego(EmpregoDto emprego) async {
     if (emprego.id == null) {
       emprego.id = await _db.insert(MdEmpregos.tableName, emprego.toMap());
 
@@ -68,9 +68,8 @@ class DBManager {
       }
 
       emprego.listDiferenciais.forEach((it) => print(it.toString()));
-
-      return emprego;
     }
+    return emprego;
   }
 
   ///atualiza emprego, dropa todas as diferencias do emprego e recria

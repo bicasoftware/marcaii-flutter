@@ -126,7 +126,7 @@ class MarcaiiStateBuilder {
           final calendar = CalendarBuilder.buildCalendarByMonth(year, month);
           final currentPage = CalendarPageDto(year: year, month: month, cells: calendar);
           empregoDto.listCalendarPages.add(currentPage);
-          empregoDto.currentPage = currentPage;
+          empregoDto.setCurrentPage(currentPage);
 
           var horas = await db.fetchHorasByEmprego(emprego.id);
           for (MdHoras hora in horas) {

@@ -19,19 +19,19 @@ class MainState extends Model {
   List<EmpregoDto> get getEmpregos => empregos;
 
   EmpregoDto getEmpregoAt(int pos) => empregos[pos];
-  
+
   int _currentEmprego;
 
   int get idEmprego => _currentEmprego;
 
-  void setCurrentEmprego(int pos){
+  void setCurrentEmprego(int pos) {
     this._currentEmprego = empregos[pos].id;
     notifyListeners();
   }
-  
-  int get currentMonth => currentDate.month-1;
+
+  int get currentMonth => currentDate.month - 1;
   void addMonth() {
-    if(currentMonth == 11){
+    if (currentMonth == 11) {
       currentDate = DateTime.utc(currentDate.year + 1, 1, currentDate.day);
     } else {
       currentDate = DateTime.utc(currentDate.year, currentDate.month + 1, currentDate.day);
@@ -43,43 +43,47 @@ class MainState extends Model {
   }
 
   void decMonth() {
-    if(currentMonth == 0){
-      currentDate = DateTime.utc(currentDate.year -1, 12, currentDate.day);
+    if (currentMonth == 0) {
+      currentDate = DateTime.utc(currentDate.year - 1, 12, currentDate.day);
     } else {
       currentDate = DateTime.utc(currentDate.year, currentDate.month - 1, currentDate.day);
     }
     refreshCalendar();
     notifyListeners();
   }
-  
+
   int get currentYear => currentDate.year;
-  void setYear(int year){
+  void setYear(int year) {
     currentDate = DateTime.utc(year, currentDate.month, currentDate.day);
     refreshCalendar();
     notifyListeners();
   }
 
-  void refreshCalendar(){
+  void refreshCalendar() {
     final mes = currentDate.month;
     final ano = currentDate.year;
-    
-    //se já existir uma página salva, retorna, senão gera uma nova pra cada ano;
-    for(EmpregoDto e in empregos){      
+
+    //se já existir uma página salva, retorna, senão gera uma nova pra cada emprego;
+    for (EmpregoDto e in empregos) {
       final index = e.listCalendarPages.indexWhere((it) => it.year == ano && it.month == mes);
-      if(index >= 0){
-        e.currentPage = e.listCalendarPages[index];
+      if (index >= 0) {
+        e.setCurrentPage(e.listCalendarPages[index]);
       } else {
         final cells = CalendarBuilder.buildCalendarByMonth(ano, mes);
         final newPage = CalendarPageDto(year: ano, month: mes, cells: cells);
         e.listCalendarPages.add(newPage);
-        e.currentPage = newPage;
+        e.setCurrentPage(newPage);
       }
     }
   }
 
-
   void appendEmprego(EmpregoDto emprego) {
-    manager.insertEmprego(emprego).then((e) => empregos.add(e)).whenComplete(() {
+    manager.insertEmprego(emprego).then((EmpregoDto e) {
+      final cells = CalendarBuilder.buildCalendarByMonth(currentYear, currentMonth);
+      final newPage = CalendarPageDto(year: currentYear, month: currentMonth, cells: cells);
+      e.listCalendarPages.add(newPage);
+      empregos.add(e);
+    }).whenComplete(() {
       notifyListeners();
     });
   }

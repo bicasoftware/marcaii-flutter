@@ -21,12 +21,24 @@ class EmpregoDto {
   bool bancoHoras;
   String nomeEmprego, horarioSaida;
   double salario;
-  CalendarPageDto currentPage;
 
+  CalendarPageDto _currentPage;
   final listSalarios = List<SalariosDto>();
   final listHoras = List<HoraDto>();
   final listDiferenciais = List<DiferenciaisDto>();
   final listCalendarPages = List<CalendarPageDto>();
+
+  CalendarPageDto get currentPage {
+    if(_currentPage == null){
+      _currentPage = listCalendarPages[0];
+    }
+
+    return _currentPage;
+  }
+
+  void setCurrentPage(CalendarPageDto cpage){
+    this._currentPage = cpage;
+  }
 
   void appendSalario(SalariosDto salario) {
     //atualiza o valor do salário no model

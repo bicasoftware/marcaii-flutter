@@ -18,8 +18,6 @@ class PageCalendar extends StatelessWidget {
     return l;
   }
 
-  ///gerar lista com meses exibidos e aplicar a cada página do calendário
-
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainState>(
@@ -27,7 +25,6 @@ class PageCalendar extends StatelessWidget {
         return DefaultTabController(
           length: st.empregos.length,
           child: Scaffold(
-            //body: PageCalendarItem(),
             appBar: AppBar(
               title: Text(title),
               actions: <Widget>[

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/utils/SquaredCard.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class CalendarHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final int weekDay = DateTime.now().weekday;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: _getHeaderDays(context, weekDay),
+    final int weekDay = DateUtils.getCurrentWeekday(DateTime.now());
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 1.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: _getHeaderDays(context, weekDay),
+      ),
     );
   }
 
@@ -33,11 +36,9 @@ class CalendarHeader extends StatelessWidget {
     );
 
     return Expanded(
-      child: SquaredCard(
-        borderColor: itsDay ? accentColor : Colors.grey,
-        fillColor: itsDay ? Colors.white10 : Colors.white,
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 1.0),
-        padding: 2.0,
+      child: Container(
+        color: Theme.of(context).primaryColorLight,
+        padding: EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
           day,
           style: itsDay ? itsDayStyle : style,

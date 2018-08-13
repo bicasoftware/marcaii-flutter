@@ -27,8 +27,7 @@ class Strings {
   static const String confirmar_remocao_difer = "Deseja remover o valor diferencial?";
   static const String confirmar_remocao_emprego = "Deseja remover o emprego?";
   static const String novo = "Novo";
-  static const String relatorio = "Relação";
-
+  static const String verTodos = "Ver totais";
 
   static const String porcDifer = "% Diferencial";
   static const String titleRelatorioHoras = "Relatórios de Horas";
@@ -77,7 +76,7 @@ class Exceptions {
   static const recordWithoutOwner = "Record without father ID";
 }
 
-class Consts{
+class Consts {
   static const horaNormal = "CONST_HORANORMAL";
   static const horaFeriados = "CONST_HORAFERIADOS";
   static const horaDiferencial = "CONST_HORADIFF";

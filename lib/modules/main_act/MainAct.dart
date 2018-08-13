@@ -37,9 +37,8 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
 
   static final _fabLabel = [
     Strings.novo,
-    Strings.relatorio,
+    Strings.verTodos,
   ];
-  
 
   static final _titles = ["Cargos", "Calendario"];
 
@@ -49,7 +48,7 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
 
   Icon get currentBottonIcon => _bottomBarIcons[_mainPagePos];
 
-  Icon get currentFabIcon => _fabIcons[_mainPagePos];  
+  Icon get currentFabIcon => _fabIcons[_mainPagePos];
 
   String get currentFabLabel => _fabLabel[_mainPagePos];
 
@@ -57,7 +56,7 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: currentPage,
-      bottomNavigationBar: BottomNavigationBar(        
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: _mainPagePos,
         items: [
           BottomNavigationBarItem(title: Text("Empregos"), icon: Icon(Icons.work)),
@@ -72,7 +71,6 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
           return FloatingActionButton.extended(
             icon: currentFabIcon,
             label: Text(currentFabLabel),
-
             onPressed: () async {
               if (_mainPagePos == 0) {
                 final result = await Navigator.pushNamed(context, Refs.refActGetEmprego);
