@@ -51,9 +51,9 @@ class CalendarBodyItem extends StatelessWidget {
     if(id != null && idEmprego != null) {
       if (tipoHora == Consts.horaNormal) {
         return TipoHoraIndicator(color: Colors.green);
-      } else if (tipoHora == Consts.horaNormal) {
+      } else if (tipoHora == Consts.horaFeriados) {
         return TipoHoraIndicator(color: Colors.orange);
-      } else if (tipoHora == Consts.horaNormal) {
+      } else if (tipoHora == Consts.horaDiferencial) {
         return TipoHoraIndicator(color: Colors.red);
       }
     }

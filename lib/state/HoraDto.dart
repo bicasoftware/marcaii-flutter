@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/models/MdHoras.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class HoraDto {
   HoraDto({
@@ -33,8 +35,8 @@ class HoraDto {
     Map<String, dynamic> map = {
       "idEmprego": idEmprego,
       "quantidade": quantidade,
-      "horaInicial": horaInicial,
-      "horaTermino": horaTermino,
+      "horaInicial": DateUtils.timeOfDayToStr(horaInicial),
+      "horaTermino": DateUtils.timeOfDayToStr(horaTermino),
       "dta": dta,
       "tipoHora": tipoHora,
     };
@@ -52,6 +54,16 @@ class HoraDto {
     this.quantidade = from.quantidade;
     this.horaInicial = from.horaInicial;
     this.horaTermino = from.horaTermino;
+    this.dta = from.dta;
+    this.tipoHora = from.tipoHora;
+  }
+  
+  void copyFrom(MdHoras from){
+    this.id = from.id;
+    this.idEmprego = from.idEmprego;
+    this.quantidade = from.quantidade;
+    this.horaInicial = DateUtils.hourStrToTimeOfDay(from.horaInicial);
+    this.horaTermino = DateUtils.hourStrToTimeOfDay(from.horaTermino);
     this.dta = from.dta;
     this.tipoHora = from.tipoHora;
   }

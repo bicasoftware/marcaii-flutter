@@ -45,7 +45,7 @@ class MdEmpregos {
     return map;
   }
 
-  static fromMap(Map emp) {
+  static MdEmpregos fromMap(Map emp) {
     return MdEmpregos(
       id: emp["id"],
       nomeEmprego: emp["nomeEmprego"],

@@ -32,7 +32,7 @@ class MdSalarios {
     return map;
   }
 
-  static fromMap(Map sal) {
+  static MdSalarios fromMap(Map sal) {
     return MdSalarios(
         id: sal["id"],
         idEmprego: sal["idEmprego"],

@@ -89,7 +89,7 @@ class DBManager {
         d.idEmprego = emprego.id;
         d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
       }
-      
+
       //todo - incluir salarios;
     }
 
@@ -102,7 +102,7 @@ class DBManager {
       where: "id = ?",
       whereArgs: [idEmprego],
     );
-    
+
     return modified > 0;
   }
 
@@ -158,81 +158,60 @@ class DBManager {
     return hora;
   }
 
-  fetchAllEmpregos() async {
+  Future<List<MdEmpregos>> fetchAllEmpregos() async {
     List<Map> result = await _db.query(MdEmpregos.tableName, columns: MdEmpregos.cols);
-    return result.map((emprego) => MdEmpregos.fromMap(emprego)).toList();
+    final empregos = List<MdEmpregos>();
+    result.forEach((Map it) {
+      empregos.add(MdEmpregos.fromMap(it));
+    });
+
+    return empregos;
   }
 
-  Future fetchHorasByEmprego(int idEmprego) async {
-    List<Map> result = await _db.query(
-      MdHoras.tableName,
-      columns: MdHoras.cols,
-      where: "idemprego = ?",
-      whereArgs: [idEmprego],
-    );
-    return result.map((it) => MdHoras.fromMap(it)).toList();
-  }
-
-  fetchPorcentagensDiferByEmprego(int idEmprego) async {
-    List<Map> result = await _db.query(
-      MdPorcDifer.tableName,
-      columns: MdPorcDifer.cols,
-      where: "idemprego = ?",
-      whereArgs: [idEmprego],
-    );
-    return result.map((porc) => MdPorcDifer.fromMap(porc)).toList();
-  }
-
-  fetchSalariosByEmprego(int idEmprego) async {
+  Future<List<MdSalarios>> fetchSalariosByEmprego(int idEmprego) async {
     final result = await _db.query(
       MdSalarios.tableName,
       columns: MdSalarios.cols,
       where: "idemprego = ?",
       whereArgs: [idEmprego],
     );
-    return result.map((salario) => MdSalarios.fromMap(salario)).toList();
+
+    final salarios = List<MdSalarios>();
+    result.forEach((it) {
+      salarios.add(MdSalarios.fromMap(it));
+    });
+
+    return salarios;
+  }
+
+  Future<List<MdHoras>> fetchHorasByEmprego(int idEmprego) async {
+    List<Map> result = await _db.query(
+      MdHoras.tableName,
+      columns: MdHoras.cols,
+      where: "idemprego = ?",
+      whereArgs: [idEmprego],
+    );
+    final horas = List<MdHoras>();
+    result.forEach((it){
+      horas.add(MdHoras.fromMap(it));
+    });
+
+    return horas;
+  }
+
+  Future<List<MdPorcDifer>> fetchPorcentagensDiferByEmprego(int idEmprego) async {
+    List<Map> result = await _db.query(
+      MdPorcDifer.tableName,
+      columns: MdPorcDifer.cols,
+      where: "idemprego = ?",
+      whereArgs: [idEmprego],
+    );
+
+    final porcs = List<MdPorcDifer>();
+    result.forEach((it) {
+      porcs.add(MdPorcDifer.fromMap(it));
+    });
+
+    return porcs;
   }
 }
-
-/**
- * _lerHoras() async {
-  var man = DBManager();
-  await man.create();
-  var horas = await man.fetchAllHoras();
-  horas.forEach((hora) => print(hora.horaTermino));
-  }
-
-  _insertHora() async {
-  var h = MdHoras(
-  idEmprego: 1,
-  horaInicial: "18:00",
-  horaTermino: "19:00",
-  dta: "2018-06-20",
-  quantidade: 60,
-  tipoHora: 1,
-  );
-
-  try {
-  var man = DBManager();
-  await man.create();
-  h = await man.upsertHora(h);
-  man.closeDb();
-  print("inserido: ${h.id}");
-  } catch (e) {
-  print(e);
-  }
-  }
-
-  _insertPorcDifer() async {
-  var pd = MdPorcDifer(diaSemana: 1, porcAdicional: 200, idEmprego: 1);
-  try {
-  var man = DBManager();
-  await man.create();
-  pd = await man.upsertPorcDifer(pd);
-  man.closeDb();
-  print("added ${pd.id}");
-  } catch (e) {
-  print(e);
-  }
-  }
- * */

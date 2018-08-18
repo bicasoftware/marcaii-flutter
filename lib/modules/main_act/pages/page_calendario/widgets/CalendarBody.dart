@@ -45,7 +45,7 @@ class CalendarBody extends StatelessWidget {
       return CalendarBodyItem(
         cell: cell,
         onCellTap: (data, hora) async {
-          if (hora.id == null) {
+          //if (hora.id == null) {
             final result = await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) {
                 return ActGetHoras(
@@ -58,9 +58,9 @@ class CalendarBody extends StatelessWidget {
             if (result != null && result is CalendarCellDto) {
               onSave(result);
             }
-          } else {
+          //} else {
             //todo - mostrar bottomsheet com a hora referente
-          }
+          //}
         },
       );
     }).toList();

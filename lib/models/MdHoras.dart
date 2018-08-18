@@ -61,7 +61,7 @@ class MdHoras {
     );
   }
 
-  static fromMap(Map map) {
+  static MdHoras fromMap(Map map) {
     final h = MdHoras();
     h.id = map["id"];
     h.idEmprego = map["idEmprego"];
