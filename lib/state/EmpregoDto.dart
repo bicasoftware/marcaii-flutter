@@ -42,7 +42,7 @@ class EmpregoDto {
 
   void appendSalario(SalariosDto salario) {
     //atualiza o valor do salário no model
-    this.salario = salario.salario;
+    this.salario = salario.valorSalario;
 
     //mapeia todos os salários e seta status como false
     listSalarios.forEach((s) => s.status = false);
@@ -60,6 +60,13 @@ class EmpregoDto {
 
   void appendHora(HoraDto hora) {
     listHoras.add(hora);
+  }
+  
+  void updateHora(HoraDto hora){
+    final index = listHoras.indexWhere((h) => h.id == hora.id);
+    if(index > -1){
+      listHoras[index] = hora;
+    }
   }
 
   EmpregoState toState() {

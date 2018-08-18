@@ -1,9 +1,9 @@
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class CalendarBuilder {
-  ///todo - gerar state em StateBuilder e gerar calendário!
-  static List<CalendarCellDto> buildCalendarByMonth(int year, int month) {
+  static List<CalendarCellDto> buildCalendarByMonth(int year, int month, int idEmprego) {
     DateTime date = DateTime.utc(year, month, 1);
     final days = List<CalendarCellDto>();
 
@@ -15,7 +15,15 @@ class CalendarBuilder {
     }
 
     while (date.month == month) {
-      days.add(CalendarCellDto(date: date, hora: HoraDto()));
+      days.add(
+        CalendarCellDto(
+          date: date,
+          hora: HoraDto(
+            idEmprego: idEmprego,
+            dta: DateUtils.dateTimeToString(date),
+          ),
+        ),
+      );
       date = date.add(Duration(days: 1));
     }
 

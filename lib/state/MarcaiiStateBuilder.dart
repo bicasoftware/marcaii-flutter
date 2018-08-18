@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/CalendarPageDto.dart';
 import 'package:marcaii_flutter/models/MdHoras.dart';
 import 'package:marcaii_flutter/models/MdPorcDifer.dart';
@@ -11,6 +12,7 @@ import 'package:marcaii_flutter/state/HoraDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/DBManager.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class MarcaiiStateBuilder {
   static void doOnFirstRun() async {
@@ -37,16 +39,16 @@ class MarcaiiStateBuilder {
       porcAdicional: 110,
     );
 
-    final salario = MdSalarios(
+    final salario = SalariosDto(
       valorSalario: 1365.0,
-      status: 1,
+      status: true,
       vigencia: "2018-01",
     );
 
-    final hora1 = MdHoras(
+    final hora1 = HoraDto(
       dta: "2018-07-01",
-      horaInicial: "18:00",
-      horaTermino: "19:00",
+      horaInicial: TimeOfDay(hour: 18, minute: 00),
+      horaTermino: TimeOfDay(hour: 18, minute: 00),
       quantidade: 60,
       tipoHora: "CONST_HORANORMAL",
     );
@@ -102,7 +104,7 @@ class MarcaiiStateBuilder {
             var salarioDto = SalariosDto(
               id: salario.id,
               idEmprego: emprego.id,
-              salario: salario.valorSalario,
+              valorSalario: salario.valorSalario,
               status: salario.status == 0 ? false : true,
               vigencia: salario.vigencia,
             );
@@ -123,7 +125,7 @@ class MarcaiiStateBuilder {
           }
 
           //todo - linkar horas e valores do calendário
-          final calendar = CalendarBuilder.buildCalendarByMonth(year, month);
+          final calendar = CalendarBuilder.buildCalendarByMonth(year, month, emprego.id);
           final currentPage = CalendarPageDto(year: year, month: month, cells: calendar);
           empregoDto.listCalendarPages.add(currentPage);
           empregoDto.setCurrentPage(currentPage);
@@ -134,8 +136,8 @@ class MarcaiiStateBuilder {
                 id: hora.id,
                 idEmprego: emprego.id,
                 dta: hora.dta,
-                horaInicial: hora.horaInicial,
-                horaTermino: hora.horaTermino,
+                horaInicial: DateUtils.hourStrToTimeOfDay(hora.horaInicial),
+                horaTermino: DateUtils.hourStrToTimeOfDay(hora.horaTermino),
                 quantidade: hora.quantidade,
                 tipoHora: hora.tipoHora);
 

@@ -3,14 +3,16 @@ import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/C
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarHeader.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarNavigator.dart';
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
+import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PageCalendarioItem extends StatelessWidget {
-
-  const PageCalendarioItem({Key key, @required this.cells}) : super(key: key);
+  const PageCalendarioItem({Key key, @required this.cells, @required this.listDifer})
+      : super(key: key);
 
   final List<CalendarCellDto> cells;
+  final List<DiferenciaisDto> listDifer;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,10 @@ class PageCalendarioItem extends StatelessWidget {
             },
           ),
           CalendarHeader(),
-          CalendarBody(cells: cells),
+          CalendarBody(
+            cells: cells,
+            listDifer: listDifer,
+          )
         ],
       ),
     );

@@ -40,22 +40,24 @@ class CalendarBodyItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(cell.date.day.toString().padLeft(2, "0")),
-            _getIndicator(cell.hora.tipoHora),
+            _getIndicator(cell.hora.id, cell.hora.idEmprego, cell.hora.tipoHora),
           ],
         ),
       ),
     );
   }
 
-  Widget _getIndicator(String tipoHora) {
-    if (tipoHora == Consts.horaNormal) {
-      return TipoHoraIndicator(color: Colors.green);
-    } else if (tipoHora == Consts.horaNormal) {
-      return TipoHoraIndicator(color: Colors.orange);
-    } else if (tipoHora == Consts.horaNormal) {
-      return TipoHoraIndicator(color: Colors.red);
-    } else {
-      return Container(width: 1.0, height: 1.0);
+  Widget _getIndicator(int id, int idEmprego, String tipoHora) {
+    if(id != null && idEmprego != null) {
+      if (tipoHora == Consts.horaNormal) {
+        return TipoHoraIndicator(color: Colors.green);
+      } else if (tipoHora == Consts.horaNormal) {
+        return TipoHoraIndicator(color: Colors.orange);
+      } else if (tipoHora == Consts.horaNormal) {
+        return TipoHoraIndicator(color: Colors.red);
+      }
     }
+
+    return Container(width: 1.0, height: 1.0);
   }
 }

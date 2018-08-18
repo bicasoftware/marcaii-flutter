@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class DefaultListItem extends StatelessWidget {
-  const DefaultListItem(
-      {Key key,
-      @required this.title,
-      @required this.icon,
-      @required this.contentChild,
-      @required this.onTap,
-      this.isLast: false})
-      : super(key: key);
+  const DefaultListItem({
+    Key key,
+    @required this.title,
+    @required this.icon,
+    @required this.contentChild,
+    @required this.onTap,
+    this.isLast: false,
+    this.iconColor: Colors.black54,
+  }) : super(key: key);
 
   final String title;
   final IconData icon;
   final GestureTapCallback onTap;
   final Widget contentChild;
+  final Color iconColor;
   final bool isLast;
 
   Widget _paintDivider(BuildContext context) {
@@ -31,7 +33,10 @@ class DefaultListItem extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: ListTile(
-            leading: Icon(icon, color: Colors.black54,),
+            leading: Icon(
+              icon,
+              color: iconColor,
+            ),
             title: Row(
               children: <Widget>[
                 ExpandedListTitle(

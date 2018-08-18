@@ -6,6 +6,8 @@ import 'package:marcaii_flutter/models/MdHoras.dart';
 import 'package:marcaii_flutter/models/MdPorcDifer.dart';
 import 'package:marcaii_flutter/models/MdSalarios.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -67,13 +69,13 @@ class DBManager {
         d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
       }
 
-      emprego.listDiferenciais.forEach((it) => print(it.toString()));
+      //todo - incluir salarios;
     }
     return emprego;
   }
 
   ///atualiza emprego, dropa todas as diferencias do emprego e recria
-  Future updateEmprego(EmpregoDto emprego) async {
+  Future<EmpregoDto> updateEmprego(EmpregoDto emprego) async {
     if (emprego.id != null) {
       await _db.update(
         MdEmpregos.tableName,
@@ -87,9 +89,11 @@ class DBManager {
         d.idEmprego = emprego.id;
         d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
       }
-
-      return emprego;
+      
+      //todo - incluir salarios;
     }
+
+    return emprego;
   }
 
   Future deleteEmprego(int idEmprego) async {
@@ -120,19 +124,13 @@ class DBManager {
     return pd;
   }
 
-  Future upsertSalario(MdSalarios salario) async {
+  Future<SalariosDto> upsertSalario(SalariosDto salario) async {
     if (salario.idEmprego == null) {
       throw Exception(Exceptions.recordWithoutOwner);
     }
 
     if (salario.id == null) {
       //atualiza todos os salários do emprego como inativos
-
-      // await _db.execute(
-      //   "update salarios(ativo) values (0) where idemprego = ?",
-      //   [salario.idEmprego],
-      // );
-
       await _db.update(
         MdSalarios.tableName,
         salario.toMap(),
@@ -140,22 +138,21 @@ class DBManager {
         whereArgs: [salario.idEmprego],
       );
 
-      // await _db.execute(
-      //   "update salarios(status) values (0) where idemprego = ${salario.idEmprego}",
-      // );
       //e insere o novo salário como ativo
       salario.id = await _db.insert(MdSalarios.tableName, salario.toMap());
       return salario;
     } else {
       _db.update(MdSalarios.tableName, salario.toMap());
     }
+
+    return salario;
   }
 
-  Future<MdHoras> upsertHora(MdHoras hora) async {
+  Future<HoraDto> upsertHora(HoraDto hora) async {
     if (hora.id == null) {
       hora.id = await _db.insert(MdHoras.tableName, hora.toMap());
     } else {
-      await _db.update("horas", hora.toMap(), where: "id = ?", whereArgs: [hora.id]);
+      await _db.update(MdHoras.tableName, hora.toMap(), where: "id = ?", whereArgs: [hora.id]);
     }
 
     return hora;
@@ -166,7 +163,7 @@ class DBManager {
     return result.map((emprego) => MdEmpregos.fromMap(emprego)).toList();
   }
 
-  fetchHorasByEmprego(int idEmprego) async {
+  Future fetchHorasByEmprego(int idEmprego) async {
     List<Map> result = await _db.query(
       MdHoras.tableName,
       columns: MdHoras.cols,

@@ -1,3 +1,6 @@
+import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
+
 class MdHoras {
   MdHoras({
     this.id,
@@ -44,6 +47,18 @@ class MdHoras {
     }
 
     return map;
+  }
+
+  HoraDto toDto() {
+    return HoraDto(
+      id: id,
+      horaInicial: DateUtils.hourStrToTimeOfDay(horaInicial),
+      horaTermino: DateUtils.hourStrToTimeOfDay(horaTermino),
+      dta: dta,
+      idEmprego: idEmprego,
+      quantidade: quantidade,
+      tipoHora: tipoHora,
+    );
   }
 
   static fromMap(Map map) {

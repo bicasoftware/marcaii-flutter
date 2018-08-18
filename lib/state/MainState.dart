@@ -1,9 +1,7 @@
 import 'package:marcaii_flutter/models/CalendarPageDto.dart';
 import 'package:marcaii_flutter/state/CalendarBuilder.dart';
-import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
-import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/DBManager.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -69,7 +67,7 @@ class MainState extends Model {
       if (index >= 0) {
         e.setCurrentPage(e.listCalendarPages[index]);
       } else {
-        final cells = CalendarBuilder.buildCalendarByMonth(ano, mes);
+        final cells = CalendarBuilder.buildCalendarByMonth(ano, mes, e.id);
         final newPage = CalendarPageDto(year: ano, month: mes, cells: cells);
         e.listCalendarPages.add(newPage);
         e.setCurrentPage(newPage);
@@ -79,7 +77,7 @@ class MainState extends Model {
 
   void appendEmprego(EmpregoDto emprego) {
     manager.insertEmprego(emprego).then((EmpregoDto e) {
-      final cells = CalendarBuilder.buildCalendarByMonth(currentYear, currentMonth);
+      final cells = CalendarBuilder.buildCalendarByMonth(currentYear, currentMonth, e.id);
       final newPage = CalendarPageDto(year: currentYear, month: currentMonth, cells: cells);
       e.listCalendarPages.add(newPage);
       empregos.add(e);
@@ -105,18 +103,21 @@ class MainState extends Model {
     });
   }
 
-  void appendHora(int empregoPos, HoraDto hora) {
-    empregos[empregoPos].appendHora(hora);
-    notifyListeners();
+  void insertHora(int idEmprego, HoraDto hora) {
+    manager.upsertHora(hora).then((newHora) {
+      final index = empregos.indexWhere((e) => e.id == idEmprego);
+      if (index > -1) {
+        empregos[index].appendHora(newHora);
+      }
+    }).whenComplete(() => notifyListeners());
   }
 
-  void appendSalario(int empregoPos, SalariosDto salario) {
-    empregos[empregoPos].appendSalario(salario);
-    notifyListeners();
-  }
-
-  void appendPorcDifer(int empregoPos, DiferenciaisDto difer) {
-    empregos[empregoPos].appendPorcDifer(difer);
-    notifyListeners();
+  void updateHora(int idEmprego, HoraDto hora) {
+    manager.upsertHora(hora).then((newHora) {
+      final index = empregos.indexWhere((e) => e.id == idEmprego);
+      if (index > -1) {
+        empregos[index].updateHora(newHora);
+      }
+    }).whenComplete(() => notifyListeners());
   }
 }

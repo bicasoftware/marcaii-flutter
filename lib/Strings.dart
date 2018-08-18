@@ -1,6 +1,12 @@
 class Strings {
   static const String appName = "Marcaii";
   static const String actGetEmprego = "Empregos";
+  static const String actGetHoras = "Hora Extra";
+  static const String horaInicial = "Início Extra";
+  static const String horaTermino = "Termino Extra";
+  static const String horaNormal = "% Normal";
+  static const String horaFeriado = "% Completa";
+  static const String horaDiferencial = "% Diferencial";
   static const String calendario = "Calendário";
   static const String empregos = "Empregos";
   static const String dadosCargo = "Dados do Cargo";
@@ -28,6 +34,7 @@ class Strings {
   static const String confirmar_remocao_emprego = "Deseja remover o emprego?";
   static const String novo = "Novo";
   static const String verTodos = "Ver totais";
+  static const String tipoExtra = "Porcentagem extra: ";
 
   static const String porcDifer = "% Diferencial";
   static const String titleRelatorioHoras = "Relatórios de Horas";
@@ -41,6 +48,7 @@ class Strings {
 class Refs {
   static const String refActGetEmprego = "ACTGETEMPREGO";
   static const String refActRelatorio = "REFACTRELATORIO";
+  static const String refActGetHoras = "REFACTGETHORAS";
 }
 
 class Warn {
@@ -49,6 +57,7 @@ class Warn {
   static const String warPorcInvalida = "Digite um valor maior que 30";
   static const String warFechamento = "O dia deve ser entre 01 e 30";
   static const String warTextApenas = "Apenas letras são permitidas";
+  static const String warHorasInvalidas = "Horas inválidas";
 }
 
 class Arrays {

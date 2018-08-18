@@ -44,8 +44,12 @@ class PageCalendar extends StatelessWidget {
                       .toList()),
             ),
             body: TabBarView(
-              children:
-                  st.empregos.map((e) => PageCalendarioItem(cells: e.currentPage.cells)).toList(),
+              children: st.empregos.map((e) {
+                return PageCalendarioItem(
+                  cells: e.currentPage.cells,
+                  listDifer: e.listDiferenciais,
+                );
+              }).toList(),
             ),
           ),
         );

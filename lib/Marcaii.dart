@@ -28,7 +28,7 @@ class MarcaiiState extends State<Marcaii> {
           primaryColor: Colors.indigo,
           primaryColorLight: Colors.white70,
           accentColor: Colors.blueAccent,
-          brightness: Brightness.light,          
+          brightness: Brightness.light,
           dividerColor: Colors.grey,
         ),
         home: MainAct(),

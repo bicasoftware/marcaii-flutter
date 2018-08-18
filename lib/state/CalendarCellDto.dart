@@ -1,3 +1,5 @@
+import 'package:marcaii_flutter/modules/act_get_horas/ModelHora.dart';
+import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
 
 class CalendarCellDto {
@@ -5,4 +7,17 @@ class CalendarCellDto {
   final HoraDto hora;
 
   const CalendarCellDto({this.date, this.hora});
+
+  ModelHora toState(List<DiferenciaisDto> list) {
+    return ModelHora(
+      date: date,
+      horaDto: hora,
+      listDif: list,
+    );
+  }
+
+  @override
+  String toString() {
+    return """date: ${date.toIso8601String()} - hora: ${hora.toString()}""";
+  }
 }
