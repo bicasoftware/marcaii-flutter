@@ -17,7 +17,7 @@ class ModelHora extends Model {
   HoraDto horaDto;
 
   bool hasDiferencial() {
-    return listDif.indexWhere((it) => it.diaSemana == DateUtils.getCurrentWeekday(date)) > 0;
+    return listDif.indexWhere((it) => it.diaSemana == DateUtils.getCurrentWeekday(date)) > -1;
   }
 
   void setHoraInicio(TimeOfDay horaInicio) {

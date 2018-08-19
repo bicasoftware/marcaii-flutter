@@ -127,16 +127,8 @@ class MarcaiiStateBuilder {
 
           ///Linka horas salvas no banco com os respectivos itens do calendário
           List<MdHoras> horas = await db.fetchHorasByEmprego(emprego.id);
-          final cells = CalendarBuilder.buildCalendarByMonth(year, month, emprego.id);
-          cells.where((it) => it != null).forEach((CalendarCellDto c) {
-            String parsedDate = DateUtils.dateTimeToString(c.date);
-            MdHoras hora = horas.firstWhere((h) => h.dta == parsedDate, orElse: () => null);
-            if (hora != null) {
-              c.hora.copyFrom(hora);
-            }
-          });
-
-          final currentPage = CalendarPageDto(year: year, month: month, cells: cells);
+          final currentPage =
+              getCalendarPage(horas: horas, month: month, year: year, idEmprego: emprego.id);
           empregoDto.listCalendarPages.add(currentPage);
           empregoDto.setCurrentPage(currentPage);
 
@@ -161,5 +153,19 @@ class MarcaiiStateBuilder {
     }
 
     return MainState(DateTime.now(), empregos: listEmpregos);
+  }
+
+  static CalendarPageDto getCalendarPage(
+      {int idEmprego, year: int, month: int, List<MdHoras> horas}) {
+    final cells = CalendarBuilder.buildCalendarByMonth(year, month, idEmprego);
+    cells.where((it) => it != null).forEach((CalendarCellDto c) {
+      String parsedDate = DateUtils.dateTimeToString(c.date);
+      MdHoras hora = horas.firstWhere((h) => h.dta == parsedDate, orElse: () => null);
+      if (hora != null) {
+        c.hora.copyFrom(hora);
+      }
+    });
+
+    return CalendarPageDto(year: year, month: month, cells: cells);
   }
 }
