@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/PageCalendar.dart';
-import 'package:marcaii_flutter/modules/main_act/pages/page_list_empregos/PageListEmpregos.dart';
+import 'package:marcaii_flutter/modules/page_calendario/ViewPageCalendario.dart';
+import 'package:marcaii_flutter/modules/page_list_emprego/PageListEmpregos.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -20,9 +20,9 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
     });
   }
 
-  static final _mainPages = [
+  static final _mainPages = [ 
     PageListEmpregos(title: Strings.empregos),
-    PageCalendar(title: Strings.calendario),
+    ViewPageCalendario(),
   ];
 
   static final _bottomBarIcons = [
