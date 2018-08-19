@@ -21,7 +21,6 @@ class ViewPageCalendario extends StatelessWidget {
               actions: <Widget>[
                 presenter.getDropdownAnos(),
               ],
-              //bottom: presenter.getTabBar(model.empregos),
               bottom: NavigationTabBar(
                 onNext: () => model.addMonth(),
                 onPrev: () => model.decMonth(),

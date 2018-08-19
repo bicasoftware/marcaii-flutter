@@ -4,8 +4,11 @@ import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 
 class PageCalendarioItem extends StatelessWidget {
-  const PageCalendarioItem({Key key, @required this.cells, @required this.listDifer})
-      : super(key: key);
+  const PageCalendarioItem({
+    Key key,
+    @required this.cells,
+    @required this.listDifer,
+  }) : super(key: key);
 
   final List<CalendarCellDto> cells;
   final List<DiferenciaisDto> listDifer;
