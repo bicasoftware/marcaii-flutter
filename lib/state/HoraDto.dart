@@ -68,13 +68,12 @@ class HoraDto {
     this.tipoHora = from.tipoHora;
   }
 
-  void clear() {
+  void clear(DateTime date) {
     this.id = null;
-    this.idEmprego = null;
     this.horaInicial = DateUtils.hourStrToTimeOfDay("18:00");
     this.horaTermino = DateUtils.hourStrToTimeOfDay("19:00");
     this.quantidade = 60;
-    this.dta = "null";
+    this.dta = DateUtils.dateTimeToString(date);
     this.tipoHora = Consts.horaNormal;
   }
 }

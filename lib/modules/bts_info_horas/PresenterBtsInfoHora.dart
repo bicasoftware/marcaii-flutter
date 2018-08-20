@@ -30,7 +30,9 @@ class PresenterBtsInfoHora {
         Icons.refresh,
         color: Colors.amber,
       ),
-      onPressed: () => Navigator.of(context).pop("alterar"),
+      onPressed: () {
+        return Navigator.of(context).pop(BtsResult(action: BtsAction.UPDATE, cellDto: cell));
+      },
     );
   }
 

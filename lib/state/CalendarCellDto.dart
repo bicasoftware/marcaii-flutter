@@ -17,7 +17,7 @@ class CalendarCellDto {
   }
 
   void clear(){
-    hora.clear();
+    hora.clear(date);
   }
 
   @override

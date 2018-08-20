@@ -108,6 +108,8 @@ class CalendarBody extends StatelessWidget {
         );
 
         if (confirmation) onDelete(cell);
+      } else if(result.action == BtsAction.UPDATE){
+        _callActGetHora(context, cell, onSave);
       }
     }
   }

@@ -110,9 +110,6 @@ class MainState extends Model {
     });
   }
 
-  ///todo - revisar pq não está removendo a hora do calendário;
-  ///está removendo o item da lista, mas não está removendo o valor da view em si
-
   void deleteHora({int idEmprego, int id}) {
     manager.deleteHora(idEmprego, id).then((sucess) {
       if (sucess) {
