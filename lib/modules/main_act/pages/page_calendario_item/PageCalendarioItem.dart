@@ -8,10 +8,15 @@ class PageCalendarioItem extends StatelessWidget {
     Key key,
     @required this.cells,
     @required this.listDifer,
+    @required this.salarioHora,
+    @required this.porcNormal,
+    @required this.porcFeriados,
   }) : super(key: key);
 
   final List<CalendarCellDto> cells;
   final List<DiferenciaisDto> listDifer;
+  final double salarioHora;
+  final int porcNormal, porcFeriados;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +26,9 @@ class PageCalendarioItem extends StatelessWidget {
           CalendarBody(
             cells: cells,
             listDifer: listDifer,
+            salarioHora: salarioHora,
+            porcNormal: porcNormal,
+            porcFeriados: porcFeriados,
           )
         ],
       ),

@@ -15,10 +15,15 @@ class CalendarBody extends StatelessWidget {
     Key key,
     @required this.cells,
     @required this.listDifer,
+    @required this.salarioHora,
+    @required this.porcNormal,
+    @required this.porcFeriados,
   }) : super(key: key);
 
   final List<CalendarCellDto> cells;
   final List<DiferenciaisDto> listDifer;
+  final double salarioHora;
+  final int porcNormal, porcFeriados;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +102,15 @@ class CalendarBody extends StatelessWidget {
   ) async {
     final result = await showModalBottomSheet(
       context: context,
-      builder: (context) => BottomSheetInfoHoras(cell: cell),
+      builder: (context) {
+        return BottomSheetInfoHoras(
+          cell: cell,
+          salarioHora: salarioHora,
+          porcNormal: porcNormal,
+          porcFeriados: porcFeriados,
+          listDif: listDifer,
+        );
+      },
     );
 
     if (result != null && result is BtsResult) {
@@ -108,7 +121,7 @@ class CalendarBody extends StatelessWidget {
         );
 
         if (confirmation) onDelete(cell);
-      } else if(result.action == BtsAction.UPDATE){
+      } else if (result.action == BtsAction.UPDATE) {
         _callActGetHora(context, cell, onSave);
       }
     }

@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/modules/bts_info_horas/PresenterBtsInfoHora.dart';
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
+import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 
 class BottomSheetInfoHoras extends StatelessWidget {
   final CalendarCellDto cell;
+  final double salarioHora;
+  final int porcNormal, porcFeriados;
+  final List<DiferenciaisDto> listDif;
 
-  const BottomSheetInfoHoras({Key key, this.cell}) : super(key: key);
+  const BottomSheetInfoHoras({
+    Key key,
+    @required this.cell,
+    @required this.salarioHora,
+    @required this.porcNormal,
+    @required this.porcFeriados,
+    @required this.listDif,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final presenter = PresenterBtsInfoHora(cell);
+    final presenter = PresenterBtsInfoHora(
+      cell: cell,
+      salarioHora: salarioHora,
+      porcNormal: porcNormal,
+      porcFeriados: porcFeriados,
+      listDif: listDif,
+    );
 
     return Container(
       padding: EdgeInsets.only(

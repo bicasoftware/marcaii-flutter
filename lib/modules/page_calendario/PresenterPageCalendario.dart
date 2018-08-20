@@ -58,9 +58,13 @@ class PresenterPageCalendario {
     return Expanded(
       child: TabBarView(
         children: empregos.map((e) {
+          final salario = e.salario ?? 1200.0;          
           return PageCalendarioItem(
+            salarioHora: (salario) / e.cargaHoraria,
             cells: e.currentPage.cells,
             listDifer: e.listDiferenciais,
+            porcNormal: e.porcNormal,
+            porcFeriados: e.porcFeriados,
           );
         }).toList(),
       ),

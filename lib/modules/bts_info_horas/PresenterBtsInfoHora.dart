@@ -3,13 +3,23 @@ import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_get_horas/PresenterHora.dart';
 import 'package:marcaii_flutter/modules/bts_info_horas/BtsAction.dart';
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
+import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class PresenterBtsInfoHora {
   final CalendarCellDto cell;
+  final double salarioHora;
+  final int porcNormal, porcFeriados;
+  final List<DiferenciaisDto> listDif;
 
-  PresenterBtsInfoHora(this.cell);
+  const PresenterBtsInfoHora({
+    this.cell,
+    this.salarioHora,
+    this.porcNormal,
+    this.porcFeriados,
+    this.listDif,
+  });
 
   Widget getDateLabel() {
     return Expanded(
@@ -85,9 +95,29 @@ class PresenterBtsInfoHora {
   }
 
   Widget getValorHora() {
+    //todo - pegar valor da porcentagem diferencial conforme o dia da semana
+    double valor = 0.0;
+    if (cell.hora.tipoHora == Consts.horaNormal) {
+      valor = _calcTotal(porcNormal);
+    } else if (cell.hora.tipoHora == Consts.horaFeriados) {
+      valor = _calcTotal(porcFeriados);
+    } else if (cell.hora.tipoHora == Consts.horaDiferencial) {
+      final porc = listDif
+          .firstWhere((d) => d.diaSemana == DateUtils.getCurrentWeekday(cell.date))
+          .porcAdicional;
+
+      valor = _calcTotal(porc ?? 30);
+    }
     return ListTile(
       leading: Icon(Icons.monetization_on, color: Colors.blue),
-      title: Text("R\$ ${CurrencyUtils.doubleToCurrency(12.0)}"),
+      title: Text("R\$ ${CurrencyUtils.doubleToCurrency(valor)}"),
     );
+  }
+
+  ///O valor é calculado dividindo o salário hora por 60 minutos, obtendo o valor do minuto extra
+  ///multiplicado pela porcentagem
+  ///e finalmente multiplicando pela quantidade de minutos extras;
+  double _calcTotal(int porc){    
+    return ((salarioHora / 60) * (1 + (porc / 100))) * cell.hora.quantidade;
   }
 }
