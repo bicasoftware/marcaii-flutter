@@ -16,6 +16,10 @@ class CalendarCellDto {
     );
   }
 
+  void clear(){
+    hora.clear();
+  }
+
   @override
   String toString() {
     return """date: ${date.toIso8601String()} - hora: ${hora.toString()}""";

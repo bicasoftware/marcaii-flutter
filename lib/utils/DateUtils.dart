@@ -59,6 +59,10 @@ class DateUtils {
     return formater.format(date);
   }
 
+  static String dateTimeToBrString(DateTime date){
+    return DateFormat("dd/MM/yyyy").format(date);
+  }
+
   static String timeOfDayToStr(TimeOfDay time) {
     return "${time.hour.toString().padLeft(2, "0")}:${time.minute.toString().padLeft(2, "0")}";
   }

@@ -55,6 +55,8 @@ class CalendarBodyItem extends StatelessWidget {
         return TipoHoraIndicator(color: Colors.orange);
       } else if (tipoHora == Consts.horaDiferencial) {
         return TipoHoraIndicator(color: Colors.red);
+      } else {
+        Container();
       }
     }
 

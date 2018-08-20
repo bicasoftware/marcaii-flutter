@@ -32,6 +32,7 @@ class Strings {
   static const String confirmacao = "Confirmar ação";
   static const String confirmar_remocao_difer = "Deseja remover o valor diferencial?";
   static const String confirmar_remocao_emprego = "Deseja remover o emprego?";
+  static const String confirmar_remocao_hora = "Deseja remover a hora extra?";
   static const String novo = "Novo";
   static const String verTodos = "Ver totais";
   static const String tipoExtra = "Porcentagem extra: ";

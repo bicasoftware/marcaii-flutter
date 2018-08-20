@@ -106,6 +106,16 @@ class DBManager {
     return modified > 0;
   }
 
+  Future deleteHora(int idEmprego, int id) async {
+    final modified = await _db.delete(
+      MdHoras.tableName,
+      where: "idemprego = ? and id = ?",
+      whereArgs: [idEmprego, id],
+    );
+
+    return modified > 0;
+  }
+
   ///deleta todas as porcentagens diferenciais do emprego
   Future dropPorcDiferByIdEmprego(int idEmprego) async {
     _db.delete(MdPorcDifer.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
@@ -192,7 +202,7 @@ class DBManager {
       whereArgs: [idEmprego],
     );
     final horas = List<MdHoras>();
-    result.forEach((it){
+    result.forEach((it) {
       horas.add(MdHoras.fromMap(it));
     });
 

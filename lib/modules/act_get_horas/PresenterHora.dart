@@ -6,7 +6,7 @@ import 'package:marcaii_flutter/utils/DateUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PresenterHora {
-  TextStyle _hintTextStyle(BuildContext context) {
+  static TextStyle hintTextStyle(BuildContext context) {
     return Theme
         .of(context)
         .primaryTextTheme
@@ -14,8 +14,8 @@ class PresenterHora {
         .copyWith(color: Theme.of(context).accentColor);
   }
 
-  TextStyle _errorTextStyle(BuildContext context) {
-    return _hintTextStyle(context).copyWith(
+  static TextStyle errorTextStyle(BuildContext context) {
+    return hintTextStyle(context).copyWith(
       color: Theme.of(context).errorColor,
       fontWeight: FontWeight.bold,
     );
@@ -92,7 +92,7 @@ class PresenterHora {
       alignment: AlignmentDirectional.topStart,
       child: Text(
         Strings.tipoExtra,
-        style: _hintTextStyle(context),
+        style: hintTextStyle(context),
       ),
     );
   }
@@ -155,12 +155,12 @@ class PresenterHora {
                         ? Text(
                             "Quantidade: ${model.minutes} minutos",
                             textAlign: TextAlign.right,
-                            style: _hintTextStyle(context),
+                            style: hintTextStyle(context),
                           )
                         : Text(
                             Warn.warHorasInvalidas,
                             textAlign: TextAlign.right,
-                            style: _errorTextStyle(context),
+                            style: errorTextStyle(context),
                           );
                   },
                 ),

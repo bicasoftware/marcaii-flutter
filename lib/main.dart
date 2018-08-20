@@ -8,5 +8,8 @@ void main() {
   MarcaiiStateBuilder
       .buildState()
       .then((s) => state = s)
-      .whenComplete(() => runApp(Marcaii(state: state)));
+      .whenComplete(() {
+        MaterialPageRoute.debugEnableFadingRoutes = true;
+        runApp(Marcaii(state: state));
+      });
 }

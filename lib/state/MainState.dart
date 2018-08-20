@@ -29,6 +29,7 @@ class MainState extends Model {
   }
 
   int get currentMonth => currentDate.month - 1;
+
   void addMonth() {
     if (currentMonth == 11) {
       currentDate = DateTime.utc(currentDate.year + 1, 1, currentDate.day);
@@ -52,6 +53,7 @@ class MainState extends Model {
   }
 
   int get currentYear => currentDate.year;
+
   void setYear(int year) {
     currentDate = DateTime.utc(year, currentDate.month, currentDate.day);
     refreshCalendar();
@@ -78,7 +80,7 @@ class MainState extends Model {
 
   void appendEmprego(EmpregoDto emprego) {
     manager.insertEmprego(emprego).then((EmpregoDto e) {
-      final cells = CalendarBuilder.buildCalendarByMonth(currentYear, currentMonth+1, e.id);
+      final cells = CalendarBuilder.buildCalendarByMonth(currentYear, currentMonth + 1, e.id);
       final newPage = CalendarPageDto(year: currentYear, month: currentMonth, cells: cells);
       e.listCalendarPages.add(newPage);
       empregos.add(e);
@@ -92,10 +94,9 @@ class MainState extends Model {
       final int pos = empregos.indexWhere((it) => it.id == e.id);
       final horas = await manager.fetchHorasByEmprego(emprego.id);
       final newPage = MarcaiiStateBuilder.getCalendarPage(
-        year: currentYear, month: currentMonth+1, idEmprego: e.id, horas: horas
-      );
+          year: currentYear, month: currentMonth + 1, idEmprego: e.id, horas: horas);
       e.listCalendarPages.add(newPage);
-      empregos[pos] = e;      
+      empregos[pos] = e;
     }).whenComplete(() {
       notifyListeners();
     });
@@ -107,6 +108,17 @@ class MainState extends Model {
     }).whenComplete(() {
       notifyListeners();
     });
+  }
+
+  ///todo - revisar pq não está removendo a hora do calendário;
+  ///está removendo o item da lista, mas não está removendo o valor da view em si
+
+  void deleteHora({int idEmprego, int id}) {
+    manager.deleteHora(idEmprego, id).then((sucess) {
+      if (sucess) {
+        empregos.firstWhere((e) => e.id == idEmprego).deleteHora(id);
+      }
+    }).whenComplete(() => notifyListeners());
   }
 
   void insertHora(int idEmprego, HoraDto hora) {

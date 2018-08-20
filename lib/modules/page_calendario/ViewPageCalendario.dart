@@ -24,7 +24,7 @@ class ViewPageCalendario extends StatelessWidget {
               bottom: NavigationTabBar(
                 onNext: () => model.addMonth(),
                 onPrev: () => model.decMonth(),
-                onLabelTap: () => print("tapped"),
+                onLabelTap: null,
                 position: model.currentMonth,
                 tabBar: presenter.getTabBar(model.empregos),
               ),

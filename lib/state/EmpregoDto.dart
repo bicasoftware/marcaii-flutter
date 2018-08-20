@@ -29,14 +29,14 @@ class EmpregoDto {
   final listCalendarPages = List<CalendarPageDto>();
 
   CalendarPageDto get currentPage {
-    if(_currentPage == null){
+    if (_currentPage == null) {
       _currentPage = listCalendarPages[0];
     }
 
     return _currentPage;
   }
 
-  void setCurrentPage(CalendarPageDto cpage){
+  void setCurrentPage(CalendarPageDto cpage) {
     this._currentPage = cpage;
   }
 
@@ -61,10 +61,19 @@ class EmpregoDto {
   void appendHora(HoraDto hora) {
     listHoras.add(hora);
   }
-  
-  void updateHora(HoraDto hora){
+
+  void deleteHora(int idHora) {
+    currentPage.cells
+        .where((c) => c != null)
+        .where((c) => c.hora.id != null)
+        .firstWhere((it) => it.hora.id == idHora, orElse: null)?.clear();
+
+    listHoras.removeWhere((h) => h.id == idHora);
+  }
+
+  void updateHora(HoraDto hora) {
     final index = listHoras.indexWhere((h) => h.id == hora.id);
-    if(index > -1){
+    if (index > -1) {
       listHoras[index] = hora;
     }
   }
