@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/PageEmpregoInfo.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/ViewEmprego.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -15,7 +15,7 @@ class ActInsertEmpregos extends StatelessWidget {
     return ScopedModel<EmpregoState>(
       model: emprego.toState(),
       child: Scaffold(
-        body: PageEmpregoInfo(),
+        body: ViewEmprego(),
         appBar: AppBar(
           title: Text(Strings.actGetEmprego),
           actions: <Widget>[

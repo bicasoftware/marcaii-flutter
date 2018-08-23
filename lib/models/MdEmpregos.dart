@@ -1,4 +1,4 @@
-import 'package:marcaii_flutter/modules/act_get_empregos/EmpregoState.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 
 class MdEmpregos {
   MdEmpregos({

@@ -121,7 +121,6 @@ class DBManager {
     _db.delete(MdPorcDifer.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
   }
 
-  ///todo - remover após remover o método doOnFirstRun
   Future upsertPorcDifer(MdPorcDifer pd) async {
     if (pd.id == null) {
       pd.id = await _db.insert(MdPorcDifer.tableName, pd.toMap());

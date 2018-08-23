@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DefaultListItem.dart';
+import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
 import 'package:marcaii_flutter/modules/act_get_horas/ModelHora.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 import 'package:scoped_model/scoped_model.dart';

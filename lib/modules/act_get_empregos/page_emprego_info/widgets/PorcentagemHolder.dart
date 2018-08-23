@@ -3,6 +3,8 @@ import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/ValidatableListItem.dart';
 import 'package:marcaii_flutter/utils/Validation.dart';
 
+//todo - migrar para para IntFormTile
+
 class PorcentagemHolder extends StatelessWidget {
   const PorcentagemHolder({
     Key key,

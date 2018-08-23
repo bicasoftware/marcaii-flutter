@@ -1,3 +1,5 @@
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+
 class Validation {
   static bool isCash(String value) {
     final regex = RegExp(r"""^\d+\,\d{2}$""");
@@ -10,4 +12,12 @@ class Validation {
     return isValid && int.parse(value) >= 30;
   }
 
+  static MoneyMaskedTextController defaultMoneyMask(double initialValue) {
+     return MoneyMaskedTextController(
+      decimalSeparator: ',',
+      thousandSeparator: '.',
+      leftSymbol: "R\$",
+      initialValue: initialValue,
+    );
+  }
 }

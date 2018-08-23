@@ -11,7 +11,8 @@ dependencies:
   sqflite: any
   path_provider: any
   scoped_model: "^0.2.0"
-  numberpicker: "^0.1.4"  
+  numberpicker: "^0.1.4"
+  flutter_masked_text: ^0.6.0
 
 dev_dependencies:
   flutter_test:

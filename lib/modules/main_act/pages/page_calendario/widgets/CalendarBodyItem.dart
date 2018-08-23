@@ -4,7 +4,6 @@ import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/T
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
 
-///todo - implementar on click, ou longclick, remover, deletar horas
 class CalendarBodyItem extends StatelessWidget {
   final CalendarCellDto cell;
   final Function(DateTime, HoraDto) onCellTap;

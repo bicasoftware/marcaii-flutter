@@ -53,7 +53,6 @@ class CalendarBody extends StatelessWidget {
     );
   }
 
-  //todo - revisar rotina, melhorar performance
   List<CalendarBodyItem> _preparedList({
     BuildContext context,
     Function(CalendarCellDto) onSave,

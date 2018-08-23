@@ -33,7 +33,6 @@ class PresenterBtsInfoHora {
     );
   }
 
-  //todo - mostrar activity para atualizar a hora
   Widget getUpdateBtn(BuildContext context) {
     return IconButton(
       icon: Icon(

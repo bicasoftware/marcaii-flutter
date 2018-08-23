@@ -59,6 +59,7 @@ class Warn {
   static const String warFechamento = "O dia deve ser entre 01 e 30";
   static const String warTextApenas = "Apenas letras são permitidas";
   static const String warHorasInvalidas = "Horas inválidas";
+  static const String warDiaInvalido = "Dia de fechamento inválido";
 }
 
 class Arrays {
