@@ -28,45 +28,24 @@ class DefaultListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = TextStyle(color: Theme.of(context).primaryColor, fontSize: 14.0);
+
     return Column(
       children: <Widget>[
-        GestureDetector(
+        ListTile(
           onTap: onTap,
-          child: ListTile(
-            leading: Icon(
-              icon,
-              color: iconColor,
-            ),
-            title: Row(
-              children: <Widget>[
-                ExpandedListTitle(
-                  title: title,
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 8.0),
-                  child: contentChild,
-                ),
-              ],
-            ),
+          leading: Icon(
+            icon,
+            color: iconColor,
           ),
+          title: Text(
+            title,
+            style: titleStyle,
+          ),
+          trailing: contentChild,
         ),
         _paintDivider(context),
       ],
-    );
-  }
-}
-
-class ExpandedListTitle extends StatelessWidget {
-  const ExpandedListTitle({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Text(
-        title,
-        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 14.0),
-      ),
     );
   }
 }

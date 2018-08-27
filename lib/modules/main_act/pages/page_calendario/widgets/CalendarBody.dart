@@ -7,6 +7,7 @@ import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/C
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
+import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 
@@ -15,15 +16,16 @@ class CalendarBody extends StatelessWidget {
     Key key,
     @required this.cells,
     @required this.listDifer,
-    @required this.salarioHora,
     @required this.porcNormal,
     @required this.porcFeriados,
+    @required this.cargaHoraria,
+    @required this.salarios,    
   }) : super(key: key);
 
   final List<CalendarCellDto> cells;
   final List<DiferenciaisDto> listDifer;
-  final double salarioHora;
-  final int porcNormal, porcFeriados;
+  final int porcNormal, porcFeriados, cargaHoraria;
+  final List<SalariosDto> salarios;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +106,8 @@ class CalendarBody extends StatelessWidget {
       builder: (context) {
         return BottomSheetInfoHoras(
           cell: cell,
-          salarioHora: salarioHora,
+          cargaHoraria: cargaHoraria,
+          salarios: salarios,
           porcNormal: porcNormal,
           porcFeriados: porcFeriados,
           listDif: listDifer,

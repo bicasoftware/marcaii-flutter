@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/dialogs/IntPicker.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/PresenterEmprego.dart';
-import 'package:marcaii_flutter/modules/act_get_horas/PresenterHora.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 
 class IntPickerTile extends FormField<int> {
@@ -48,28 +46,19 @@ class IntPickerTile extends FormField<int> {
                       icon,
                       color: Colors.black54,
                     ),
-                    title: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            hintText,
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 8.0),
-                          child: Text(
-                            state.value.toString(),
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
+                    title: Text(
+                      hintText,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    trailing: Text(
+                      state.value.toString(),
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                      ),
                     ),
                     subtitle: state.hasError
                         ? Row(
@@ -78,10 +67,8 @@ class IntPickerTile extends FormField<int> {
                                 child: Text(
                                   Warn.warDiaInvalido,
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(                                    
-                                    color: Theme.of(context).errorColor,
-                                    fontSize: 12.0
-                                  ),
+                                  style: TextStyle(
+                                      color: Theme.of(context).errorColor, fontSize: 12.0),
                                 ),
                               )
                             ],

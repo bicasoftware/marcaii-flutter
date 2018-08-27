@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/MdHoras.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class HoraDto {
@@ -31,7 +30,7 @@ class HoraDto {
     """;
   }
 
-  Map toMap(){
+  Map toMap() {
     Map<String, dynamic> map = {
       "idEmprego": idEmprego,
       "quantidade": quantidade,
@@ -41,14 +40,14 @@ class HoraDto {
       "tipoHora": tipoHora,
     };
 
-    if(id != null){
+    if (id != null) {
       map["id"] = id;
     }
 
     return map;
   }
 
-  void cloneFrom(HoraDto from){
+  void cloneFrom(HoraDto from) {
     this.id = from.id;
     this.idEmprego = from.idEmprego;
     this.horaInicial = from.horaInicial;
@@ -57,16 +56,26 @@ class HoraDto {
     this.dta = from.dta;
     this.tipoHora = from.tipoHora;
   }
-  
-  void copyFrom(MdHoras from){
+
+  void copyFrom(HoraDto from) {
     this.id = from.id;
     this.idEmprego = from.idEmprego;
     this.quantidade = from.quantidade;
-    this.horaInicial = DateUtils.hourStrToTimeOfDay(from.horaInicial);
-    this.horaTermino = DateUtils.hourStrToTimeOfDay(from.horaTermino);
+    this.horaInicial = from.horaInicial;
+    this.horaTermino = from.horaTermino;
     this.dta = from.dta;
     this.tipoHora = from.tipoHora;
   }
+
+  // void copyFrom(MdHoras from){
+  //   this.id = from.id;
+  //   this.idEmprego = from.idEmprego;
+  //   this.quantidade = from.quantidade;
+  //   this.horaInicial = DateUtils.hourStrToTimeOfDay(from.horaInicial);
+  //   this.horaTermino = DateUtils.hourStrToTimeOfDay(from.horaTermino);
+  //   this.dta = from.dta;
+  //   this.tipoHora = from.tipoHora;
+  // }
 
   void clear(DateTime date) {
     this.id = null;

@@ -1,3 +1,5 @@
+import 'package:marcaii_flutter/state/SalariosDto.dart';
+
 class MdSalarios {
   MdSalarios({
     this.id,
@@ -39,6 +41,16 @@ class MdSalarios {
         valorSalario: sal["valorSalario"],
         status: sal["status"],
         vigencia: sal["vigencia"]);
+  }
+
+  SalariosDto toDto(){
+    return SalariosDto(
+      id: this.id,
+      idEmprego: this.idEmprego,
+      valorSalario: this.valorSalario,
+      status: this.status == 1 ? true : false,
+      vigencia: this.vigencia,
+    );
   }
 
   static String createSql() {

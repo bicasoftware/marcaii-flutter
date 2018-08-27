@@ -8,7 +8,7 @@ import 'package:marcaii_flutter/utils/Range.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PresenterPageCalendario {
-  PresenterPageCalendario(this.title);
+  const PresenterPageCalendario(this.title);
 
   final String title;
 
@@ -58,13 +58,13 @@ class PresenterPageCalendario {
     return Expanded(
       child: TabBarView(
         children: empregos.map((e) {
-          final salario = e.salario ?? 1200.0;          
           return PageCalendarioItem(
-            salarioHora: (salario) / e.cargaHoraria,
+            salarios: e.listSalarios,
             cells: e.currentPage.cells,
             listDifer: e.listDiferenciais,
             porcNormal: e.porcNormal,
             porcFeriados: e.porcFeriados,
+            cargaHoraria: e.cargaHoraria,
           );
         }).toList(),
       ),

@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -17,18 +17,14 @@ class EmpregoState extends Model {
     this.horarioSaida,
     this.porcNormal,
     this.porcFeriados,
-    this.valorSalario,
   });
 
   int id;
   bool bancoHoras;
   String nomeEmprego, horarioSaida;
   int porcNormal, porcFeriados, diaFechamento, cargaHoraria;
-  double valorSalario = 1200.0;
 
   bool needUdpate = false;
-
-  //static final List<PorcDiferDto> porcList = List<PorcDiferDto>();
 
   static final List<PorcDiferDto> porcList = [
     PorcDiferDto(id: 0, diaSemana: 0, porcent: 0, valor: 0.0),
@@ -41,8 +37,29 @@ class EmpregoState extends Model {
   ];
 
   List<PorcDiferDto> get getPorcList => porcList;
-
   PorcDiferDto getPorcDiferAt(int weekDay) => porcList[weekDay];
+
+  final salarios = List<SalariosDto>();
+  double get valorSalario {
+    return salarios.firstWhere((s) => s.status == true, orElse: null).valorSalario ?? 9999.0;
+  }
+
+  void updateSalario(double newSalario) {
+    salarios.firstWhere((s) => s.status == true).valorSalario = newSalario;
+    notifyListeners();
+  }
+
+  //todo - repassar rotin
+  void appendSalario(String vigencia, double valor) {
+    salarios.forEach((s) => s.status = false);
+    salarios.add(SalariosDto(
+      idEmprego: id,
+      vigencia: vigencia,
+      valorSalario: valor,
+      status: true,
+    ));
+    notifyListeners();
+  }
 
   void setNomeEmprego(String nome) {
     nomeEmprego = nome;
@@ -74,9 +91,11 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  void setValorSalario(double valorSalario) {
-    this.valorSalario = valorSalario;
-    notifyListeners();
+  void appendPorcDifer(int weekday, int porc, {int id: 0}) {
+    porcList[weekday]
+      ..porcent = porc
+      ..valor = CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc)
+      ..id = id;
   }
 
   void setPorcDifer(int weekday, int porc, {int id: 0}) {
@@ -91,7 +110,7 @@ class EmpregoState extends Model {
     porcList.forEach((it) => it.clear());
   }
 
-  void clearPorcDifer(int weekDay) {    
+  void clearPorcDifer(int weekDay) {
     porcList[weekDay].clear();
     notifyListeners();
   }
@@ -136,8 +155,9 @@ class EmpregoState extends Model {
       print(e);
     }
 
+    empregoDto.listSalarios.addAll(salarios);
+
     return empregoDto;
-    //todo - gerenciar salários aqui
   }
 
   MdEmpregos provideEmprego() {

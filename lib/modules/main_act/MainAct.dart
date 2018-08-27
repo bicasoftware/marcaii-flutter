@@ -15,14 +15,12 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   int _mainPagePos = 0;
 
   void _setPagePos(int i) {
-    setState(() {
-      _mainPagePos = i;
-    });
+    if(i != _mainPagePos) setState(() => _mainPagePos = i);
   }
 
   static final _mainPages = [ 
-    PageListEmpregos(title: Strings.empregos),
-    ViewPageCalendario(),
+    const PageListEmpregos(title: Strings.empregos),
+    const ViewPageCalendario(),
   ];
 
   static final _bottomBarIcons = [
@@ -37,7 +35,7 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
 
   static final _fabLabel = [
     Strings.novo,
-    Strings.verTodos,
+    Strings.verTotais,
   ];
 
   static final _titles = ["Cargos", "Calendario"];

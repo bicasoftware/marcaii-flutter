@@ -69,7 +69,11 @@ class DBManager {
         d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
       }
 
-      //todo - incluir salarios;
+      emprego.listSalarios[0].idEmprego = emprego.id;
+      emprego.listSalarios[0].id = await _db.insert(
+        MdSalarios.tableName,
+        emprego.listSalarios[0].toMap(),
+      );
     }
     return emprego;
   }
@@ -83,14 +87,21 @@ class DBManager {
         where: "id = ?",
         whereArgs: [emprego.id],
       );
-      await dropPorcDiferByIdEmprego(emprego.id);
 
+      //dropa diferenciais e recria
+      await dropPorcDiferByIdEmprego(emprego.id);
       for (final d in emprego.listDiferenciais) {
         d.idEmprego = emprego.id;
         d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
       }
 
-      //todo - incluir salarios;
+      //dropa salarios e recria
+      await dropSalariosByEmprego(emprego.id);
+      for(final s in emprego.listSalarios){
+        s.idEmprego = emprego.id;
+        s.id = await _db.insert(MdSalarios.tableName, s.toMap());
+      }
+
     }
 
     return emprego;
@@ -102,6 +113,12 @@ class DBManager {
       where: "id = ?",
       whereArgs: [idEmprego],
     );
+
+    if(modified > 0) {
+      await _db.delete(MdHoras.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
+      await _db.delete(MdSalarios.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
+      await _db.delete(MdPorcDifer.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
+    }
 
     return modified > 0;
   }
@@ -119,6 +136,11 @@ class DBManager {
   ///deleta todas as porcentagens diferenciais do emprego
   Future dropPorcDiferByIdEmprego(int idEmprego) async {
     _db.delete(MdPorcDifer.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
+  }
+
+  ///deleta todos os salários conforme emprego
+  Future dropSalariosByEmprego(int idEmprego) async {
+    _db.delete(MdSalarios.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
   }
 
   Future upsertPorcDifer(MdPorcDifer pd) async {

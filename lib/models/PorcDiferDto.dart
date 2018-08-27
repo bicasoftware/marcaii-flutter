@@ -9,4 +9,9 @@ class PorcDiferDto {
     this.porcent = 0;
     this.valor = 0.0;
   }
+
+  @override
+    String toString() {
+      return "id: $id, weekDay: $diaSemana, porcent: $porcent, valor: $valor";
+    }
 }

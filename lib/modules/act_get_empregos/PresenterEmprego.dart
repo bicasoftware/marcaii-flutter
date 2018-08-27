@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/ActListSalarios.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/EmpregosDialogs.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/OptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DiferenciaisListItem.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/PorcentagemHolder.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/ValorSalarioHolder.dart';
+import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/PercentDialog.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
@@ -38,15 +42,61 @@ class PresenterEmprego {
     );
   }
 
-  Widget getTextFieldSalario() {
-    return ScopedModelDescendant<EmpregoState>(
-      builder: (ct, ch, md) {
-        return ValorSalarioHolder(
-          formKey: md.formKey,
-          title: Strings.valorSalario,
-          valorSalario: md.valorSalario,
-          onSave: (valor) => md.setValorSalario(valor),
-        );
+  Widget getTileSalario() {
+    return ScopedModelDescendant<EmpregoState>(builder: (ct, ch, md) {
+      return md.id == null ? _getTextFieldSalario(ct, md) : _getAumentoSalarioTile(ct, md);
+    });
+  }
+
+  Widget _getTextFieldSalario(BuildContext ct, EmpregoState md) {
+    return ValorSalarioHolder(
+      formKey: md.formKey,
+      title: Strings.valorSalario,
+      valorSalario: md.valorSalario,
+      onSave: (valor) => md.updateSalario(valor),
+    );
+  }
+
+  Widget _getAumentoSalarioTile(BuildContext ct, EmpregoState md) {
+    return DefaultListItem(
+      title: Strings.valorSalario,
+      icon: Icons.monetization_on,
+      contentChild: Text("R\$ " + CurrencyUtils.doubleToCurrency(md.valorSalario)),
+      onTap: () async {
+        final result = await EmpregosDialogs.showDialogOptionSalario(ct);
+        if (result != null && result is OptionSalario) {
+          if (result == OptionSalario.ALTERAR) {
+            double newSalario = await EmpregosDialogs.showDialogSalario(
+              context: ct,
+              defaultValue: md.valorSalario,
+            );
+
+            if (newSalario != null && newSalario is double) {
+              md.updateSalario(newSalario);
+            }
+          } else if (result == OptionSalario.NOVO) {
+            final Map<String, dynamic> result = await EmpregosDialogs.showDialogGetAumento(
+              context: ct,
+              defaultValue: md.valorSalario,
+            );
+
+            ///todo - revisar lista de salários e a rotina de inclusão de salários;
+            if (result != null) {
+              String ano = result["ano"];
+              String mes =
+                  Arrays.months.indexWhere((m) => m == result["mes"]).toString().padLeft(2, "0");
+
+              double valor = result["valor"];
+              md.appendSalario("$ano-$mes", valor);
+            }
+          } else if (result == OptionSalario.LISTAR) {
+            Navigator.of(ct).push(MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (BuildContext context) {
+                  return ActListSalarios(salarios: md.salarios);
+                }));
+          }
+        }
       },
     );
   }
@@ -91,12 +141,9 @@ class PresenterEmprego {
                   .formatTimeOfDay(seltime, alwaysUse24HourFormat: true));
             }
           },
-          contentChild: Container(
-            margin: EdgeInsets.only(right: 8.0),
-            child: Text(
-              md.horarioSaida,
-              style: TextStyle(fontSize: 16.0),
-            ),
+          contentChild: Text(
+            md.horarioSaida,
+            style: TextStyle(fontSize: 16.0),
           ),
         );
       },

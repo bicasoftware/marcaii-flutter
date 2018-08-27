@@ -1,19 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/models/CalendarPageDto.dart';
+import 'package:marcaii_flutter/models/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/MdHoras.dart';
 import 'package:marcaii_flutter/models/MdPorcDifer.dart';
 import 'package:marcaii_flutter/models/MdSalarios.dart';
 import 'package:marcaii_flutter/state/CalendarBuilder.dart';
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/DBManager.dart';
-import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class MarcaiiStateBuilder {
   static void doOnFirstRun() async {
@@ -82,68 +80,32 @@ class MarcaiiStateBuilder {
     try {
       await db.create();
 
-      final empregos = await db.fetchAllEmpregos();
+      final List<MdEmpregos> empregos = await db.fetchAllEmpregos();
       if (empregos.length > 0) {
         for (final emprego in empregos) {
-          var empregoDto = EmpregoDto(
-            id: emprego.id,
-            diaFechamento: emprego.diaFechamento,
-            porcNormal: emprego.porcNormal,
-            porcFeriados: emprego.porcFeriados,
-            bancoHoras: emprego.bancoHoras == 0 ? false : true,
-            nomeEmprego: emprego.nomeEmprego,
-            horarioSaida: emprego.horarioSaida,
-            cargaHoraria: emprego.cargaHoraria,
-          );
+          var empregoDto = emprego.toDto();
 
           List<MdSalarios> salarios = await db.fetchSalariosByEmprego(emprego.id);
-          for (MdSalarios salario in salarios) {
-            if (salario.status == 1) {
-              empregoDto.salario = salario.valorSalario;
-            }
-
-            var salarioDto = SalariosDto(
-              id: salario.id,
-              idEmprego: emprego.id,
-              valorSalario: salario.valorSalario,
-              status: salario.status == 0 ? false : true,
-              vigencia: salario.vigencia,
-            );
-
-            empregoDto.listSalarios.add(salarioDto);
-          }
+          final List<SalariosDto> salariosDto = salarios.map((s) => s.toDto()).toList();
+          empregoDto.listSalarios.addAll(salariosDto);
 
           List<MdPorcDifer> porcentagens = await db.fetchPorcentagensDiferByEmprego(emprego.id);
-          for (MdPorcDifer porc in porcentagens) {
-            final diferenciaDto = DiferenciaisDto(
-              id: porc.id,
-              idEmprego: emprego.id,
-              diaSemana: porc.diaSemana,
-              porcAdicional: porc.porcAdicional,
-            );
-
-            empregoDto.listDiferenciais.add(diferenciaDto);
-          }
+          final List<DiferenciaisDto> diferenciaisDto = porcentagens.map((d) => d.toDto()).toList();
+          empregoDto.listDiferenciais.addAll(diferenciaisDto);
 
           ///Linka horas salvas no banco com os respectivos itens do calendário
           List<MdHoras> horas = await db.fetchHorasByEmprego(emprego.id);
-          final currentPage =
-              getCalendarPage(horas: horas, month: month, year: year, idEmprego: emprego.id);
+          final List<HoraDto> horasDto = horas.map((h)=> h.toDto()).toList();
+          final currentPage = CalendarBuilder.buildPageAndBind(
+            horas: horasDto,
+            month: month,
+            year: year,
+            idEmprego: emprego.id,
+          );
           empregoDto.listCalendarPages.add(currentPage);
           empregoDto.setCurrentPage(currentPage);
 
-          for (MdHoras hora in horas) {
-            var horaDto = HoraDto(
-                id: hora.id,
-                idEmprego: emprego.id,
-                dta: hora.dta,
-                horaInicial: DateUtils.hourStrToTimeOfDay(hora.horaInicial),
-                horaTermino: DateUtils.hourStrToTimeOfDay(hora.horaTermino),
-                quantidade: hora.quantidade,
-                tipoHora: hora.tipoHora);
-
-            empregoDto.listHoras.add(horaDto);
-          }
+          empregoDto.listHoras.addAll(horasDto);
 
           listEmpregos.add(empregoDto);
         }
@@ -155,17 +117,21 @@ class MarcaiiStateBuilder {
     return MainState(DateTime.now(), empregos: listEmpregos);
   }
 
-  static CalendarPageDto getCalendarPage(
-      {int idEmprego, year: int, month: int, List<MdHoras> horas}) {
-    final cells = CalendarBuilder.buildCalendarByMonth(year, month, idEmprego);
-    cells.where((it) => it != null).forEach((CalendarCellDto c) {
-      String parsedDate = DateUtils.dateTimeToString(c.date);
-      MdHoras hora = horas.firstWhere((h) => h.dta == parsedDate, orElse: () => null);
-      if (hora != null) {
-        c.hora.copyFrom(hora);
-      }
-    });
+  // static CalendarPageDto getCalendarPage({
+  //   int idEmprego,
+  //   year: int,
+  //   month: int,
+  //   List<MdHoras> horas,
+  // }) {
+  //   final cells = CalendarBuilder.buildCalendarByMonth(year, month, idEmprego);
+  //   cells.where((it) => it != null).forEach((CalendarCellDto c) {
+  //     String parsedDate = DateUtils.dateTimeToString(c.date);
+  //     MdHoras hora = horas.firstWhere((h) => h.dta == parsedDate, orElse: () => null);
+  //     if (hora != null) {
+  //       c.hora.copyFrom(hora);
+  //     }
+  //   });
 
-    return CalendarPageDto(year: year, month: month, cells: cells);
-  }
+  //   return CalendarPageDto(year: year, month: month, cells: cells);
+  // }
 }

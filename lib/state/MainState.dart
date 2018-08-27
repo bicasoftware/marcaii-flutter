@@ -2,7 +2,6 @@ import 'package:marcaii_flutter/models/CalendarPageDto.dart';
 import 'package:marcaii_flutter/state/CalendarBuilder.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
-import 'package:marcaii_flutter/state/MarcaiiStateBuilder.dart';
 import 'package:marcaii_flutter/utils/DBManager.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -70,8 +69,12 @@ class MainState extends Model {
       if (index >= 0) {
         e.setCurrentPage(e.listCalendarPages[index]);
       } else {
-        final cells = CalendarBuilder.buildCalendarByMonth(ano, mes, e.id);
-        final newPage = CalendarPageDto(year: ano, month: mes, cells: cells);
+        final newPage = CalendarBuilder.buildPageAndBind(
+          year: ano,
+          month: mes,
+          idEmprego: e.id,
+          horas: e.listHoras,          
+        );
         e.listCalendarPages.add(newPage);
         e.setCurrentPage(newPage);
       }
@@ -93,8 +96,13 @@ class MainState extends Model {
     manager.updateEmprego(emprego).then((e) async {
       final int pos = empregos.indexWhere((it) => it.id == e.id);
       final horas = await manager.fetchHorasByEmprego(emprego.id);
-      final newPage = MarcaiiStateBuilder.getCalendarPage(
-          year: currentYear, month: currentMonth + 1, idEmprego: e.id, horas: horas);
+      final horasDto = horas.map((h) => h.toDto()).toList();
+      final newPage = CalendarBuilder.buildPageAndBind(
+        year: currentYear,
+        month: currentMonth + 1,
+        idEmprego: e.id,
+        horas: horasDto,
+      );
       e.listCalendarPages.add(newPage);
       empregos[pos] = e;
     }).whenComplete(() {

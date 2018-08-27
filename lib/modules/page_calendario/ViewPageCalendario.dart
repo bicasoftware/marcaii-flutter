@@ -6,7 +6,10 @@ import 'package:marcaii_flutter/utils/NavigationTabBar.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ViewPageCalendario extends StatelessWidget {
-  final presenter = PresenterPageCalendario(Strings.calendario);
+  
+  const ViewPageCalendario({Key key}) : super(key: key);
+  
+  final presenter = const PresenterPageCalendario(Strings.calendario);
 
   @override
   Widget build(BuildContext context) {

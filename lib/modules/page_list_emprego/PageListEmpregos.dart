@@ -35,8 +35,7 @@ class _ListEmpregosBody extends StatelessWidget {
                 itemCount: model.empregos.length,
                 itemBuilder: (context, i) {
                   var emprego = model.getEmpregoAt(i);
-                  return GestureDetector(
-                    child: PageListEmpregoItem(emprego: emprego),
+                  return InkWell(
                     onTap: () async {
                       final updatableEmprego =
                           await Navigator.of(context).push(_actInsertRoute(emprego));
@@ -57,6 +56,7 @@ class _ListEmpregosBody extends StatelessWidget {
                         }
                       }
                     },
+                    child: PageListEmpregoItem(emprego: emprego),
                   );
                 },
               ),

@@ -1,3 +1,4 @@
+import 'package:marcaii_flutter/models/CalendarPageDto.dart';
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
@@ -33,5 +34,23 @@ class CalendarBuilder {
     }
 
     return days;
+  }
+
+  static CalendarPageDto buildPageAndBind({
+    idEmprego: int,
+    year: int,
+    month: int,
+    List<HoraDto> horas,
+  }) {
+    final cells = CalendarBuilder.buildCalendarByMonth(year, month, idEmprego);
+    cells.where((it) => it != null).forEach((CalendarCellDto c) {
+      String parsedDate = DateUtils.dateTimeToString(c.date);
+      HoraDto hora = horas.firstWhere((h) => h.dta == parsedDate, orElse: () => null);
+      if (hora != null) {
+        c.hora.copyFrom(hora);
+      }
+    });
+
+    return CalendarPageDto(year: year, month: month, cells: cells);
   }
 }

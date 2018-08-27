@@ -4,21 +4,24 @@ import 'package:marcaii_flutter/modules/act_get_horas/PresenterHora.dart';
 import 'package:marcaii_flutter/modules/bts_info_horas/BtsAction.dart';
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class PresenterBtsInfoHora {
   final CalendarCellDto cell;
-  final double salarioHora;
+  final int cargaHoraria;
+  final List<SalariosDto> salarios;
   final int porcNormal, porcFeriados;
   final List<DiferenciaisDto> listDif;
 
   const PresenterBtsInfoHora({
-    this.cell,
-    this.salarioHora,
-    this.porcNormal,
-    this.porcFeriados,
-    this.listDif,
+    @required this.cargaHoraria,
+    @required this.salarios,
+    @required this.cell,
+    @required this.porcNormal,
+    @required this.porcFeriados,
+    @required this.listDif,
   });
 
   Widget getDateLabel() {
@@ -45,7 +48,6 @@ class PresenterBtsInfoHora {
     );
   }
 
-  ///todo - mostrar dialog e remover a hora
   Widget getDeleteBtn(BuildContext context) {
     return IconButton(
       icon: Icon(
@@ -94,7 +96,6 @@ class PresenterBtsInfoHora {
   }
 
   Widget getValorHora() {
-    //todo - pegar valor da porcentagem diferencial conforme o dia da semana
     double valor = 0.0;
     if (cell.hora.tipoHora == Consts.horaNormal) {
       valor = _calcTotal(porcNormal);
@@ -116,7 +117,8 @@ class PresenterBtsInfoHora {
   ///O valor é calculado dividindo o salário hora por 60 minutos, obtendo o valor do minuto extra
   ///multiplicado pela porcentagem
   ///e finalmente multiplicando pela quantidade de minutos extras;
-  double _calcTotal(int porc){    
-    return ((salarioHora / 60) * (1 + (porc / 100))) * cell.hora.quantidade;
+  double _calcTotal(int porc) {
+    final s = salarios.lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(cell.date));
+    return (((s.valorSalario / cargaHoraria) / 60) * (1 + (porc / 100))) * cell.hora.quantidade;
   }
 }

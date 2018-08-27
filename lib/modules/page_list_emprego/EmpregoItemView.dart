@@ -3,6 +3,8 @@ import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/Themes.dart';
+import 'package:marcaii_flutter/widgets/ContextText.dart';
+import 'package:marcaii_flutter/widgets/TitleText.dart';
 
 class PageListEmpregoItem extends StatelessWidget {
   final EmpregoDto emprego;
@@ -44,34 +46,16 @@ class PageListEmpregoItem extends StatelessWidget {
                   ),
                   Row(
                     children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          Strings.valorSalario,
-                          style: Themes.getTitleTextStyle(context),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          Strings.cargaHoraria,
-                          style: Themes.getTitleTextStyle(context),
-                        ),
-                      ),
+                      TitleText(text: Strings.valorSalario),
+                      TitleText(
+                        text: Strings.cargaHoraria,
+                      )
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          CurrencyUtils.doubleToCurrency(1200.0),
-                          style: Themes.getContentTextStyle(context),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          emprego.cargaHoraria.toString(),
-                          style: Themes.getContentTextStyle(context),
-                        ),
-                      ),
+                      ContextText(text: CurrencyUtils.doubleToCurrency(emprego.salario)),
+                      ContextText(text: emprego.cargaHoraria.toString()),
                     ],
                   )
                 ],
@@ -87,18 +71,8 @@ class PageListEmpregoItem extends StatelessWidget {
                   ),
                   Row(
                     children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          Strings.horarioSaida,
-                          style: Themes.getTitleTextStyle(context),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          Strings.diaFechamento,
-                          style: Themes.getTitleTextStyle(context),
-                        ),
-                      ),
+                      TitleText(text: Strings.horarioSaida,),
+                      TitleText(text: Strings.diaFechamento,),                      
                     ],
                   ),
                   Row(

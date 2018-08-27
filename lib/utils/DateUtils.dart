@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:marcaii_flutter/Strings.dart';
 
 class DateUtils {
   static int getCurrentWeekday(DateTime date) {
@@ -65,5 +66,14 @@ class DateUtils {
 
   static String timeOfDayToStr(TimeOfDay time) {
     return "${time.hour.toString().padLeft(2, "0")}:${time.minute.toString().padLeft(2, "0")}";
+  }
+
+  static String getVigencia(DateTime date){
+    return DateFormat("yyyy-MM").format(date);
+  }
+
+  static DateTime vigenciaToDate(String vigencia){
+    if(!RegExp(r"^\d{4}-\d{2}$").hasMatch(vigencia)) throw Exception(Warn.warVigenciaInvalida);
+    return DateFormat("yyyy-MM").parse(vigencia);
   }
 }

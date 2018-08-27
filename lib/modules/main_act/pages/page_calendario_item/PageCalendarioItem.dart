@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarBody.dart';
 import 'package:marcaii_flutter/state/CalendarCellDto.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/state/SalariosDto.dart';
 
 class PageCalendarioItem extends StatelessWidget {
   const PageCalendarioItem({
     Key key,
     @required this.cells,
     @required this.listDifer,
-    @required this.salarioHora,
     @required this.porcNormal,
     @required this.porcFeriados,
+    @required this.cargaHoraria,
+    @required this.salarios,
   }) : super(key: key);
 
   final List<CalendarCellDto> cells;
   final List<DiferenciaisDto> listDifer;
-  final double salarioHora;
-  final int porcNormal, porcFeriados;
+  final int porcNormal, porcFeriados, cargaHoraria;
+  final List<SalariosDto> salarios;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +28,10 @@ class PageCalendarioItem extends StatelessWidget {
           CalendarBody(
             cells: cells,
             listDifer: listDifer,
-            salarioHora: salarioHora,
             porcNormal: porcNormal,
             porcFeriados: porcFeriados,
+            cargaHoraria: cargaHoraria,
+            salarios: salarios,
           )
         ],
       ),

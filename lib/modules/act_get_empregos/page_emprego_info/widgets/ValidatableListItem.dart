@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 
-//todo - Migrar
-
 class ValidatableListItem extends StatelessWidget {
   const ValidatableListItem({
     Key key,

@@ -22,7 +22,7 @@ class ViewEmprego extends StatelessWidget {
                 addAutomaticKeepAlives: true,
                 children: [
                   presenter.getTextFieldNomeEmprego(),
-                  presenter.getTextFieldSalario(),
+                  presenter.getTileSalario(),
                   presenter.getPickerTileFechamento(),
                   presenter.getHoraSaidaTile(),
                   presenter.getCargaHorariaTile(),

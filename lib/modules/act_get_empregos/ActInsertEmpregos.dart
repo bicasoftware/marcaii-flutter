@@ -8,10 +8,11 @@ import 'package:scoped_model/scoped_model.dart';
 class ActInsertEmpregos extends StatelessWidget {
   final EmpregoDto emprego;
 
-  const ActInsertEmpregos({Key key, this.emprego}) : super(key: key);
+  const ActInsertEmpregos({Key key, @required this.emprego}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return ScopedModel<EmpregoState>(
       model: emprego.toState(),
       child: Scaffold(

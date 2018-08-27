@@ -34,8 +34,15 @@ class Strings {
   static const String confirmar_remocao_emprego = "Deseja remover o emprego?";
   static const String confirmar_remocao_hora = "Deseja remover a hora extra?";
   static const String novo = "Novo";
-  static const String verTodos = "Ver totais";
+  static const String verTotais = "Ver totais";
   static const String tipoExtra = "Porcentagem extra: ";
+  static const String aumentoSalario = "Recebi um aumento!";
+  static const String valorCorrigido = "Valor do salário";
+  static const String alterarSalario = "Corrigir o valor";
+  static const String optSalarios = "Opções sobre salário";
+  static const String verSalarios = "Ver Anteriores";
+  static const String vigencia = "Vigencia";
+  
 
   static const String porcDifer = "% Diferencial";
   static const String titleRelatorioHoras = "Relatórios de Horas";
@@ -60,6 +67,7 @@ class Warn {
   static const String warTextApenas = "Apenas letras são permitidas";
   static const String warHorasInvalidas = "Horas inválidas";
   static const String warDiaInvalido = "Dia de fechamento inválido";
+  static const String warVigenciaInvalida = "Vigencia inválida";
 }
 
 class Arrays {

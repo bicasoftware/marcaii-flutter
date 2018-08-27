@@ -1,3 +1,5 @@
+import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
+
 class MdPorcDifer {
   int id;
   int idEmprego;
@@ -34,6 +36,15 @@ class MdPorcDifer {
       idEmprego: map["idEmprego"],
       diaSemana: map["diaSemana"],
       porcAdicional: map["porcAdicional"],
+    );
+  }
+
+  DiferenciaisDto toDto() {
+    return DiferenciaisDto(
+      id: this.id,
+      idEmprego: this.idEmprego,
+      diaSemana: this.diaSemana,
+      porcAdicional: this.porcAdicional,
     );
   }
 

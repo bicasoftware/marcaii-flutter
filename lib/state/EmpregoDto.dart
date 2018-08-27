@@ -3,6 +3,7 @@ import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/HoraDto.dart';
 import 'package:marcaii_flutter/state/SalariosDto.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class EmpregoDto {
   EmpregoDto({
@@ -14,13 +15,16 @@ class EmpregoDto {
     this.nomeEmprego,
     this.horarioSaida,
     this.cargaHoraria,
-    this.salario,
   });
 
   int id, diaFechamento, porcNormal, porcFeriados, cargaHoraria;
   bool bancoHoras;
   String nomeEmprego, horarioSaida;
-  double salario;
+  double get salario {
+    return listSalarios
+        .lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(DateTime.now()))
+        .valorSalario;
+  }
 
   CalendarPageDto _currentPage;
   final listSalarios = List<SalariosDto>();
@@ -41,9 +45,6 @@ class EmpregoDto {
   }
 
   void appendSalario(SalariosDto salario) {
-    //atualiza o valor do salário no model
-    this.salario = salario.valorSalario;
-
     //mapeia todos os salários e seta status como false
     listSalarios.forEach((s) => s.status = false);
 
@@ -66,7 +67,8 @@ class EmpregoDto {
     currentPage.cells
         .where((c) => c != null)
         .where((c) => c.hora.id != null)
-        .firstWhere((it) => it.hora.id == idHora, orElse: null)?.clear();
+        .firstWhere((it) => it.hora.id == idHora, orElse: null)
+        ?.clear();
 
     listHoras.removeWhere((h) => h.id == idHora);
   }
@@ -88,11 +90,13 @@ class EmpregoDto {
       horarioSaida: horarioSaida,
       porcFeriados: porcFeriados,
       porcNormal: porcNormal,
-      valorSalario: salario ?? 1200.0,
     );
 
+    state.salarios.addAll(listSalarios);
+
+    state.clearAllPorcs();
     for (final dif in listDiferenciais) {
-      state.setPorcDifer(dif.diaSemana, dif.porcAdicional);
+      state.appendPorcDifer(dif.diaSemana, dif.porcAdicional);
     }
 
     return state;
@@ -125,7 +129,7 @@ class EmpregoDto {
       porcNormal: 50,
       porcFeriados: 100,
       diaFechamento: 25,
-    );
+    )..listSalarios.add(SalariosDto(status: true, valorSalario: 912.77, vigencia: "2010-01"));
   }
 
   @override

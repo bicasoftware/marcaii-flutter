@@ -20,10 +20,15 @@ class SalariosDto {
       "vigencia": vigencia,
     };
 
-    if(id != null){
+    if (id != null) {
       map["id"] = id;
     }
 
     return map;
+  }
+
+  @override
+  String toString() {
+    return """idEmprego: $idEmprego valorSalario: $valorSalario, status: $status, vigencia: $vigencia""";
   }
 }

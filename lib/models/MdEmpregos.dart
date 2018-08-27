@@ -1,4 +1,5 @@
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
+import 'package:marcaii_flutter/state/EmpregoDto.dart';
 
 class MdEmpregos {
   MdEmpregos({
@@ -80,7 +81,19 @@ class MdEmpregos {
       horarioSaida: horarioSaida,
       porcFeriados: porcFeriados,
       porcNormal: porcNormal,
-      valorSalario: 1200.0, //todo - selecionar salário junto com a query no sqlite
+    );
+  }
+
+  EmpregoDto toDto() {
+    return EmpregoDto(
+      id: this.id,
+      diaFechamento: this.diaFechamento,
+      porcNormal: this.porcNormal,
+      porcFeriados: this.porcFeriados,
+      bancoHoras: this.bancoHoras == 0 ? false : true,
+      nomeEmprego: this.nomeEmprego,
+      horarioSaida: this.horarioSaida,
+      cargaHoraria: this.cargaHoraria,
     );
   }
 
