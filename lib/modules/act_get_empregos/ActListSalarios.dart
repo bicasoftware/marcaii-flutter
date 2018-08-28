@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
+import 'package:marcaii_flutter/widgets/BaseDivider.dart';
+import 'package:marcaii_flutter/widgets/ContentText.dart';
+import 'package:marcaii_flutter/widgets/TitleText.dart';
+import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 
 class ActListSalarios extends StatelessWidget {
   const ActListSalarios({Key key, @required this.salarios}) : super(key: key);
@@ -11,108 +15,136 @@ class ActListSalarios extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Salários anteriores"),
-        elevation: 0.0,
-      ),
-      body: _ListSalariosBody(salarios: salarios),
-    );
+        appBar: AppBar(
+          title: Text("Salários anteriores"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(salarios),
+          ),
+        ),
+        body: new ListBody(salarios: salarios));
   }
 }
 
-class _ListSalariosBody extends StatelessWidget {
-  const _ListSalariosBody({Key key, @required this.salarios}) : super(key: key);
+class ListBody extends StatefulWidget {
+
+  const ListBody({
+    Key key,
+    @required this.salarios,
+  }) : super(key: key);
 
   final List<SalariosDto> salarios;
+
+  @override
+  ListBodyState createState() {
+    return new ListBodyState();
+  }
+}
+
+class ListBodyState extends State<ListBody> {
+  List<SalariosDto> _salarios;
+
+  @override
+  void initState() {
+    _salarios = widget.salarios;
+    super.initState();
+  }
+
+  void _removeAt(int i) {
+    setState(() {
+      _salarios.removeAt(i);
+      _salarios.forEach((s) => s.status = false);
+      _salarios.last.status = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        _header(context),
-        _content(context),
-      ],
-    );
-  }
-
-  Widget _header(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Cell(
-          title: Strings.valorSalario,
-          color: Theme.of(context).primaryColor,
-          textColor: Colors.white,
+        Expanded(
+          child: ListView.builder(
+            itemCount: _salarios.length,
+            itemBuilder: (ct, i) {
+              final s = _salarios[i];
+              return SalarioTile(
+                valor: s.valorSalario,
+                vigencia: s.vigencia,
+                showDivider: i < _salarios.length - 1,
+                onDelete: () {
+                  if (i > 0) {
+                    showConfirmationDialog(
+                      context: context,
+                      message: Strings.confirmar_remocao_salario,
+                    ).then((result) {
+                      if (result == true) _removeAt(i);
+                    });
+                  }
+                },
+              );
+            },
+          ),
         ),
-        Cell(
-          title: Strings.vigencia,
-          color: Theme.of(context).primaryColor,
-          textColor: Colors.white,
-        ),
       ],
-    );
-  }
-
-  Widget _content(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: salarios.map((sal) => _ListRow(s: sal)).toList(),
-      ),
     );
   }
 }
 
-class Cell extends StatelessWidget {
-  const Cell({
+class SalarioTile extends StatelessWidget {
+  final double valor;
+  final String vigencia;
+  final VoidCallback onDelete;
+  final bool showDivider;
+
+  const SalarioTile({
     Key key,
-    this.title: "PLACEHOLDER",
-    this.color: Colors.white,
-    this.textColor: Colors.black87,
+    @required this.valor,
+    @required this.onDelete,
+    @required this.vigencia,
+    this.showDivider: true,
   }) : super(key: key);
 
-  final String title;
-  final Color color, textColor;
-
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.all(.1),
-        padding: EdgeInsets.all(12.0),
-        color: color,
-        child: Column(
-          children: <Widget>[
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14.0,
-                color: textColor,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ListRow extends StatelessWidget {
-  final SalariosDto s;
-
-  const _ListRow({Key key, this.s}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
+    final splitVig = vigencia.split("-").map((v) => int.parse(v)).toList();
+    final vig = " ${Arrays.monthsAbrev[splitVig[1]]}/${splitVig[0]}";
+    return Column(
       children: <Widget>[
-        Cell(
-          title: "R\$ ${CurrencyUtils.doubleToCurrency(s.valorSalario)}",
-          textColor: Colors.black,
+        ListTile(
+          leading: Icon(
+            Icons.assessment,
+            color: Theme.of(context).accentColor,
+          ),
+          trailing: IconButton(
+            icon: Icon(
+              Icons.delete_sweep,
+              color: Colors.black45,
+            ),
+            onPressed: onDelete,
+          ),
+          title: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  TitleText(text: Strings.valorSalario),
+                  TitleText(text: Strings.vigencia),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  ContentText(text: CurrencyUtils.doubleToCurrency(valor)),
+                  ContentText(text: vig),
+                ],
+              ),
+            ],
+          ),
         ),
-        Cell(
-          title: s.vigencia,
-          textColor: Colors.black,
-        ),
+        showDivider
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: BaseDivider(),
+              )
+            : Container(),
       ],
     );
   }

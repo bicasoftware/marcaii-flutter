@@ -33,6 +33,7 @@ class Strings {
   static const String confirmar_remocao_difer = "Deseja remover o valor diferencial?";
   static const String confirmar_remocao_emprego = "Deseja remover o emprego?";
   static const String confirmar_remocao_hora = "Deseja remover a hora extra?";
+  static const String confirmar_remocao_salario = "Deseja remover o salário?";
   static const String novo = "Novo";
   static const String verTotais = "Ver totais";
   static const String tipoExtra = "Porcentagem extra: ";
@@ -88,6 +89,20 @@ class Arrays {
     "Outubro",
     "Novembro",
     "Dezembro",
+  ];
+  static const monthsAbrev = [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Abr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Set",
+    "Out",
+    "Nov",
+    "Dez",
   ];
 }
 

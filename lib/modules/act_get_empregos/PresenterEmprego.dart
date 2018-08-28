@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
@@ -7,10 +8,11 @@ import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/OptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DiferenciaisListItem.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/PorcentagemHolder.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/ValorSalarioHolder.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/PercentDialog.dart';
+import 'package:marcaii_flutter/utils/Validation.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
+import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
 import 'package:marcaii_flutter/widgets/ListHeader.dart';
 import 'package:marcaii_flutter/widgets/form_fields/IntPickerTile.dart';
@@ -49,11 +51,26 @@ class PresenterEmprego {
   }
 
   Widget _getTextFieldSalario(BuildContext ct, EmpregoState md) {
-    return ValorSalarioHolder(
-      formKey: md.formKey,
-      title: Strings.valorSalario,
-      valorSalario: md.valorSalario,
-      onSave: (valor) => md.updateSalario(valor),
+    final controller = Validation.defaultMoneyMask(md.valorSalario);
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.monetization_on),
+          title: TextFormField(
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: Strings.valorSalario,
+              labelText: Strings.valorSalario,
+            ),
+            validator: (s) {
+              if (controller.numberValue <= 0) return Warn.warSalarioInvalido;
+              return null;
+            },
+            onSaved: (s) => md.updateSalario(controller.numberValue),
+          ),
+        ),
+        BaseDivider(),
+      ],
     );
   }
 
@@ -80,7 +97,6 @@ class PresenterEmprego {
               defaultValue: md.valorSalario,
             );
 
-            ///todo - revisar lista de salários e a rotina de inclusão de salários;
             if (result != null) {
               String ano = result["ano"];
               String mes =
@@ -90,11 +106,15 @@ class PresenterEmprego {
               md.appendSalario("$ano-$mes", valor);
             }
           } else if (result == OptionSalario.LISTAR) {
-            Navigator.of(ct).push(MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (BuildContext context) {
-                  return ActListSalarios(salarios: md.salarios);
-                }));
+            Navigator
+                .of(ct)
+                .push(
+                  CupertinoPageRoute(
+                    fullscreenDialog: false,
+                    builder: (BuildContext context) => ActListSalarios(salarios: md.salarios),
+                  ),
+                )
+                .then((s) => md.resetSalarios(s));
           }
         }
       },

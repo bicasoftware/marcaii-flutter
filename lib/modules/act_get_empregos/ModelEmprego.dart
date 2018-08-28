@@ -24,8 +24,6 @@ class EmpregoState extends Model {
   String nomeEmprego, horarioSaida;
   int porcNormal, porcFeriados, diaFechamento, cargaHoraria;
 
-  bool needUdpate = false;
-
   static final List<PorcDiferDto> porcList = [
     PorcDiferDto(id: 0, diaSemana: 0, porcent: 0, valor: 0.0),
     PorcDiferDto(id: 0, diaSemana: 1, porcent: 0, valor: 0.0),
@@ -39,7 +37,7 @@ class EmpregoState extends Model {
   List<PorcDiferDto> get getPorcList => porcList;
   PorcDiferDto getPorcDiferAt(int weekDay) => porcList[weekDay];
 
-  final salarios = List<SalariosDto>();
+  List<SalariosDto> salarios = [];
   double get valorSalario {
     return salarios.firstWhere((s) => s.status == true, orElse: null).valorSalario ?? 9999.0;
   }
@@ -49,7 +47,6 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  //todo - repassar rotin
   void appendSalario(String vigencia, double valor) {
     salarios.forEach((s) => s.status = false);
     salarios.add(SalariosDto(
@@ -58,6 +55,16 @@ class EmpregoState extends Model {
       valorSalario: valor,
       status: true,
     ));
+    notifyListeners();
+  }
+
+  void resetSalarios(List<SalariosDto> s){
+    salarios = s;
+    notifyListeners();
+  }
+
+  void deleteSalario(int pos){
+    salarios.removeAt(pos);
     notifyListeners();
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_get_horas/ActGetHoras.dart';
@@ -80,7 +81,7 @@ class CalendarBody extends StatelessWidget {
     Function(CalendarCellDto) onSave,
   ) async {
     final result = await Navigator.of(context).push(
-      MaterialPageRoute(
+      CupertinoPageRoute(
         builder: (context) {
           return ActGetHoras(
             cell: cell,
