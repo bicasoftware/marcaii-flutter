@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
+import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_horas/ActGetHoras.dart';
 import 'package:marcaii_flutter/modules/bts_info_horas/BottomSheetInfoHoras.dart';
 import 'package:marcaii_flutter/modules/bts_info_horas/BtsAction.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarBodyItem.dart';
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
-import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
-import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 

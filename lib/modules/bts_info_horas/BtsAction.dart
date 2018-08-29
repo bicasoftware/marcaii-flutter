@@ -1,4 +1,5 @@
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
+
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
 
 enum BtsAction {
   DELETE,

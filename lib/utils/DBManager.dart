@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/models/MdEmpregos.dart';
-import 'package:marcaii_flutter/models/MdHoras.dart';
-import 'package:marcaii_flutter/models/MdPorcDifer.dart';
-import 'package:marcaii_flutter/models/MdSalarios.dart';
-import 'package:marcaii_flutter/state/EmpregoDto.dart';
-import 'package:marcaii_flutter/state/HoraDto.dart';
-import 'package:marcaii_flutter/state/SalariosDto.dart';
+import 'package:marcaii_flutter/models/sql/MdEmpregos.dart';
+import 'package:marcaii_flutter/models/sql/MdHoras.dart';
+import 'package:marcaii_flutter/models/sql/MdPorcDifer.dart';
+import 'package:marcaii_flutter/models/sql/MdSalarios.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/models/state/HoraDto.dart';
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';

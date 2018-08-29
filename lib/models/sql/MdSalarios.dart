@@ -1,4 +1,5 @@
-import 'package:marcaii_flutter/state/SalariosDto.dart';
+
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 
 class MdSalarios {
   MdSalarios({

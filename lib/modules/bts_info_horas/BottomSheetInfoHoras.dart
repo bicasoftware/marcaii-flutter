@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
+import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/bts_info_horas/PresenterBtsInfoHora.dart';
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
-import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
-import 'package:marcaii_flutter/state/SalariosDto.dart';
 
 class BottomSheetInfoHoras extends StatelessWidget {
   final CalendarCellDto cell;

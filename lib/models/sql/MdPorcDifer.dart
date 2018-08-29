@@ -1,4 +1,5 @@
-import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
+
+import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
 
 class MdPorcDifer {
   int id;

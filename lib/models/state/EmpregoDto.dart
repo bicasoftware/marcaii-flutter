@@ -1,8 +1,8 @@
-import 'package:marcaii_flutter/models/CalendarPageDto.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarPageDto.dart';
+import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/models/state/HoraDto.dart';
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
-import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
-import 'package:marcaii_flutter/state/HoraDto.dart';
-import 'package:marcaii_flutter/state/SalariosDto.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class EmpregoDto {

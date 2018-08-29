@@ -1,4 +1,4 @@
-import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/models/state/HoraDto.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class MdHoras {

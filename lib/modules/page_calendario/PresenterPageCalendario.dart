@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarHeader.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario_item/PageCalendarioItem.dart';
-import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:marcaii_flutter/utils/DropDownAction.dart';
 import 'package:marcaii_flutter/utils/Range.dart';

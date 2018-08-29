@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
+import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarBody.dart';
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
-import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
-import 'package:marcaii_flutter/state/SalariosDto.dart';
 
 class PageCalendarioItem extends StatelessWidget {
   const PageCalendarioItem({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
-import 'package:marcaii_flutter/state/DiferenciaisDto.dart';
-import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
+import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
+import 'package:marcaii_flutter/models/state/HoraDto.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 

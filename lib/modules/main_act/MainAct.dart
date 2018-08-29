@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/page_calendario/ViewPageCalendario.dart';
 import 'package:marcaii_flutter/modules/page_list_emprego/PageListEmpregos.dart';
-import 'package:marcaii_flutter/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -13,6 +13,12 @@ class MainAct extends StatefulWidget {
 
 class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   int _mainPagePos = 0;
+  CrossFadeState _crossFadeState;
+
+  void initState() { 
+    _crossFadeState = CrossFadeState.showFirst;  
+    super.initState();
+  }
 
   void _setPagePos(int i) {
     if(i != _mainPagePos) setState(() => _mainPagePos = i);
@@ -53,14 +59,27 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: currentPage,
+      //body: currentPage,
+      body: AnimatedCrossFade(
+        crossFadeState: _crossFadeState,
+        firstChild: _mainPages[0],
+        secondChild: _mainPages[1],
+        duration: Duration(milliseconds: 200),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _mainPagePos,
         items: [
           BottomNavigationBarItem(title: Text("Empregos"), icon: Icon(Icons.work)),
           BottomNavigationBarItem(title: Text("Calendário"), icon: Icon(Icons.date_range))
         ],
-        onTap: (i) => _setPagePos(i),
+        onTap: (i) {
+          _setPagePos(i);
+          if(i == 0){
+            _crossFadeState = CrossFadeState.showFirst;
+          } else {
+            _crossFadeState = CrossFadeState.showSecond;
+          }
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: ScopedModelDescendant<MainState>(

@@ -1,4 +1,5 @@
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
+
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
 
 class CalendarPageDto {
   final int year, month;

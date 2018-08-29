@@ -1,7 +1,7 @@
-import 'package:marcaii_flutter/models/CalendarPageDto.dart';
-import 'package:marcaii_flutter/state/CalendarBuilder.dart';
-import 'package:marcaii_flutter/state/EmpregoDto.dart';
-import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarBuilder.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarPageDto.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/models/state/HoraDto.dart';
 import 'package:marcaii_flutter/utils/DBManager.dart';
 import 'package:scoped_model/scoped_model.dart';
 

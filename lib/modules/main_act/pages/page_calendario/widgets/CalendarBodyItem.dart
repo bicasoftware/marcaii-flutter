@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
+import 'package:marcaii_flutter/models/state/HoraDto.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/TipoHoraIndicator.dart';
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
-import 'package:marcaii_flutter/state/HoraDto.dart';
 
 class CalendarBodyItem extends StatelessWidget {
   final CalendarCellDto cell;

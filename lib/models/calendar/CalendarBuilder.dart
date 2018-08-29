@@ -1,6 +1,6 @@
-import 'package:marcaii_flutter/models/CalendarPageDto.dart';
-import 'package:marcaii_flutter/state/CalendarCellDto.dart';
-import 'package:marcaii_flutter/state/HoraDto.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
+import 'package:marcaii_flutter/models/calendar/CalendarPageDto.dart';
+import 'package:marcaii_flutter/models/state/HoraDto.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class CalendarBuilder {
