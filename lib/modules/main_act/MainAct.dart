@@ -15,19 +15,19 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   int _mainPagePos = 0;
   CrossFadeState _crossFadeState;
 
-  void initState() { 
-    _crossFadeState = CrossFadeState.showFirst;  
+  void initState() {
+    _crossFadeState = CrossFadeState.showFirst;
     super.initState();
   }
 
   void _setPagePos(int i) {
-    if(i != _mainPagePos) setState(() => _mainPagePos = i);
+    if (i != _mainPagePos) setState(() => _mainPagePos = i);
   }
 
-  static final _mainPages = [ 
-    const PageListEmpregos(title: Strings.empregos),
-    const ViewPageCalendario(),
-  ];
+  // static final _mainPages = [
+  //   const PageListEmpregos(title: Strings.empregos),
+  //   const ViewPageCalendario(),
+  // ];
 
   static final _bottomBarIcons = [
     Icon(Icons.work),
@@ -48,7 +48,7 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
 
   String get title => _titles[_mainPagePos];
 
-  Widget get currentPage => _mainPages[_mainPagePos];
+  //Widget get currentPage => _mainPages[_mainPagePos];
 
   Icon get currentBottonIcon => _bottomBarIcons[_mainPagePos];
 
@@ -59,12 +59,26 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //body: currentPage,
       body: AnimatedCrossFade(
         crossFadeState: _crossFadeState,
-        firstChild: _mainPages[0],
-        secondChild: _mainPages[1],
-        duration: Duration(milliseconds: 200),
+        layoutBuilder: (tela1, key1, tela2, key2) {
+          return Stack(
+            fit: StackFit.loose,
+            children: <Widget>[
+              Positioned(
+                key: key2,
+                child: tela2,
+              ),
+              Positioned(
+                key: key1,
+                child: tela1,
+              ),
+            ],
+          );
+        },
+        firstChild: PageListEmpregos(title: Strings.empregos),
+        secondChild: ViewPageCalendario(),
+        duration: Duration(milliseconds: 300),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _mainPagePos,
@@ -74,7 +88,7 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
         ],
         onTap: (i) {
           _setPagePos(i);
-          if(i == 0){
+          if (i == 0) {
             _crossFadeState = CrossFadeState.showFirst;
           } else {
             _crossFadeState = CrossFadeState.showSecond;

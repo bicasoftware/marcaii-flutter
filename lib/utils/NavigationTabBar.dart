@@ -57,5 +57,5 @@ class NavigationTabBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(84.0);
+  Size get preferredSize => Size.fromHeight(96.0);
 }
