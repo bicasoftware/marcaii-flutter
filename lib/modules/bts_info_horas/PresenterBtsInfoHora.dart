@@ -43,7 +43,7 @@ class PresenterBtsInfoHora {
         color: Colors.amber,
       ),
       onPressed: () {
-        return Navigator.of(context).pop(BtsResult(action: BtsAction.UPDATE, cellDto: cell));
+        Navigator.of(context).pop(BtsResult(action: BtsAction.UPDATE, cellDto: cell));
       },
     );
   }

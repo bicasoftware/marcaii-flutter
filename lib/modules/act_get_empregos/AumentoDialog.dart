@@ -46,6 +46,7 @@ class _AumentoDialogState extends State<AumentoDialog> {
       children: <Widget>[
         TextFormField(
           controller: widget.controller,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             hintText: Strings.hintSalario,
             labelText: Strings.valorSalario,

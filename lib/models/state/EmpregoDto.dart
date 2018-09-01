@@ -94,11 +94,15 @@ class EmpregoDto {
 
     state.salarios.addAll(listSalarios);
 
-    state.clearAllPorcs();
-    for (final dif in listDiferenciais) {
-      state.appendPorcDifer(dif.diaSemana, dif.porcAdicional);
-    }
+    for (int i = 0; i < 7; i++) {
+      final DiferenciaisDto f = listDiferenciais.firstWhere((d) {
+        return d.diaSemana == i;
+      }, orElse: () {
+        return DiferenciaisDto(diaSemana: i, porcAdicional: 0);
+      });
 
+      state.appendPorcDifer(f.diaSemana, f.porcAdicional);
+    }
     return state;
   }
 
@@ -114,7 +118,7 @@ class EmpregoDto {
     };
 
     if (id != null) {
-      map["id"] == id;
+      map["id"] = id;
     }
 
     return map;

@@ -9,7 +9,7 @@ import 'package:marcaii_flutter/modules/act_get_empregos/OptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DiferenciaisListItem.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/PorcentagemHolder.dart';
 import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
-import 'package:marcaii_flutter/utils/PercentDialog.dart';
+import 'package:marcaii_flutter/utils/ActGetPorcent.dart';
 import 'package:marcaii_flutter/utils/Validation.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
@@ -58,6 +58,7 @@ class PresenterEmprego {
           leading: Icon(Icons.monetization_on),
           title: TextFormField(
             controller: controller,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               hintText: Strings.valorSalario,
               labelText: Strings.valorSalario,
@@ -106,8 +107,7 @@ class PresenterEmprego {
               md.appendSalario("$ano-$mes", valor);
             }
           } else if (result == OptionSalario.LISTAR) {
-            Navigator
-                .of(ct)
+            Navigator.of(ct)
                 .push(
                   CupertinoPageRoute(
                     fullscreenDialog: false,
@@ -156,8 +156,7 @@ class PresenterEmprego {
             );
 
             if (seltime != null) {
-              md.setHorarioSaida(MaterialLocalizations
-                  .of(ct)
+              md.setHorarioSaida(MaterialLocalizations.of(ct)
                   .formatTimeOfDay(seltime, alwaysUse24HourFormat: true));
             }
           },
@@ -262,7 +261,7 @@ class PresenterEmprego {
         title: dias[d.diaSemana],
         percent: d.porcent,
         value: d.porcent == 0 ? 0.0 : salarioHora * (1 + (d.porcent / 100)),
-        onClear: () {
+        onClear: () async {
           showConfirmationDialog(
             context: context,
             message: Strings.confirmar_remocao_difer,
@@ -272,13 +271,23 @@ class PresenterEmprego {
             }
           });
         },
-        onEdit: (int percent) {
-          showPercentDialog(
-            percent: percent,
-            context: context,
-          ).then((int p) {
-            if (p != null) onUpdate(d.diaSemana, p);
-          });
+
+        ///enquanto existir o bug que repinta o widget abaixo do dialog, continuar usando uma fullscreen dialog
+        onEdit: (int percent) async {
+          final result = await Navigator.of(context).push(
+            CupertinoPageRoute(
+              fullscreenDialog: true,
+              builder: (context) {
+                return ActGetPorcentagem(
+                  porc: d.porcent,
+                );
+              },
+            ),
+          );
+
+          if (result != null && result is int) {
+            onUpdate(d.diaSemana, result);
+          }
         },
       ));
     });

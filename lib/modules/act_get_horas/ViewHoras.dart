@@ -13,22 +13,18 @@ class ViewHoras extends StatelessWidget {
           presenter.actionSalvar,
         ],
       ),
-      body: Card(
-        child: Container(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              presenter.horaInicialContainer,
-              presenter.horaTerminoHolder,
-              presenter.hintTipoHora(context),
-              presenter.radioGroupTipoHora,
-              Divider(),
-              presenter.quantidadeMinutosCounter,
-            ],
-          ),
+      body: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            presenter.horaInicialContainer,
+            presenter.horaTerminoHolder,
+            presenter.hintTipoHora(context),
+            presenter.radioGroupTipoHora,
+          ],
         ),
       ),
+      bottomNavigationBar: presenter.getBottomBar(),
     );
   }
 }

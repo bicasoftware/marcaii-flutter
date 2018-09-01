@@ -32,6 +32,7 @@ class PorcentagemHolder extends StatelessWidget {
       title: title,
       onValidate: _onValidate,
       onSave: _onSave,
+      inputType: TextInputType.number,
     );
   }
 

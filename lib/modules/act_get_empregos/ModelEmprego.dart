@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
 import 'package:marcaii_flutter/models/sql/MdEmpregos.dart';
@@ -24,7 +26,7 @@ class EmpregoState extends Model {
   String nomeEmprego, horarioSaida;
   int porcNormal, porcFeriados, diaFechamento, cargaHoraria;
 
-  static final List<PorcDiferDto> porcList = [
+   static final List<PorcDiferDto> porcList = [
     PorcDiferDto(id: 0, diaSemana: 0, porcent: 0, valor: 0.0),
     PorcDiferDto(id: 0, diaSemana: 1, porcent: 0, valor: 0.0),
     PorcDiferDto(id: 0, diaSemana: 2, porcent: 0, valor: 0.0),
@@ -58,12 +60,12 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  void resetSalarios(List<SalariosDto> s){
+  void resetSalarios(List<SalariosDto> s) {
     salarios = s;
     notifyListeners();
   }
 
-  void deleteSalario(int pos){
+  void deleteSalario(int pos) {
     salarios.removeAt(pos);
     notifyListeners();
   }
@@ -98,27 +100,33 @@ class EmpregoState extends Model {
     notifyListeners();
   }
 
-  void appendPorcDifer(int weekday, int porc, {int id: 0}) {
-    porcList[weekday]
-      ..porcent = porc
-      ..valor = CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc)
-      ..id = id;
+  Future appendPorcDifer(int weekday, int porc, {int id: 0}) async {
+    porcList[weekday] = PorcDiferDto(
+      id: id,
+      diaSemana: weekday,
+      valor: CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc),
+      porcent: porc,
+    );
   }
 
   void setPorcDifer(int weekday, int porc, {int id: 0}) {
-    porcList[weekday]
-      ..porcent = porc
-      ..valor = CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc)
-      ..id = id;
+    porcList[weekday] = PorcDiferDto(
+      id: id,
+      diaSemana: weekday,
+      valor: CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc),
+      porcent: porc,
+    );
     notifyListeners();
   }
 
   void clearAllPorcs() {
-    porcList.forEach((it) => it.clear());
+    for(int i = 0; i < 7; i++){
+      porcList[i] = PorcDiferDto(diaSemana: i, porcent: 0, valor: 0.0);
+    }
   }
 
-  void clearPorcDifer(int weekDay) {
-    porcList[weekDay].clear();
+  void clearPorcDifer(int diaSemana) {
+    porcList[diaSemana] = PorcDiferDto(id: null, diaSemana: diaSemana, valor: 0.0, porcent: 0);
     notifyListeners();
   }
 

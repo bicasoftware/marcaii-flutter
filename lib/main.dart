@@ -12,7 +12,7 @@ void main() {
       .buildState()
       .then((s) => state = s)
       .whenComplete(() {
-        //MaterialPageRoute.debugEnableFadingRoutes = true;
+        MaterialPageRoute.debugEnableFadingRoutes = true;
         runApp(Marcaii(state: state));
       });
 }

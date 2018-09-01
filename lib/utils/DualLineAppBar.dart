@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class DualLineAppbar extends AppBar {
 
-  final String bitText, smallText;
+  final String bigText, smallText;
   final List<Widget> actions;
 
   DualLineAppbar({
     Key key,
-    @required this.bitText,
+    @required this.bigText,
     @required this.smallText,
     this.actions,
-  }) : super(key: key, actions: actions, title: _buildTitle(bitText, smallText));
+  }) : super(key: key, actions: actions, title: _buildTitle(bigText, smallText));
 
   static Widget _buildTitle(String bigText, String smallText) {
     return Column(
@@ -20,7 +20,7 @@ class DualLineAppbar extends AppBar {
         Text(
           bigText,
           style: TextStyle(
-            fontSize: 22.0,
+            fontSize: 20.0,
             color: Colors.white,
           ),
         ),

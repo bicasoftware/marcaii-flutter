@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/ActInsertEmpregos.dart';
+import 'package:marcaii_flutter/modules/act_relacao/ActRelacao.dart';
 import 'package:marcaii_flutter/modules/page_calendario/ViewPageCalendario.dart';
 import 'package:marcaii_flutter/modules/page_list_emprego/PageListEmpregos.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
@@ -104,12 +107,22 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
             label: Text(currentFabLabel),
             onPressed: () async {
               if (_mainPagePos == 0) {
-                final result = await Navigator.pushNamed(context, Refs.refActGetEmprego);
+                final result = await Navigator.of(context).push(
+                  CupertinoPageRoute(builder: (c) {
+                    return ActInsertEmpregos(
+                      emprego: EmpregoDto.newInstance(),
+                    );
+                  }),
+                );
                 if (result != null && result is EmpregoDto) {
                   model.appendEmprego(result);
                 }
               } else {
-                Navigator.of(context).pushNamed(Refs.refActRelatorio);
+                Navigator.of(context).push(
+                  CupertinoPageRoute(builder: (c) {
+                    return ActRelacao();
+                  }),
+                );
               }
             },
           );

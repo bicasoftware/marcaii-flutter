@@ -13,13 +13,10 @@ class ViewEmprego extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(8.0),
         child: ScopedModelDescendant<EmpregoState>(
-          rebuildOnChange: true,
           builder: (ct, ch, model) {
             return Form(
               key: model.formKey,
               child: ListView(
-                shrinkWrap: false,
-                addAutomaticKeepAlives: true,
                 children: [
                   presenter.getTextFieldNomeEmprego(),
                   presenter.getTileSalario(),

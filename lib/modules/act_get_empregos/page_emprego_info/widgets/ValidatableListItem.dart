@@ -11,7 +11,8 @@ class ValidatableListItem extends StatelessWidget {
     @required this.formKey,
     @required this.onValidate,
     @required this.onSave,
-    this.isLast: false,
+    this.isLast: false, 
+    this.inputType: TextInputType.text,
   }) : super(key: key);
 
   final String title, hint, initValue;
@@ -20,6 +21,7 @@ class ValidatableListItem extends StatelessWidget {
   final Function(String) onSave;
   final String Function(String) onValidate;
   final bool isLast;
+  final TextInputType inputType;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class ValidatableListItem extends StatelessWidget {
         ListTile(
           title: TextFormField(
             initialValue: initValue,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               hintText: hint,
               labelText: title,

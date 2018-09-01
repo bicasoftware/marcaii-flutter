@@ -7,8 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 class PresenterHora {
   static TextStyle hintTextStyle(BuildContext context) {
-    return Theme
-        .of(context)
+    return Theme.of(context)
         .primaryTextTheme
         .caption
         .copyWith(color: Theme.of(context).accentColor);
@@ -49,8 +48,7 @@ class PresenterHora {
         return DefaultListItem(
           icon: Icons.timer,
           onTap: () async {
-            final time =
-                await showTimePicker(context: context, initialTime: model.horaInicial);
+            final time = await showTimePicker(context: context, initialTime: model.horaInicial);
 
             if (time != null && time is TimeOfDay) {
               model.setHoraInicio(time);
@@ -169,6 +167,30 @@ class PresenterHora {
           ],
         );
       },
+    );
+  }
+
+  Widget getFab() {
+    return ScopedModelDescendant<ModelHora>(
+      rebuildOnChange: false,
+      builder: (context, child, model) {
+        return FloatingActionButton.extended(
+          isExtended: true,
+          icon: Icon(Icons.save),
+          //child: Icon(Icons.save),
+          onPressed: () {
+            Navigator.of(context).pop(model.popResult());
+          },
+          label: Text(Strings.salvar),
+        );
+      },
+    );
+  }
+
+  Widget getBottomBar(){
+    return BottomAppBar(
+      notchMargin: 1.0,      
+      child: quantidadeMinutosCounter,
     );
   }
 }

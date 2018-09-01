@@ -5,17 +5,33 @@ import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ViewEmprego.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class ActInsertEmpregos extends StatelessWidget {
+class ActInsertEmpregos extends StatefulWidget {
   final EmpregoDto emprego;
 
   const ActInsertEmpregos({Key key, @required this.emprego}) : super(key: key);
 
   @override
+  ActInsertEmpregosState createState() {
+    return new ActInsertEmpregosState();
+  }
+}
+
+class ActInsertEmpregosState extends State<ActInsertEmpregos> {
+
+  EmpregoState state;
+
+  void initState() { 
+    super.initState();
+    state = widget.emprego.toState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return ScopedModel<EmpregoState>(
-      model: emprego.toState(),
+      model: state,
       child: Scaffold(
+        resizeToAvoidBottomPadding: true,
         body: ViewEmprego(),
         appBar: AppBar(
           title: Text(Strings.actGetEmprego),
@@ -27,7 +43,7 @@ class ActInsertEmpregos extends StatelessWidget {
                   icon: Icon(Icons.save),
                   onPressed: () {
                     if (model.isValidated()) {
-                      return Navigator.pop(context, model.provideResult());
+                      Navigator.pop(context, model.provideResult());
                     }
                   },
                 );
