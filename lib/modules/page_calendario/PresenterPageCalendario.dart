@@ -56,7 +56,7 @@ class PresenterPageCalendario {
 
   Widget _tabBarView(List<EmpregoDto> empregos) {
     return Expanded(
-      child: TabBarView(
+      child: TabBarView(        
         children: empregos.map((e) {
           return PageCalendarioItem(
             salarios: e.listSalarios,

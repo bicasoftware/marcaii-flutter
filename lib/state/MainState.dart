@@ -143,4 +143,10 @@ class MainState extends Model {
       }
     }).whenComplete(() => notifyListeners());
   }
+
+  int _currentPageViewPosition = -1;
+  
+  void setCurrentPagePosition(int pos) => _currentPageViewPosition = pos;
+
+  int get currentPageViewPosition => _currentPageViewPosition;
 }

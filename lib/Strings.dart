@@ -5,6 +5,9 @@ class Strings {
   static const String horaInicial = "Início Extra";
   static const String horaTermino = "Termino Extra";
   static const String horaNormal = "% Normal";
+  static const String horasNormais = "Normais: ";
+  static const String horasCompletas = "Feriados: ";
+  static const String horasDiferencias = "Diferenciais: ";
   static const String horaFeriado = "% Completa";
   static const String horaDiferencial = "% Diferencial";
   static const String calendario = "Calendário";
@@ -36,6 +39,7 @@ class Strings {
   static const String confirmar_remocao_salario = "Deseja remover o salário?";
   static const String novo = "Novo";
   static const String verTotais = "Ver totais";
+  static const String totais = "Totais";
   static const String tipoExtra = "Porcentagem extra: ";
   static const String aumentoSalario = "Recebi um aumento!";
   static const String valorCorrigido = "Valor do salário";

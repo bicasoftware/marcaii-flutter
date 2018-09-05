@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DualLineAppbar extends AppBar {
+class DualLineAppBar extends AppBar {
 
   final String bigText, smallText;
   final List<Widget> actions;
 
-  DualLineAppbar({
+  DualLineAppBar({
     Key key,
     @required this.bigText,
     @required this.smallText,

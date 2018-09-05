@@ -16,7 +16,7 @@ class ViewPageCalendario extends StatelessWidget {
     return ScopedModelDescendant<MainState>(
       rebuildOnChange: true,
       builder: (context, child, model) {
-        return DefaultTabController(
+        return DefaultTabController(          
           length: model.empregos.length,
           child: Scaffold(
             appBar: AppBar(

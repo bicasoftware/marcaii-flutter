@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/modules/act_relacao/ModelRelacao.dart';
+import 'package:marcaii_flutter/modules/act_relacao/ViewRelacao.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ActRelacao extends StatelessWidget {
+  ActRelacao({Key key, @required this.model}) : super(key: key);
+
+  final ModelRelacao model;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Strings.titleRelatorioHoras),
-      ),
-      body: Container(
-        margin: EdgeInsets.all(8.0),
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text("Relações"),
-            Text("Listar"),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.local_printshop),
-        onPressed: () {
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Implementar Impressão")));
-        },
-      ),
+    return ScopedModel<ModelRelacao>(
+      model: model,
+      child: ViewRelacao(),
     );
   }
 }

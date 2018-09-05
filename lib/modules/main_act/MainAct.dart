@@ -27,11 +27,6 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
     if (i != _mainPagePos) setState(() => _mainPagePos = i);
   }
 
-  // static final _mainPages = [
-  //   const PageListEmpregos(title: Strings.empregos),
-  //   const ViewPageCalendario(),
-  // ];
-
   static final _bottomBarIcons = [
     Icon(Icons.work),
     Icon(Icons.date_range),
@@ -50,8 +45,6 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   static final _titles = ["Cargos", "Calendario"];
 
   String get title => _titles[_mainPagePos];
-
-  //Widget get currentPage => _mainPages[_mainPagePos];
 
   Icon get currentBottonIcon => _bottomBarIcons[_mainPagePos];
 
@@ -119,9 +112,17 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
                 }
               } else {
                 Navigator.of(context).push(
-                  CupertinoPageRoute(builder: (c) {
-                    return ActRelacao();
-                  }),
+                  CupertinoPageRoute(
+                    fullscreenDialog: true,
+                    builder: (c) {
+                      return ActRelacao(
+                        model: model.empregos[_mainPagePos].toModelRelacao(
+                          ano: model.currentYear,
+                          mes: model.currentMonth,
+                        ),
+                      );
+                    },
+                  ),
                 );
               }
             },

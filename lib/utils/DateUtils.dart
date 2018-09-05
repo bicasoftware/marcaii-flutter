@@ -60,20 +60,31 @@ class DateUtils {
     return formater.format(date);
   }
 
-  static String dateTimeToBrString(DateTime date){
+  static String dateTimeToBrString(DateTime date) {
     return DateFormat("dd/MM/yyyy").format(date);
+  }
+
+  static DateTime parseString(String dateString){
+    return DateFormat("yyyy-MM-dd").parse(dateString);
   }
 
   static String timeOfDayToStr(TimeOfDay time) {
     return "${time.hour.toString().padLeft(2, "0")}:${time.minute.toString().padLeft(2, "0")}";
   }
 
-  static String getVigencia(DateTime date){
+  static String getVigencia(DateTime date) {
     return DateFormat("yyyy-MM").format(date);
   }
 
-  static DateTime vigenciaToDate(String vigencia){
-    if(!RegExp(r"^\d{4}-\d{2}$").hasMatch(vigencia)) throw Exception(Warn.warVigenciaInvalida);
+  static DateTime vigenciaToDate(String vigencia) {
+    if (!RegExp(r"^\d{4}-\d{2}$").hasMatch(vigencia)) throw Exception(Warn.warVigenciaInvalida);
     return DateFormat("yyyy-MM").parse(vigencia);
+  }
+
+  static Map<String, DateTime> prepareVigencia(int ano, int mes, int fechamento) {
+    DateTime inicio = DateTime.utc(ano, mes == 0 ? 11 : mes - 1, fechamento + 1);
+    DateTime termino = DateTime.utc(ano, mes, fechamento);
+
+    return {"inicio": inicio, "termino": termino};
   }
 }

@@ -26,7 +26,7 @@ class ActGetPorcentagemState extends State<ActGetPorcentagem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DualLineAppbar(
+      appBar: DualLineAppBar(
         bigText: Strings.diferenciais,
         smallText: "${Arrays.weekDays[widget.diaSemana]}",
       ),

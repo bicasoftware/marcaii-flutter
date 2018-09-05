@@ -1,8 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/calendar/CalendarPageDto.dart';
 import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/models/state/HoraDto.dart';
+import 'package:marcaii_flutter/models/state/RelatorioItemDto.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
+import 'package:marcaii_flutter/modules/act_relacao/ModelRelacao.dart';
+import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class EmpregoDto {
@@ -104,6 +109,78 @@ class EmpregoDto {
       state.appendPorcDifer(f.diaSemana, f.porcAdicional);
     }
     return state;
+  }
+
+  ModelRelacao toModelRelacao({mes: int, ano: int}) {
+    final vigencia = DateUtils.prepareVigencia(ano, mes + 1, diaFechamento);
+    final inicio = vigencia["inicio"];
+    final termino = vigencia["termino"];
+    List<RelatorioItemDto> items = [];
+
+    final s = listSalarios
+        .lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(termino))
+        .valorSalario;
+
+    print("$inicio - $termino, count: ${listHoras.length}");
+
+    final horasBetween = listHoras.where((h) {
+      final dt = DateUtils.parseString(h.dta);
+      print(dt);
+
+      return dt.isAfter(inicio) && dt.isBefore(termino);
+    });
+
+    print(horasBetween.length);
+
+    horasBetween.forEach((h) {
+      items.add(
+        RelatorioItemDto(
+          inicio: DateUtils.timeOfDayToStr(h.horaInicial),
+          termino: DateUtils.timeOfDayToStr(h.horaTermino),
+          minutos: DateUtils.minutesBetween(
+            init: h.horaInicial,
+            end: h.horaTermino,
+          ),
+          date: DateUtils.dateTimeToBrString(DateUtils.parseString(h.dta)),
+          valor: CurrencyUtils.calcPorcentExtra(
+            salario,
+            cargaHoraria,
+            _getPorcentagem(h.tipoHora, h.dta),
+          ),
+          color: _getColor(h.tipoHora),
+        ),
+      );
+    });
+
+    print(items.length);
+
+    return ModelRelacao()
+      ..mes = mes
+      ..inicio = inicio
+      ..termino = termino
+      ..items = items
+      ..salario = s;
+  }
+
+  int _getPorcentagem(String tipoHora, String data) {
+    if (tipoHora == Consts.horaNormal) {
+      return porcNormal;
+    } else if (tipoHora == Consts.horaFeriados) {
+      return porcFeriados;
+    } else if (tipoHora == Consts.horaDiferencial) {
+      int d = DateUtils.getCurrentWeekday(DateUtils.parseString(data));
+      return listDiferenciais.firstWhere((difer) => difer.diaSemana == d).porcAdicional;
+    }
+  }
+
+  Color _getColor(String tipoHora) {
+    if (tipoHora == Consts.horaNormal) {
+      return Colors.green;
+    } else if (tipoHora == Consts.horaFeriados) {
+      return Colors.orange;
+    } else if (tipoHora == Consts.horaDiferencial) {
+      return Colors.red;
+    }
   }
 
   Map toMap() {
