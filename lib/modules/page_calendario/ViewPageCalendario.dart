@@ -5,34 +5,55 @@ import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:marcaii_flutter/utils/NavigationTabBar.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class ViewPageCalendario extends StatelessWidget {
-  
+class ViewPageCalendario extends StatefulWidget {
   const ViewPageCalendario({Key key}) : super(key: key);
-  
+
+  @override
+  ViewPageCalendarioState createState() {
+    return new ViewPageCalendarioState();
+  }
+}
+
+class ViewPageCalendarioState extends State<ViewPageCalendario> with TickerProviderStateMixin {
   final presenter = const PresenterPageCalendario(Strings.calendario);
+
+  TabController tabController;
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainState>(
       rebuildOnChange: true,
       builder: (context, child, model) {
-        return DefaultTabController(          
+        tabController = TabController(
+          vsync: this,
           length: model.empregos.length,
-          child: Scaffold(
-            appBar: AppBar(
-              title: presenter.getTitle(),
-              actions: <Widget>[
-                presenter.getDropdownAnos(),
-              ],
-              bottom: NavigationTabBar(
-                onNext: () => model.addMonth(),
-                onPrev: () => model.decMonth(),
-                onLabelTap: null,
-                position: model.currentMonth,
-                tabBar: presenter.getTabBar(model.empregos),
-              ),
+          initialIndex: model.currentPageViewPosition,
+        );
+        tabController.addListener(() {
+          print("new position: ${tabController.index}");
+          model.setCurrentPagePosition(tabController.index);
+        });
+
+        return Scaffold(
+          body: presenter.provideBody(model.empregos, controller: tabController),
+          appBar: AppBar(
+            title: presenter.getTitle(),
+            actions: <Widget>[
+              presenter.getDropdownAnos(),
+            ],
+            bottom: NavigationTabBar(
+              onNext: () => model.addMonth(),
+              onPrev: () => model.decMonth(),
+              onLabelTap: null,
+              position: model.currentMonth,
+              tabBar: presenter.getTabBar(model.empregos, tabController),
             ),
-            body: presenter.provideBody(model.empregos),
           ),
         );
       },

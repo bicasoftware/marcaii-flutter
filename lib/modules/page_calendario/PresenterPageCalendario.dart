@@ -38,8 +38,9 @@ class PresenterPageCalendario {
     );
   }
 
-  TabBar getTabBar(List<EmpregoDto> empregos) {
+  TabBar getTabBar(List<EmpregoDto> empregos, TabController controller) {
     return TabBar(
+      controller: controller,
       unselectedLabelColor: Colors.white70,
       labelColor: Colors.white,
       tabs: _provideTabs(empregos),
@@ -54,9 +55,10 @@ class PresenterPageCalendario {
     return CalendarHeader();
   }
 
-  Widget _tabBarView(List<EmpregoDto> empregos) {
+  Widget _tabBarView(List<EmpregoDto> empregos, {@required TabController controller}) {
     return Expanded(
       child: TabBarView(        
+        controller: controller,
         children: empregos.map((e) {
           return PageCalendarioItem(
             salarios: e.listSalarios,
@@ -71,12 +73,12 @@ class PresenterPageCalendario {
     );
   }
 
-  Widget provideBody(List<EmpregoDto> empregos) {
+  Widget provideBody(List<EmpregoDto> empregos, {@required TabController controller}) {
     return Container(
       child: Column(
         children: <Widget>[
           _calendarHeader(),
-          _tabBarView(empregos),
+          _tabBarView(empregos, controller: controller),
         ],
       ),
     );

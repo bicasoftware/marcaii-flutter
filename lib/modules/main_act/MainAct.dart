@@ -116,7 +116,7 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
                     fullscreenDialog: true,
                     builder: (c) {
                       return ActRelacao(
-                        model: model.empregos[_mainPagePos].toModelRelacao(
+                        model: model.empregos[model.currentPageViewPosition].toModelRelacao(
                           ano: model.currentYear,
                           mes: model.currentMonth,
                         ),
