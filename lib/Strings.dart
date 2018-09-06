@@ -49,6 +49,7 @@ class Strings {
   static const String vigencia = "Vigencia";
   static const String anoAumento = "Ano";
   static const String mesAumento = "Mês inicial";
+  static const String minutos = "minutos";
   
 
   static const String porcDifer = "% Diferencial";

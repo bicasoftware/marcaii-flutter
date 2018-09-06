@@ -44,51 +44,56 @@ class PresenterRelacao {
   }
 
   Widget provideBottomBar() {
-    return BottomAppBar(
-      elevation: 8.0,
-      notchMargin: 2.0,
-      shape: CircularNotchedRectangle(),
-      child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(Strings.totais),
-                    Divider(),
-                    TotaisItem(
-                      color: Colors.green,
-                      minutos: 120,
-                      title: Strings.horasNormais,
-                      valor: 165.0,
+    return ScopedModelDescendant<ModelRelacao>(
+      rebuildOnChange: false,
+      builder: (context, child, model) {
+        return BottomAppBar(
+          elevation: 8.0,
+          notchMargin: 2.0,
+          shape: CircularNotchedRectangle(),
+          child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(Strings.totais),
+                        Divider(),
+                        TotaisItem(
+                          color: Colors.green,
+                          minutos: model.minutosNormais,
+                          title: Strings.horasNormais,
+                          valor: model.valorNormal,
+                        ),
+                        TotaisItem(
+                          color: Colors.orange,
+                          minutos: model.minutosCompletos,
+                          title: Strings.horasCompletas,
+                          valor: model.valorCompletos,
+                        ),
+                        TotaisItem(
+                          color: Colors.red,
+                          minutos: model.minutosCompletos,
+                          title: Strings.horasDiferencias,
+                          valor: model.valorCompletos,
+                        ),
+                        BaseDivider(),
+                        TotaisItem(
+                          title: "",
+                          minutos: model.totalMinutos,
+                          valor: model.totalValor,
+                        )
+                      ],
                     ),
-                    TotaisItem(
-                      color: Colors.orange,
-                      minutos: 120,
-                      title: Strings.horasCompletas,
-                      valor: 165.0,
-                    ),
-                    TotaisItem(
-                      color: Colors.red,
-                      minutos: 120,
-                      title: Strings.horasDiferencias,
-                      valor: 165.0,
-                    ),
-                    BaseDivider(),
-                    TotaisItem(
-                      title: "",
-                      minutos: 300,
-                      valor: 200.0,
-                    )
-                  ],
-                ),
-              ),
-            ],
-          )),
+                  ),
+                ],
+              )),
+        );
+      },
     );
   }
 }

@@ -84,7 +84,7 @@ class MainState extends Model {
   void appendEmprego(EmpregoDto emprego) {
     manager.insertEmprego(emprego).then((EmpregoDto e) {
       final cells = CalendarBuilder.buildCalendarByMonth(currentYear, currentMonth + 1, e.id);
-      final newPage = CalendarPageDto(year: currentYear, month: currentMonth, cells: cells);
+      final newPage = CalendarPageDto(year: currentYear, month: currentMonth, cells: cells);      
       e.listCalendarPages.add(newPage);
       empregos.add(e);
     }).whenComplete(() {
@@ -104,6 +104,8 @@ class MainState extends Model {
         horas: horasDto,
       );
       e.listCalendarPages.add(newPage);
+      e.listHoras.addAll(horasDto);
+      
       empregos[pos] = e;
     }).whenComplete(() {
       notifyListeners();
