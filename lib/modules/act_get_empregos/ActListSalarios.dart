@@ -15,19 +15,19 @@ class ActListSalarios extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Salários anteriores"),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(salarios),
-          ),
+      appBar: AppBar(
+        title: Text("Salários anteriores"),
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () => Navigator.of(context).pop(salarios),
         ),
-        body: new ListBody(salarios: salarios));
+      ),
+      body: new ListBody(salarios: salarios),
+    );
   }
 }
 
 class ListBody extends StatefulWidget {
-
   const ListBody({
     Key key,
     @required this.salarios,

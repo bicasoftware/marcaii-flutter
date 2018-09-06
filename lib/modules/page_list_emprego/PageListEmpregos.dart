@@ -32,10 +32,11 @@ class PageListEmpregos extends StatelessWidget {
                       emprego: emprego,
                       onTap: () async {
                         final updatableEmprego = await Navigator.of(context).push(
-                              CupertinoPageRoute(
-                                builder: (context) => ActInsertEmpregos(emprego: emprego),
-                              ),
-                            );
+                          CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => ActInsertEmpregos(emprego: emprego),
+                          ),
+                        );
 
                         if (updatableEmprego != null && updatableEmprego is EmpregoDto) {
                           model.updateEmprego(updatableEmprego);

@@ -101,7 +101,9 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
             onPressed: () async {
               if (_mainPagePos == 0) {
                 final result = await Navigator.of(context).push(
-                  CupertinoPageRoute(builder: (c) {
+                  CupertinoPageRoute(
+                    fullscreenDialog: true,
+                    builder: (c) {
                     return ActInsertEmpregos(
                       emprego: EmpregoDto.newInstance(),
                     );

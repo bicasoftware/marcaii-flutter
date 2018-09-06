@@ -58,6 +58,8 @@ class ActGetPorcentagemState extends State<ActGetPorcentagem> {
                       if (!Validation.isValidPercent(e.trim())) {
                         return Warn.warPorcInvalida;
                       }
+
+                      return null;
                     },
                     onSaved: (e) {
                       Navigator.of(context).pop(int.parse(e));

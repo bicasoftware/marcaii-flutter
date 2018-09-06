@@ -171,6 +171,8 @@ class EmpregoDto {
       int d = DateUtils.getCurrentWeekday(DateUtils.parseString(data));
       return listDiferenciais.firstWhere((difer) => difer.diaSemana == d).porcAdicional;
     }
+
+    return 1;
   }
 
   Color _getColor(String tipoHora) {
@@ -181,6 +183,8 @@ class EmpregoDto {
     } else if (tipoHora == Consts.horaDiferencial) {
       return Colors.red;
     }
+
+    return Colors.black;
   }
 
   Map toMap() {

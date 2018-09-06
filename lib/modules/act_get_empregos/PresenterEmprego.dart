@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/ActGetAumentos.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/ActGetSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ActListSalarios.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/EmpregosDialogs.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
@@ -81,40 +84,39 @@ class PresenterEmprego {
       icon: Icons.monetization_on,
       contentChild: Text("R\$ " + CurrencyUtils.doubleToCurrency(md.valorSalario)),
       onTap: () async {
-        final result = await EmpregosDialogs.showDialogOptionSalario(ct);
-        if (result != null && result is OptionSalario) {
-          if (result == OptionSalario.ALTERAR) {
-            double newSalario = await EmpregosDialogs.showDialogSalario(
-              context: ct,
-              defaultValue: md.valorSalario,
-            );
+        final option = await EmpregosDialogs.showDialogOptionSalario(ct);
+        if (option != null && option is OptionSalario) {
+          if (option == OptionSalario.ALTERAR) {
+            double salarioCorrigido = await Navigator.of(ct).push(CupertinoPageRoute(
+                fullscreenDialog: true, builder: (c) => ActGetSalario(initValue: md.valorSalario)));
 
-            if (newSalario != null && newSalario is double) {
-              md.updateSalario(newSalario);
+            if (salarioCorrigido != null && salarioCorrigido > 0) {
+              md.updateSalario(salarioCorrigido);
             }
-          } else if (result == OptionSalario.NOVO) {
-            final Map<String, dynamic> result = await EmpregosDialogs.showDialogGetAumento(
-              context: ct,
-              defaultValue: md.valorSalario,
-            );
+          } else if (option == OptionSalario.NOVO) {
+            final aumento = await Navigator.of(ct).push(CupertinoPageRoute(
+                fullscreenDialog: true,
+                builder: (c) => ActGetAumentos(initValue: md.valorSalario)));
 
-            if (result != null) {
-              String ano = result["ano"];
+            if (aumento != null && aumento is Map<String, dynamic>) {
+              String ano = aumento["ano"];
               String mes =
-                  Arrays.months.indexWhere((m) => m == result["mes"]).toString().padLeft(2, "0");
+                  Arrays.months.indexWhere((m) => m == aumento["mes"]).toString().padLeft(2, "0");
 
-              double valor = result["valor"];
+              double valor = aumento["valor"];
               md.appendSalario("$ano-$mes", valor);
             }
-          } else if (result == OptionSalario.LISTAR) {
-            Navigator.of(ct)
-                .push(
-                  CupertinoPageRoute(
-                    fullscreenDialog: false,
-                    builder: (BuildContext context) => ActListSalarios(salarios: md.salarios),
-                  ),
-                )
-                .then((s) => md.resetSalarios(s));
+          } else if (option == OptionSalario.LISTAR) {
+            final listSalarios = await Navigator.of(ct).push(
+              CupertinoPageRoute(
+                fullscreenDialog: true,
+                builder: (BuildContext context) => ActListSalarios(salarios: md.salarios),
+              ),
+            );
+
+            if (listSalarios != null && listSalarios is List<SalariosDto>) {
+              md.resetSalarios(listSalarios);
+            }
           }
         }
       },

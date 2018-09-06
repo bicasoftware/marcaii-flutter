@@ -47,6 +47,8 @@ class Strings {
   static const String optSalarios = "Opções sobre salário";
   static const String verSalarios = "Ver Anteriores";
   static const String vigencia = "Vigencia";
+  static const String anoAumento = "Ano";
+  static const String mesAumento = "Mês inicial";
   
 
   static const String porcDifer = "% Diferencial";
