@@ -76,6 +76,7 @@ class Warn {
   static const String warHorasInvalidas = "Horas inválidas";
   static const String warDiaInvalido = "Dia de fechamento inválido";
   static const String warVigenciaInvalida = "Vigencia inválida";
+  static const String warErroGerarPermissao = "Impossível gerar arquivo sem as devidas permissões";  
 }
 
 class Arrays {
