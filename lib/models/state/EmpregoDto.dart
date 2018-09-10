@@ -64,8 +64,12 @@ class EmpregoDto {
     listDiferenciais.add(difer);
   }
 
-  void appendHora(HoraDto hora) {
-    listHoras.add(hora);
+  void appendHora(HoraDto hora, bool isInsert) {
+    if (isInsert) {
+      listHoras.add(hora);
+    } else {
+      listHoras.firstWhere((h) => h.id == hora.id, orElse: null)?.copyFrom(hora);
+    }
   }
 
   void deleteHora(int idHora) {
@@ -76,7 +80,6 @@ class EmpregoDto {
         .where((c) => c.hora.id != null)
         .firstWhere((it) => it.hora.id == idHora, orElse: null)
         ?.clear();
-
   }
 
   void updateHora(HoraDto hora) {
@@ -121,7 +124,6 @@ class EmpregoDto {
     final s = listSalarios
         .lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(termino))
         .valorSalario;
-
 
     final horasBetween = listHoras.where((h) {
       final dt = h.dta;

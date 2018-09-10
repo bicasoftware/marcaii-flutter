@@ -82,6 +82,7 @@ class CalendarBody extends StatelessWidget {
   ) async {
     final result = await Navigator.of(context).push(
       CupertinoPageRoute(
+        fullscreenDialog: true,
         builder: (context) {
           return ActGetHoras(
             cell: cell,

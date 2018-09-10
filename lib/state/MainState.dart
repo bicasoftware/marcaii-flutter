@@ -131,23 +131,15 @@ class MainState extends Model {
   }
 
   void insertHora(int idEmprego, HoraDto hora) {
+    bool isInsert = hora.id == null;
     manager.upsertHora(hora).then((newHora) {
       final index = empregos.indexWhere((e) => e.id == idEmprego);
       if (index > -1) {
-        empregos[index].appendHora(newHora);
+        empregos[index].appendHora(newHora, isInsert);
       }
     }).whenComplete(() => notifyListeners());
   }
-
-  void updateHora(int idEmprego, HoraDto hora) {
-    manager.upsertHora(hora).then((newHora) {
-      final index = empregos.indexWhere((e) => e.id == idEmprego);
-      if (index > -1) {
-        empregos[index].updateHora(newHora);
-      }
-    }).whenComplete(() => notifyListeners());
-  }
-
+  
   int _currentPageViewPosition = 0;
   
   void setCurrentPagePosition(int pos) => _currentPageViewPosition = pos;
