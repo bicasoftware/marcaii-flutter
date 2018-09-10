@@ -84,9 +84,9 @@ class PresenterRelacao {
                         ),
                         TotaisItem(
                           color: Colors.red,
-                          minutos: model.minutosCompletos,
+                          minutos: model.minutosDifer,
                           title: Strings.horasDiferencias,
-                          valor: model.valorCompletos,
+                          valor: model.valorDiferencial,
                         ),
                         BaseDivider(),
                         TotaisItem(
