@@ -4,12 +4,17 @@ import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ActInsertEmpregos.dart';
 import 'package:marcaii_flutter/modules/act_relacao/ActRelacao.dart';
+import 'package:marcaii_flutter/modules/main_act/PlaceholderCalendario.dart';
 import 'package:marcaii_flutter/modules/page_calendario/ViewPageCalendario.dart';
 import 'package:marcaii_flutter/modules/page_list_emprego/PageListEmpregos.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MainAct extends StatefulWidget {
+  final bool hasEmprego;
+
+  const MainAct({Key key, @required this.hasEmprego}) : super(key: key);
+
   @override
   State createState() => _MainState();
 }
@@ -19,7 +24,14 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   CrossFadeState _crossFadeState;
 
   void initState() {
-    _crossFadeState = CrossFadeState.showFirst;
+    //se já existem empregos salvos, vai direto pro calendário
+    if (widget.hasEmprego) {
+      _crossFadeState = CrossFadeState.showSecond;
+      _mainPagePos = 1;
+    } else {
+      _crossFadeState = CrossFadeState.showFirst;
+      _mainPagePos = 0;
+    }
     super.initState();
   }
 
@@ -27,22 +39,22 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
     if (i != _mainPagePos) setState(() => _mainPagePos = i);
   }
 
-  static final _bottomBarIcons = [
+  static const _bottomBarIcons = const [
     Icon(Icons.work),
     Icon(Icons.date_range),
   ];
 
-  static final _fabIcons = [
+  static const _fabIcons = const [
     Icon(Icons.add),
     Icon(Icons.list),
   ];
 
-  static final _fabLabel = [
+  static const _fabLabel = const [
     Strings.novo,
     Strings.verTotais,
   ];
 
-  static final _titles = ["Cargos", "Calendario"];
+  static const _titles = const ["Cargos", "Calendario"];
 
   String get title => _titles[_mainPagePos];
 
@@ -55,26 +67,30 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedCrossFade(
-        crossFadeState: _crossFadeState,
-        layoutBuilder: (tela1, key1, tela2, key2) {
-          return Stack(
-            fit: StackFit.loose,
-            children: <Widget>[
-              Positioned(
-                key: key2,
-                child: tela2,
-              ),
-              Positioned(
-                key: key1,
-                child: tela1,
-              ),
-            ],
+      body: ScopedModelDescendant<MainState>(
+        builder: (context, child, model) {
+          return AnimatedCrossFade(
+            crossFadeState: _crossFadeState,
+            layoutBuilder: (tela1, key1, tela2, key2) {
+              return Stack(
+                fit: StackFit.loose,
+                children: <Widget>[
+                  Positioned(
+                    key: key2,
+                    child: tela2,
+                  ),
+                  Positioned(
+                    key: key1,
+                    child: tela1,
+                  ),
+                ],
+              );
+            },
+            firstChild: PageListEmpregos(title: Strings.empregos),
+            secondChild: model.hasEmpregos ? ViewPageCalendario() : PlaceholderCalendario(),
+            duration: Duration(milliseconds: 300),
           );
         },
-        firstChild: PageListEmpregos(title: Strings.empregos),
-        secondChild: ViewPageCalendario(),
-        duration: Duration(milliseconds: 300),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _mainPagePos,
@@ -102,30 +118,38 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
               if (_mainPagePos == 0) {
                 final result = await Navigator.of(context).push(
                   CupertinoPageRoute(
-                    fullscreenDialog: true,
-                    builder: (c) {
-                    return ActInsertEmpregos(
-                      emprego: EmpregoDto.newInstance(),
-                    );
-                  }),
+                      fullscreenDialog: true,
+                      builder: (c) {
+                        return ActInsertEmpregos(
+                          emprego: EmpregoDto.newInstance(),
+                        );
+                      }),
                 );
                 if (result != null && result is EmpregoDto) {
                   model.appendEmprego(result);
                 }
               } else {
-                Navigator.of(context).push(
-                  CupertinoPageRoute(
-                    fullscreenDialog: true,
-                    builder: (c) {
-                      return ActRelacao(
-                        model: model.empregos[model.currentPageViewPosition].toModelRelacao(
-                          ano: model.currentYear,
-                          mes: model.currentMonth,
-                        ),
-                      );
-                    },
-                  ),
-                );
+                if (model.hasEmpregos) {
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (c) {
+                        return ActRelacao(
+                          model: model.empregos[model.currentPageViewPosition].toModelRelacao(
+                            ano: model.currentYear,
+                            mes: model.currentMonth,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(Strings.nadaTotalizar),
+                    )
+                  );
+                }
               }
             },
           );

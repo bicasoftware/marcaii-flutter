@@ -36,7 +36,6 @@ class ViewPageCalendarioState extends State<ViewPageCalendario> with TickerProvi
           initialIndex: model.currentPageViewPosition,
         );
         tabController.addListener(() {
-          print("new position: ${tabController.index}");
           model.setCurrentPagePosition(tabController.index);
         });
 

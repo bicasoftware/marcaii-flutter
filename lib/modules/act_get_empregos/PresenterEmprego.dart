@@ -6,7 +6,7 @@ import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ActGetAumentos.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ActGetSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ActListSalarios.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/EmpregosDialogs.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/BtsOptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/OptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DiferenciaisListItem.dart';
@@ -84,7 +84,10 @@ class PresenterEmprego {
       icon: Icons.monetization_on,
       contentChild: Text("R\$ " + CurrencyUtils.doubleToCurrency(md.valorSalario)),
       onTap: () async {
-        final option = await EmpregosDialogs.showDialogOptionSalario(ct);
+        //final option = await EmpregosDialogs.showDialogOptionSalario(ct);
+        final option = await showModalBottomSheet(
+          context: ct, builder: (ct) => BtsOptionSalario()          
+        );
         if (option != null && option is OptionSalario) {
           if (option == OptionSalario.ALTERAR) {
             double salarioCorrigido = await Navigator.of(ct).push(CupertinoPageRoute(
@@ -279,11 +282,7 @@ class PresenterEmprego {
           final result = await Navigator.of(context).push(
             CupertinoPageRoute(
               fullscreenDialog: true,
-              builder: (context) {
-                return ActGetPorcentagem(
-                  porc: d.porcent,
-                );
-              },
+              builder: (context) => ActGetPorcentagem(porc: d.porcent, diaSemana: d.diaSemana),
             ),
           );
 

@@ -26,7 +26,7 @@ class EmpregoState extends Model {
   String nomeEmprego, horarioSaida;
   int porcNormal, porcFeriados, diaFechamento, cargaHoraria;
 
-   static final List<PorcDiferDto> porcList = [
+  static final List<PorcDiferDto> porcList = [
     PorcDiferDto(id: 0, diaSemana: 0, porcent: 0, valor: 0.0),
     PorcDiferDto(id: 0, diaSemana: 1, porcent: 0, valor: 0.0),
     PorcDiferDto(id: 0, diaSemana: 2, porcent: 0, valor: 0.0),
@@ -120,7 +120,7 @@ class EmpregoState extends Model {
   }
 
   void clearAllPorcs() {
-    for(int i = 0; i < 7; i++){
+    for (int i = 0; i < 7; i++) {
       porcList[i] = PorcDiferDto(diaSemana: i, porcent: 0, valor: 0.0);
     }
   }
@@ -160,15 +160,11 @@ class EmpregoState extends Model {
       porcNormal: porcNormal,
     );
 
-    try {
-      porcList
-          .where((it) => it.porcent != 0)
-          .map((it) =>
-              DiferenciaisDto(idEmprego: id, diaSemana: it.diaSemana, porcAdicional: it.porcent))
-          .forEach((f) => empregoDto.appendPorcDifer(f));
-    } catch (e) {
-      print(e);
-    }
+    porcList
+        .where((it) => it.porcent != 0)
+        .map((it) =>
+            DiferenciaisDto(idEmprego: id, diaSemana: it.diaSemana, porcAdicional: it.porcent))
+        .forEach((f) => empregoDto.appendPorcDifer(f));
 
     empregoDto.listSalarios.addAll(salarios);
 

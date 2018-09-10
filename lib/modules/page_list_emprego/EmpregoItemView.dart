@@ -16,6 +16,7 @@ class EmpregoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 1.0,      
       child: ListTile(
         onLongPress: onLongTap,
         onTap: onTap,

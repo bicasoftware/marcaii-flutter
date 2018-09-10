@@ -18,6 +18,8 @@ class MainState extends Model {
 
   EmpregoDto getEmpregoAt(int pos) => empregos[pos];
 
+  bool get hasEmpregos => empregos.length > 0;
+
   int _currentEmprego;
 
   int get idEmprego => _currentEmprego;

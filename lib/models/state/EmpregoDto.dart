@@ -69,13 +69,14 @@ class EmpregoDto {
   }
 
   void deleteHora(int idHora) {
+    listHoras.removeWhere((HoraDto h) => h.id == idHora);
+
     currentPage.cells
         .where((c) => c != null)
         .where((c) => c.hora.id != null)
         .firstWhere((it) => it.hora.id == idHora, orElse: null)
         ?.clear();
 
-    listHoras.removeWhere((h) => h.id == idHora);
   }
 
   void updateHora(HoraDto hora) {
@@ -121,16 +122,13 @@ class EmpregoDto {
         .lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(termino))
         .valorSalario;
 
-    print("$inicio - $termino, count: ${listHoras.length}");
 
     final horasBetween = listHoras.where((h) {
-      final dt = DateUtils.parseString(h.dta);
-      print(dt);
-
+      final dt = h.dta;
       return dt.isAfter(inicio) && dt.isBefore(termino);
-    });
+    }).toList();
 
-    print(horasBetween.length);
+    horasBetween.sort((a, b) => a.dta.compareTo(b.dta));
 
     horasBetween.forEach((h) {
       items.add(
@@ -141,7 +139,7 @@ class EmpregoDto {
             init: h.horaInicial,
             end: h.horaTermino,
           ),
-          date: DateUtils.dateTimeToBrString(DateUtils.parseString(h.dta)),
+          date: h.dta,
           valor: CurrencyUtils.calcPorcentExtra(
             salario,
             cargaHoraria,
@@ -152,8 +150,6 @@ class EmpregoDto {
       );
     });
 
-    print(items.length);
-
     return ModelRelacao()
       ..mes = mes
       ..inicio = inicio
@@ -162,13 +158,13 @@ class EmpregoDto {
       ..salario = s;
   }
 
-  int _getPorcentagem(String tipoHora, String data) {
+  int _getPorcentagem(String tipoHora, DateTime data) {
     if (tipoHora == Consts.horaNormal) {
       return porcNormal;
     } else if (tipoHora == Consts.horaFeriados) {
       return porcFeriados;
     } else if (tipoHora == Consts.horaDiferencial) {
-      int d = DateUtils.getCurrentWeekday(DateUtils.parseString(data));
+      int d = DateUtils.getCurrentWeekday(data);
       return listDiferenciais.firstWhere((difer) => difer.diaSemana == d).porcAdicional;
     }
 

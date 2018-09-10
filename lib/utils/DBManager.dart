@@ -8,6 +8,7 @@ import 'package:marcaii_flutter/models/sql/MdSalarios.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/models/state/HoraDto.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
+import 'package:marcaii_flutter/utils/ListUtils.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -19,7 +20,6 @@ class DBManager {
 
   Future<Database> getInstance() async {
     if (_db == null) {
-      print("db is null");
       create();
     }
 
@@ -95,13 +95,19 @@ class DBManager {
         d.id = await _db.insert(MdPorcDifer.tableName, d.toMap());
       }
 
+      ///pegar query que atualiza todas as horas para normal ao remover a hora diferencial
+      final nonDeletedDiferenciais = emprego.listDiferenciais.map((d) => d.diaSemana).toList();
+      await updateHorasAsNormais(
+        ListUtils.parseListAsQuotedString(nonDeletedDiferenciais),
+        emprego.id,
+      );
+
       //dropa salarios e recria
       await dropSalariosByEmprego(emprego.id);
-      for(final s in emprego.listSalarios){
+      for (final s in emprego.listSalarios) {
         s.idEmprego = emprego.id;
         s.id = await _db.insert(MdSalarios.tableName, s.toMap());
       }
-
     }
 
     return emprego;
@@ -114,7 +120,7 @@ class DBManager {
       whereArgs: [idEmprego],
     );
 
-    if(modified > 0) {
+    if (modified > 0) {
       await _db.delete(MdHoras.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
       await _db.delete(MdSalarios.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
       await _db.delete(MdPorcDifer.tableName, where: "idemprego = ?", whereArgs: [idEmprego]);
@@ -131,6 +137,17 @@ class DBManager {
     );
 
     return modified > 0;
+  }
+
+  Future<int> updateHorasAsNormais(String diferenciais, int idEmprego) async {
+    return await _db.rawUpdate(
+      """
+      update ${MdHoras.tableName} set tipoHora = "${Consts.horaNormal}" 
+      where strftime("%w", date(dta)) not in($diferenciais)
+      and tipohora = "${Consts.horaDiferencial}"
+      and idemprego = $idEmprego
+      """,
+    );
   }
 
   ///deleta todas as porcentagens diferenciais do emprego
@@ -185,7 +202,6 @@ class DBManager {
     } else {
       await _db.update(MdHoras.tableName, hora.toMap(), where: "id = ?", whereArgs: [hora.id]);
     }
-
     return hora;
   }
 

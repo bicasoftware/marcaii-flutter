@@ -4,7 +4,11 @@ import 'package:marcaii_flutter/utils/DualLineAppBar.dart';
 import 'package:marcaii_flutter/utils/Validation.dart';
 
 class ActGetPorcentagem extends StatefulWidget {
-  const ActGetPorcentagem({Key key, this.porc, this.diaSemana: 0}) : super(key: key);
+  const ActGetPorcentagem({
+    Key key,
+    this.porc: 30,
+    @required this.diaSemana,
+  }) : super(key: key);
 
   final int porc, diaSemana;
 

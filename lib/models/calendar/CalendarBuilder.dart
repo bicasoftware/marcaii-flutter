@@ -1,11 +1,10 @@
 import 'package:marcaii_flutter/models/calendar/CalendarCellDto.dart';
 import 'package:marcaii_flutter/models/calendar/CalendarPageDto.dart';
 import 'package:marcaii_flutter/models/state/HoraDto.dart';
-import 'package:marcaii_flutter/utils/DateUtils.dart';
 
 class CalendarBuilder {
   static List<CalendarCellDto> buildCalendarByMonth(int year, int month, int idEmprego) {
-    DateTime date = DateTime.utc(year, month, 1);
+    DateTime date = DateTime(year, month, 1);
     final days = List<CalendarCellDto>();
 
     //adiciona itens vazios no começo do calendário
@@ -21,7 +20,7 @@ class CalendarBuilder {
           date: date,
           hora: HoraDto(
             idEmprego: idEmprego,
-            dta: DateUtils.dateTimeToString(date),
+            dta: date,
           ),
         ),
       );
@@ -44,8 +43,7 @@ class CalendarBuilder {
   }) {
     final cells = CalendarBuilder.buildCalendarByMonth(year, month, idEmprego);
     cells.where((it) => it != null).forEach((CalendarCellDto c) {
-      String parsedDate = DateUtils.dateTimeToString(c.date);
-      HoraDto hora = horas.firstWhere((h) => h.dta == parsedDate, orElse: () => null);
+      HoraDto hora = horas.firstWhere((h) => h.dta == c.date, orElse: () => null);
       if (hora != null) {
         c.hora.copyFrom(hora);
       }

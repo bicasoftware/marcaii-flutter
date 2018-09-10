@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/calendar/CalendarBuilder.dart';
 import 'package:marcaii_flutter/models/sql/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/sql/MdHoras.dart';
@@ -14,62 +13,6 @@ import 'package:marcaii_flutter/state/MainState.dart';
 import 'package:marcaii_flutter/utils/DBManager.dart';
 
 class MarcaiiStateBuilder {
-  static void doOnFirstRun() async {
-    final db = DBManager();
-    await db.create();
-
-    var emprego = EmpregoDto(
-      nomeEmprego: "Analista Show",
-      cargaHoraria: 220,
-      bancoHoras: false,
-      diaFechamento: 25,
-      horarioSaida: "18:00",
-      porcFeriados: 100,
-      porcNormal: 50,
-    );
-
-    final porc1 = MdPorcDifer(
-      diaSemana: 0,
-      porcAdicional: 120,
-    );
-
-    final porc2 = MdPorcDifer(
-      diaSemana: 6,
-      porcAdicional: 110,
-    );
-
-    final salario = SalariosDto(
-      valorSalario: 1365.0,
-      status: true,
-      vigencia: "2018-01",
-    );
-
-    final hora1 = HoraDto(
-      dta: "2018-07-01",
-      horaInicial: TimeOfDay(hour: 18, minute: 00),
-      horaTermino: TimeOfDay(hour: 18, minute: 00),
-      quantidade: 60,
-      tipoHora: "CONST_HORANORMAL",
-    );
-
-    try {
-      emprego = await db.insertEmprego(emprego);
-      if (emprego.id != null) {
-        salario.idEmprego = emprego.id;
-        hora1.idEmprego = emprego.id;
-        porc1.idEmprego = emprego.id;
-        porc2.idEmprego = emprego.id;
-      }
-
-      db.upsertHora(hora1);
-      db.upsertPorcDifer(porc1);
-      db.upsertPorcDifer(porc2);
-      db.upsertSalario(salario);
-    } catch (e) {
-      print(e);
-    }
-  }
-
   static Future<MainState> buildState() async {
     final db = DBManager();
     final listEmpregos = List<EmpregoDto>();
@@ -95,7 +38,7 @@ class MarcaiiStateBuilder {
 
           ///Linka horas salvas no banco com os respectivos itens do calendário
           List<MdHoras> horas = await db.fetchHorasByEmprego(emprego.id);
-          final List<HoraDto> horasDto = horas.map((h)=> h.toDto()).toList();
+          final List<HoraDto> horasDto = horas.map((h) => h.toDto()).toList();
           final currentPage = CalendarBuilder.buildPageAndBind(
             horas: horasDto,
             month: month,
@@ -116,22 +59,4 @@ class MarcaiiStateBuilder {
 
     return MainState(DateTime.now(), empregos: listEmpregos);
   }
-
-  // static CalendarPageDto getCalendarPage({
-  //   int idEmprego,
-  //   year: int,
-  //   month: int,
-  //   List<MdHoras> horas,
-  // }) {
-  //   final cells = CalendarBuilder.buildCalendarByMonth(year, month, idEmprego);
-  //   cells.where((it) => it != null).forEach((CalendarCellDto c) {
-  //     String parsedDate = DateUtils.dateTimeToString(c.date);
-  //     MdHoras hora = horas.firstWhere((h) => h.dta == parsedDate, orElse: () => null);
-  //     if (hora != null) {
-  //       c.hora.copyFrom(hora);
-  //     }
-  //   });
-
-  //   return CalendarPageDto(year: year, month: month, cells: cells);
-  // }
 }

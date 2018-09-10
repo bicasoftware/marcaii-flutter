@@ -28,7 +28,7 @@ class MarcaiiState extends State<Marcaii> {
           brightness: Brightness.light,
           dividerColor: Colors.grey,
         ),
-        home: MainAct(),
+        home: MainAct(hasEmprego: widget.state.empregos.length > 0,),
       ),
     );
   }

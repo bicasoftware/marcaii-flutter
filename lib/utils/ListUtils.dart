@@ -17,4 +17,8 @@ class ListUtils {
 
     return result;
   }
+
+  static String parseListAsQuotedString(List<int> from) {
+    return from.map((s) => "'$s'").join(",");
+  }
 }

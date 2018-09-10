@@ -9,12 +9,13 @@ class HoraDto {
     this.quantidade: 60,
     this.horaInicial: const TimeOfDay(hour: 18, minute: 00),
     this.horaTermino: const TimeOfDay(hour: 19, minute: 00),
-    this.dta: "",
+    this.dta,
     this.tipoHora: Consts.horaNormal,
   });
 
   int id, idEmprego, quantidade;
-  String dta, tipoHora;
+  DateTime dta;
+  String tipoHora;
   TimeOfDay horaInicial, horaTermino;
 
   @override
@@ -36,7 +37,7 @@ class HoraDto {
       "quantidade": quantidade,
       "horaInicial": DateUtils.timeOfDayToStr(horaInicial),
       "horaTermino": DateUtils.timeOfDayToStr(horaTermino),
-      "dta": dta,
+      "dta": DateUtils.dateTimeToString(dta),
       "tipoHora": tipoHora,
     };
 
@@ -67,22 +68,12 @@ class HoraDto {
     this.tipoHora = from.tipoHora;
   }
 
-  // void copyFrom(MdHoras from){
-  //   this.id = from.id;
-  //   this.idEmprego = from.idEmprego;
-  //   this.quantidade = from.quantidade;
-  //   this.horaInicial = DateUtils.hourStrToTimeOfDay(from.horaInicial);
-  //   this.horaTermino = DateUtils.hourStrToTimeOfDay(from.horaTermino);
-  //   this.dta = from.dta;
-  //   this.tipoHora = from.tipoHora;
-  // }
-
   void clear(DateTime date) {
     this.id = null;
     this.horaInicial = DateUtils.hourStrToTimeOfDay("18:00");
     this.horaTermino = DateUtils.hourStrToTimeOfDay("19:00");
     this.quantidade = 60;
-    this.dta = DateUtils.dateTimeToString(date);
+    this.dta = date;
     this.tipoHora = Consts.horaNormal;
   }
 }

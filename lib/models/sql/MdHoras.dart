@@ -54,7 +54,7 @@ class MdHoras {
       id: id,
       horaInicial: DateUtils.hourStrToTimeOfDay(horaInicial),
       horaTermino: DateUtils.hourStrToTimeOfDay(horaTermino),
-      dta: dta,
+      dta: DateUtils.parseString(dta),
       idEmprego: idEmprego,
       quantidade: quantidade,
       tipoHora: tipoHora,

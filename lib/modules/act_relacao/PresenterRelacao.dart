@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_relacao/ModelRelacao.dart';
 import 'package:marcaii_flutter/modules/act_relacao/TotaisItem.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -31,7 +32,7 @@ class PresenterRelacao {
                 title: Text("${item.inicio} às ${item.termino}"),
                 subtitle: Text("${item.minutos} minutos | R\$ ${item.valor}"),
                 trailing: Text(
-                  item.date,
+                  DateUtils.dateTimeToBrString(item.date),
                   style: TextStyle(color: Theme.of(context).accentColor),
                 ),
                 dense: true,
@@ -61,7 +62,13 @@ class PresenterRelacao {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(Strings.totais),
+                        Text(
+                          Strings.totais,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Divider(),
                         TotaisItem(
                           color: Colors.green,
