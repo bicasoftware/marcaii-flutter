@@ -20,7 +20,7 @@ class MarcaiiState extends State<Marcaii> {
     return ScopedModel<MainState>(
       model: widget.state,
       child: MaterialApp(
-        title: Strings.appName,
+        title: Strings.app_name,
         theme: ThemeData(
           primaryColor: Colors.indigo,
           primaryColorLight: Colors.white70,

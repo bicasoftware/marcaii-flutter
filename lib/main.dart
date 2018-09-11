@@ -5,11 +5,8 @@ import 'package:marcaii_flutter/state/MarcaiiStateBuilder.dart';
 
 void main() {
   MainState state;
-  MarcaiiStateBuilder
-      .buildState()
-      .then((s) => state = s)
-      .whenComplete(() {
-        MaterialPageRoute.debugEnableFadingRoutes = true;
-        runApp(Marcaii(state: state));
-      });
+  MarcaiiStateBuilder.buildState().then((s) => state = s).whenComplete(() {
+    MaterialPageRoute.debugEnableFadingRoutes = true;
+    runApp(Marcaii(state: state));
+  });
 }

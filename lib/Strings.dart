@@ -1,5 +1,5 @@
 class Strings {
-  static const String appName = "Marcaii";
+  static const String app_name = "Marcaii";
   static const String actGetEmprego = "Empregos";
   static const String actGetHoras = "Hora Extra";
   static const String horaInicial = "Início Extra";
