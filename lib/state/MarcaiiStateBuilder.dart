@@ -57,6 +57,7 @@ class MarcaiiStateBuilder {
       print(e);
     }
 
+    await Future.delayed(Duration(milliseconds: 500));
     return MainState(DateTime.now(), empregos: listEmpregos);
   }
 }
