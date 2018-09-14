@@ -119,17 +119,16 @@ class EmpregoDto {
     final vigencia = DateUtils.prepareVigencia(ano, mes + 1, diaFechamento);
     final inicio = vigencia["inicio"];
     DateTime termino = vigencia["termino"];
-    termino = termino.add(Duration(days: 1));
+    DateTime actualTermino = termino.add(Duration(days: 1));
     List<RelatorioItemDto> items = [];
-    print("inicio: $inicio, termino: $termino");
 
     final s = listSalarios
-        .lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(termino))
+        .lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(actualTermino))
         .valorSalario;
 
     final horasBetween = listHoras.where((h) {
       final dt = h.dta;
-      return dt.isAfter(inicio) && dt.isBefore(termino);
+      return dt.isAfter(inicio) && dt.isBefore(actualTermino);
     }).toList();
 
     horasBetween.sort((a, b) => a.dta.compareTo(b.dta));
