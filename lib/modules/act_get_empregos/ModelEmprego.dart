@@ -175,7 +175,6 @@ class EmpregoState extends Model {
     return MdEmpregos(
       id: id,
       nomeEmprego: nomeEmprego,
-      bancoHoras: bancoHoras == true ? 1 : 0,
       cargaHoraria: cargaHoraria,
       diaFechamento: diaFechamento,
       horarioSaida: horarioSaida,

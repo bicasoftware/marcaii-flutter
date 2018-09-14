@@ -23,7 +23,6 @@ class ViewEmprego extends StatelessWidget {
                   presenter.getPickerTileFechamento(),
                   presenter.getHoraSaidaTile(),
                   presenter.getCargaHorariaTile(),
-                  presenter.getBancoHorasTile(),
                   presenter.getHeaderPorcentagem(),
                   presenter.getPorcNormalTile(),
                   presenter.getPorcFeriadosTile(),

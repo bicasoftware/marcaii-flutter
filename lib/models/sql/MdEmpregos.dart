@@ -10,7 +10,6 @@ class MdEmpregos {
     this.porcFeriados,
     this.cargaHoraria,
     this.horarioSaida,
-    this.bancoHoras,
   });
 
   int id, bancoHoras, porcNormal, porcFeriados, diaFechamento, cargaHoraria;
@@ -55,14 +54,12 @@ class MdEmpregos {
       porcFeriados: emp["porcFeriados"],
       cargaHoraria: emp["cargaHoraria"],
       horarioSaida: emp["horarioSaida"],
-      bancoHoras: emp["bancoHoras"],
     );
   }
 
   static MdEmpregos getNewInstance() {
     return MdEmpregos(
       nomeEmprego: "Novo Emprego",
-      bancoHoras: 0,
       cargaHoraria: 220,
       horarioSaida: "18:00",
       porcNormal: 50,

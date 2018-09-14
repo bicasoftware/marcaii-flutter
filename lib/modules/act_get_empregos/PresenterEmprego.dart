@@ -181,6 +181,7 @@ class PresenterEmprego {
         return DefaultListItem(
           title: Strings.cargaHoraria,
           icon: Icons.timelapse,
+          isLast: true,
           onTap: null,
           contentChild: DropdownButtonHideUnderline(
             child: DropdownButton(
