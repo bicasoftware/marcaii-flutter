@@ -43,7 +43,7 @@ class PageListEmpregos extends StatelessWidget {
                         }
                       },
                       onLongTap: () async {
-                        final result = await showConfirmationDialog(
+                        final result = await Dialogs.showConfirmationDialog(
                           context: context,
                           message: Strings.confirmar_remocao_emprego,
                         );

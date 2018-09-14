@@ -7,8 +7,8 @@ import 'package:marcaii_flutter/models/state/RelatorioItemDto.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/modules/act_relacao/ModelRelacao.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class EmpregoDto {
   EmpregoDto({
@@ -118,8 +118,10 @@ class EmpregoDto {
   ModelRelacao toModelRelacao({mes: int, ano: int}) {
     final vigencia = DateUtils.prepareVigencia(ano, mes + 1, diaFechamento);
     final inicio = vigencia["inicio"];
-    final termino = vigencia["termino"];
+    DateTime termino = vigencia["termino"];
+    termino = termino.add(Duration(days: 1));
     List<RelatorioItemDto> items = [];
+    print("inicio: $inicio, termino: $termino");
 
     final s = listSalarios
         .lastWhere((s) => DateUtils.vigenciaToDate(s.vigencia).isBefore(termino))
@@ -142,7 +144,7 @@ class EmpregoDto {
             end: h.horaTermino,
           ),
           date: h.dta,
-          valor: CurrencyUtils.calcPorcentExtra(
+          valor: Formatting.calcPorcentExtra(
             salario,
             cargaHoraria,
             _getPorcentagem(h.tipoHora, h.dta),

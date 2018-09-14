@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class TotaisItem extends StatelessWidget {
   const TotaisItem({Key key, this.title, this.color, this.minutos, this.valor}) : super(key: key);
@@ -29,7 +29,7 @@ class TotaisItem extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              "R\$ ${CurrencyUtils.doubleToCurrency(valor)}",
+              "R\$ ${Formatting.doubleToCurrency(valor)}",
               textAlign: TextAlign.end,
             ),
           ),

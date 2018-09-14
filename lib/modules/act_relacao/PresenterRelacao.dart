@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_relacao/ModelRelacao.dart';
-import 'package:marcaii_flutter/modules/act_relacao/TotaisItem.dart';
+import 'package:marcaii_flutter/modules/act_relacao/widgets/TotaisItem.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -27,7 +27,7 @@ class PresenterRelacao {
               return ListTile(
                 leading: CircleAvatar(
                   backgroundColor: item.color,
-                  child: Icon(Icons.timelapse),
+                  child: Icon(Icons.av_timer, color: Colors.white70),
                 ),
                 title: Text("${item.inicio} às ${item.termino}"),
                 subtitle: Text("${item.minutos} minutos | R\$ ${item.valor}"),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
-import 'package:marcaii_flutter/utils/ExpandedText.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class DiferenciaisListItem extends StatelessWidget {
   const DiferenciaisListItem({
@@ -8,7 +7,7 @@ class DiferenciaisListItem extends StatelessWidget {
     @required this.title,
     @required this.percent,
     @required this.value,
-    @required this.onClear, 
+    @required this.onClear,
     @required this.onEdit,
     this.isLast: false,
   }) : super(key: key);
@@ -22,6 +21,18 @@ class DiferenciaisListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final weekDayStyle =
+        TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold);
+
+    final percentStyle = weekDayStyle.copyWith(
+      color: Theme.of(context).primaryColor,
+      fontWeight: FontWeight.normal,
+    );
+
+    final valueStyle = percentStyle.copyWith(
+      color: Theme.of(context).accentColor,
+    );
+
     return Column(
       children: <Widget>[
         ListTile(
@@ -38,31 +49,27 @@ class DiferenciaisListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ExpandedText(
-                text: "$title",
-                align: TextAlign.left,
-                innerStyle: TextStyle(
-                  fontSize: 14.0,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold,                  
+              Expanded(
+                child: Text(
+                  "$title",
+                  textAlign: TextAlign.left,
+                  style: weekDayStyle,
                 ),
               ),
-              ExpandedText(
-                text: "$percent %",
-                align: TextAlign.right,
-                innerStyle: TextStyle(                  
-                  fontSize: 14.0,
-                  color: Theme.of(context).primaryColor,
+              Expanded(
+                child: Text(
+                  "$percent %",
+                  textAlign: TextAlign.right,
+                  style: percentStyle,
                 ),
               ),
-              ExpandedText(
-                text: "R\$ ${CurrencyUtils.doubleToCurrency(value)}",
-                align: TextAlign.right,
-                innerStyle: TextStyle(
-                  color: Theme.of(context).accentColor,
-                  fontSize: 14.0,
+              Expanded(
+                child: Text(
+                  "R\$ ${Formatting.doubleToCurrency(value)}",
+                  textAlign: TextAlign.right,
+                  style: valueStyle,
                 ),
-              ),
+              ),              
             ],
           ),
         ),

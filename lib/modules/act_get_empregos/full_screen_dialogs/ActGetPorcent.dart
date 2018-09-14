@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/utils/DualLineAppBar.dart';
-import 'package:marcaii_flutter/utils/Validation.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
+import 'package:marcaii_flutter/widgets/DualLineAppBar.dart';
 
 class ActGetPorcentagem extends StatefulWidget {
   const ActGetPorcentagem({
@@ -59,7 +59,7 @@ class ActGetPorcentagemState extends State<ActGetPorcentagem> {
                       suffixText: "%",
                     ),
                     validator: (e) {
-                      if (!Validation.isValidPercent(e.trim())) {
+                      if (!Formatting.isValidPercent(e.trim())) {
                         return Warn.warPorcInvalida;
                       }
 

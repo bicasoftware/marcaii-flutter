@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/utils/Validation.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class ActGetSalario extends StatefulWidget {
   ActGetSalario({Key key, this.initValue}) : super(key: key);
@@ -19,7 +19,7 @@ class ActGetSalarioState extends State<ActGetSalario> {
 
   void initState() {
     super.initState();
-    controller = Validation.defaultMoneyMask(widget.initValue);
+    controller = Formatting.defaultMoneyMask(widget.initValue);
   }
 
   @override

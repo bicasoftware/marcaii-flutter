@@ -3,8 +3,8 @@ import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario/widgets/CalendarHeader.dart';
 import 'package:marcaii_flutter/modules/main_act/pages/page_calendario_item/PageCalendarioItem.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
-import 'package:marcaii_flutter/utils/DropDownAction.dart';
-import 'package:marcaii_flutter/utils/Range.dart';
+import 'package:marcaii_flutter/utils/ListUtils.dart';
+import 'package:marcaii_flutter/widgets/DropDownAction.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PresenterPageCalendario {
@@ -16,7 +16,7 @@ class PresenterPageCalendario {
 
   List<DropdownMenuItem> getAnosChild() {
     final l = List<DropdownMenuItem>();
-    for (final i in Range.range(2013, 2022)) {
+    for (final i in ListUtils.range(2013, 2022)) {
       l.add(DropdownMenuItem(child: Text(i.toString()), value: i));
     }
 

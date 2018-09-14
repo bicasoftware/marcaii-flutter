@@ -5,8 +5,8 @@ import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_horas/PresenterHora.dart';
 import 'package:marcaii_flutter/modules/bts_info_horas/BtsAction.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class PresenterBtsInfoHora {
   final CalendarCellDto cell;
@@ -110,7 +110,7 @@ class PresenterBtsInfoHora {
     }
     return ListTile(
       leading: Icon(Icons.monetization_on, color: Colors.blue),
-      title: Text("R\$ ${CurrencyUtils.doubleToCurrency(valor)}"),
+      title: Text("R\$ ${Formatting.doubleToCurrency(valor)}"),
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class EmpregoTile extends StatelessWidget {
   final EmpregoDto emprego;
@@ -26,7 +26,7 @@ class EmpregoTile extends StatelessWidget {
         ),
         title: Text(emprego.nomeEmprego),
         subtitle: Text(
-          """R\$ ${CurrencyUtils.doubleToCurrency(emprego.salario)} | Carga: ${emprego.cargaHoraria} | Fechamento: ${emprego.diaFechamento}""",
+          """R\$ ${Formatting.doubleToCurrency(emprego.salario)} | Carga: ${emprego.cargaHoraria} | Fechamento: ${emprego.diaFechamento}""",
         ),
       ),
     );

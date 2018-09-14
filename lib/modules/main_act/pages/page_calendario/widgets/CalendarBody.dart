@@ -119,7 +119,7 @@ class CalendarBody extends StatelessWidget {
 
     if (result != null && result is BtsResult) {
       if (result.action == BtsAction.DELETE) {
-        final confirmation = await showConfirmationDialog(
+        final confirmation = await Dialogs.showConfirmationDialog(
           context: context,
           message: Strings.confirmar_remocao_hora,
         );

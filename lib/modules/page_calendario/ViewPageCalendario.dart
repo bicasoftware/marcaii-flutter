@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/page_calendario/PresenterPageCalendario.dart';
 import 'package:marcaii_flutter/state/MainState.dart';
-import 'package:marcaii_flutter/utils/NavigationTabBar.dart';
+import 'package:marcaii_flutter/widgets/NavigationTabBar.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ViewPageCalendario extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/utils/Validation.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
 
@@ -25,17 +25,15 @@ class _ActGetAumentosState extends State<ActGetAumentos> {
     _ano = null;
     _mes = null;
     key = GlobalKey<FormState>();
-    controller = Validation.defaultMoneyMask(widget.initValue);
+    controller = Formatting.defaultMoneyMask(widget.initValue);
   }
 
   void _setAno(String ano) {
     setState(() => _ano = ano);
-    //widget.onAnoSelected(ano);
   }
 
   void _setMes(String mes) {
     setState(() => _mes = mes);
-    //widget.onMesSelected(mes);
   }
 
   @override

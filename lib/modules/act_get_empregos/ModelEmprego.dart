@@ -6,7 +6,7 @@ import 'package:marcaii_flutter/models/sql/MdEmpregos.dart';
 import 'package:marcaii_flutter/models/state/DiferenciaisDto.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EmpregoState extends Model {
@@ -104,7 +104,7 @@ class EmpregoState extends Model {
     porcList[weekday] = PorcDiferDto(
       id: id,
       diaSemana: weekday,
-      valor: CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc),
+      valor: Formatting.calcPorcentExtra(valorSalario, cargaHoraria, porc),
       porcent: porc,
     );
   }
@@ -113,7 +113,7 @@ class EmpregoState extends Model {
     porcList[weekday] = PorcDiferDto(
       id: id,
       diaSemana: weekday,
-      valor: CurrencyUtils.calcPorcentExtra(valorSalario, cargaHoraria, porc),
+      valor: Formatting.calcPorcentExtra(valorSalario, cargaHoraria, porc),
       porcent: porc,
     );
     notifyListeners();

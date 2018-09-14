@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
-import 'package:marcaii_flutter/widgets/BaseDivider.dart';
-import 'package:marcaii_flutter/widgets/ContentText.dart';
-import 'package:marcaii_flutter/widgets/TitleText.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
+import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 
 class ActListSalarios extends StatelessWidget {
   const ActListSalarios({Key key, @required this.salarios}) : super(key: key);
@@ -73,7 +71,7 @@ class ListBodyState extends State<ListBody> {
                 showDivider: i < _salarios.length - 1,
                 onDelete: () {
                   if (i > 0) {
-                    showConfirmationDialog(
+                    Dialogs.showConfirmationDialog(
                       context: context,
                       message: Strings.confirmar_remocao_salario,
                     ).then((result) {
@@ -106,11 +104,15 @@ class SalarioTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = TextStyle(color: Theme.of(context).accentColor, fontSize: 14.0);
+    final contentStyle = TextStyle(fontSize: 16.0);
+
     final splitVig = vigencia.split("-").map((v) => int.parse(v)).toList();
     final vig = " ${Arrays.monthsAbrev[splitVig[1]]}/${splitVig[0]}";
     return Column(
       children: <Widget>[
         ListTile(
+          dense: true,
           leading: Icon(
             Icons.assessment,
             color: Theme.of(context).accentColor,
@@ -126,14 +128,18 @@ class SalarioTile extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  TitleText(text: Strings.valorSalario),
-                  TitleText(text: Strings.vigencia),
+                  Expanded(child: Text(Strings.valorSalario, style: titleStyle)),
+                  Expanded(child: Text(Strings.vigencia, style: titleStyle)),
                 ],
               ),
               Row(
                 children: <Widget>[
-                  ContentText(text: CurrencyUtils.doubleToCurrency(valor)),
-                  ContentText(text: vig),
+                  Expanded(
+                      child: Text(
+                    "R\$ ${Formatting.doubleToCurrency(valor)}",
+                    style: contentStyle,
+                  )),
+                  Expanded(child: Text(vig, style: contentStyle)),
                 ],
               ),
             ],

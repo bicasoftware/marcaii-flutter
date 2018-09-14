@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/ValidatableListItem.dart';
-import 'package:marcaii_flutter/utils/Validation.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/widgets/ValidatableListItem.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class PorcentagemHolder extends StatelessWidget {
   const PorcentagemHolder({
@@ -23,7 +23,7 @@ class PorcentagemHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValidatableListItem(      
+    return ValidatableListItem(
       isLast: isLast,
       formKey: formKey,
       hint: Strings.hintPorc,
@@ -37,14 +37,14 @@ class PorcentagemHolder extends StatelessWidget {
   }
 
   String _onValidate(String e) {
-    if (!Validation.isValidPercent(e)) {
+    if (!Formatting.isValidPercent(e)) {
       return Warn.warPorcInvalida;
     }
 
     return null;
   }
 
-  _onSave(String e){
+  _onSave(String e) {
     onSave(int.parse(e));
   }
 }

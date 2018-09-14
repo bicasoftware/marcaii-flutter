@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/modules/act_relacao/ModelRelacao.dart';
 import 'package:marcaii_flutter/modules/act_relacao/PresenterRelacao.dart';
-import 'package:marcaii_flutter/utils/DualLineAppBar.dart';
+import 'package:marcaii_flutter/widgets/DualLineAppBar.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ViewRelacao extends StatelessWidget {

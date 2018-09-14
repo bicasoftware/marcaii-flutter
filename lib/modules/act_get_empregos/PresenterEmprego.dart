@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/ActGetAumentos.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/ActGetSalario.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/ActListSalarios.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/BtsOptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/OptionSalario.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/DiferenciaisListItem.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/page_emprego_info/widgets/PorcentagemHolder.dart';
-import 'package:marcaii_flutter/utils/CurrencyUtils.dart';
-import 'package:marcaii_flutter/utils/ActGetPorcent.dart';
-import 'package:marcaii_flutter/utils/Validation.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetAumentos.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetPorcent.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetSalario.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActListSalarios.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/widgets/DiferenciaisListItem.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/widgets/PorcentagemHolder.dart';
+import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
@@ -54,7 +53,7 @@ class PresenterEmprego {
   }
 
   Widget _getTextFieldSalario(BuildContext ct, EmpregoState md) {
-    final controller = Validation.defaultMoneyMask(md.valorSalario);
+    final controller = Formatting.defaultMoneyMask(md.valorSalario);
     return Column(
       children: <Widget>[
         ListTile(
@@ -82,7 +81,7 @@ class PresenterEmprego {
     return DefaultListItem(
       title: Strings.valorSalario,
       icon: Icons.monetization_on,
-      contentChild: Text("R\$ " + CurrencyUtils.doubleToCurrency(md.valorSalario)),
+      contentChild: Text("R\$ " + Formatting.doubleToCurrency(md.valorSalario)),
       onTap: () async {
         //final option = await EmpregosDialogs.showDialogOptionSalario(ct);
         final option = await showModalBottomSheet(
@@ -268,7 +267,7 @@ class PresenterEmprego {
         percent: d.porcent,
         value: d.porcent == 0 ? 0.0 : salarioHora * (1 + (d.porcent / 100)),
         onClear: () async {
-          showConfirmationDialog(
+          Dialogs.showConfirmationDialog(
             context: context,
             message: Strings.confirmar_remocao_difer,
           ).then((status) {
