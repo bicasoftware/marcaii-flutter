@@ -49,11 +49,11 @@ class CalendarBodyItem extends StatelessWidget {
   Widget _getIndicator(int id, int idEmprego, String tipoHora) {
     if(id != null && idEmprego != null) {
       if (tipoHora == Consts.horaNormal) {
-        return TipoHoraIndicator(color: Colors.green);
+        return DotIndicator(color: Colors.green);
       } else if (tipoHora == Consts.horaFeriados) {
-        return TipoHoraIndicator(color: Colors.orange);
+        return DotIndicator(color: Colors.orange);
       } else if (tipoHora == Consts.horaDiferencial) {
-        return TipoHoraIndicator(color: Colors.red);
+        return DotIndicator(color: Colors.red);
       } else {
         Container();
       }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class TipoHoraIndicator extends StatelessWidget {
+class DotIndicator extends StatelessWidget {
 
   final Color color;
 
-  const TipoHoraIndicator({Key key, this.color}) : super(key: key);
+  const DotIndicator({Key key, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

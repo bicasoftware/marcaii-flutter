@@ -12,6 +12,8 @@ dependencies:
   scoped_model: ^0.3.0
   numberpicker: ^0.1.6
   flutter_masked_text: ^0.6.0
+  shared_preferences: ^0.4.2
+
 
 dev_dependencies:
   flutter_test:

@@ -19,6 +19,7 @@ class Strings {
   static const String novaPorcentagem = "Nova porcentagem";
   static const String valorSalario = "Valor Salário";
   static const String valor = "Valor";
+  static const String salario = "Salário";  
   static const String cargaHoraria = "Carga Horária";
   static const String bancoHoras = "Banco de Horas";
   static const String diaFechamento = "Dia Fechamento";
@@ -52,7 +53,7 @@ class Strings {
   static const String minutos = "minutos";
   static const String emptyEmprego = "Nenhum emprego adicionado.";
   static const String nadaTotalizar = "Nada a totalizar";
-  
+  static const String cancelarConfig = "Deseja cancelar a configuração?";
 
   static const String porcDifer = "% Diferencial";
   static const String titleRelatorioHoras = "Relatórios de Horas";
@@ -61,6 +62,21 @@ class Strings {
 
   static const String salvar = "Salvar";
   static const String cancelar = "Cancelar";
+  static const String finalizar = "Finalizar";
+  static const String proximo = "Próximo";
+  static const String comecar = "Começar";
+
+  ///welcome screen
+  static const String welcome = "Bem-vindo!";
+  static const String welcomeAntesComecar = "Antes de começar, preciso de algumas coisinhas...";
+  static const String welcomeSalario = "Qual o seu salário mensal?";
+  static const String welcomeCargaHoraria = "Qual a sua carga horária?";
+  static const String welcomeCargaHorariaHint =
+      "O padrão, são 220 horas mensais, seguindo as 8 horas diárias";
+  static const String welcomePorcentagens = "Quais as porcentagens?";
+  static const String welcomePorcentagensHint =
+      "Por padrão na CLT, a horas normais recebem um acréscimo de 50% e aos domingos e feriados, o acréscimo é de 100%";
+  static const String welcomeNomeEmprego = "O que você faz?";
 }
 
 class Refs {
@@ -78,11 +94,17 @@ class Warn {
   static const String warHorasInvalidas = "Horas inválidas";
   static const String warDiaInvalido = "Dia de fechamento inválido";
   static const String warVigenciaInvalida = "Vigencia inválida";
-  static const String warErroGerarPermissao = "Impossível gerar arquivo sem as devidas permissões";  
+  static const String warErroGerarPermissao = "Impossível gerar arquivo sem as devidas permissões";
 }
 
 class Arrays {
-  static const cargas = ["220", "200", "180", "150"];
+  static const cargas = ["220", "180", "150", "120"];
+  static const cargaHorariaDiaria = [
+    "220 mensais - 8 horas diárias",    
+    "180 mensais - 6 horas diárias",
+    "150 mensais - 5 horas diárias",
+    "120 mensais - 4 horas diárias",
+  ];
   static const weekDays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
   static const weekDaysAbrev = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   static const opt_salarios = ["Adicionar Aumento", "Ver Todos"];
@@ -124,4 +146,5 @@ class Consts {
   static const horaNormal = "CONST_HORANORMAL";
   static const horaFeriados = "CONST_HORAFERIADOS";
   static const horaDiferencial = "CONST_HORADIFF";
+  static const sharedPref_firstRun = "${Strings.app_name}_FIRSTRUN";
 }
