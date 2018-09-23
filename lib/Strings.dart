@@ -147,4 +147,5 @@ class Consts {
   static const horaFeriados = "CONST_HORAFERIADOS";
   static const horaDiferencial = "CONST_HORADIFF";
   static const sharedPref_firstRun = "${Strings.app_name}_FIRSTRUN";
+  static const defaultVigencia = "2010-01";
 }

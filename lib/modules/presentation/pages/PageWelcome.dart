@@ -15,10 +15,13 @@ class PageWelcome extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Center(
-              child: Image.asset(
-                "assets/marcai_icone.png",
-                fit: BoxFit.fitWidth,
-                repeat: ImageRepeat.repeatX,
+              child: Hero(
+                tag: "WelcomeImage",
+                child: Image.asset(
+                  "assets/marcai_icone.png",
+                  fit: BoxFit.fitWidth,
+                  repeat: ImageRepeat.repeatX,
+                ),
               ),
             ),
           ),

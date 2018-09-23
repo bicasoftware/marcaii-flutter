@@ -213,7 +213,11 @@ class EmpregoDto {
       porcNormal: 50,
       porcFeriados: 100,
       diaFechamento: 25,
-    )..listSalarios.add(SalariosDto(status: true, valorSalario: 912.77, vigencia: "2010-01"));
+    )..listSalarios.add(SalariosDto(
+        status: true,
+        valorSalario: 912.77,
+        vigencia: Consts.defaultVigencia,
+      ));
   }
 
   @override

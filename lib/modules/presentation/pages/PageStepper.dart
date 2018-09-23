@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
+import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/presentation/PresentationModel.dart';
 import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PageStepper extends StatefulWidget {
-  final VoidCallback onDone;
+  final Function(EmpregoDto) onFinish;
 
-  const PageStepper({Key key, @required this.onDone}) : super(key: key);
+  const PageStepper({Key key, @required this.onFinish}) : super(key: key);
 
   @override
   PageStepperState createState() {
@@ -23,6 +25,28 @@ class PageStepperState extends State<PageStepper> {
   static final salFormKey = GlobalKey<FormState>();
   static final porcFormKey = GlobalKey<FormState>();
   static final nomeFormKey = GlobalKey<FormState>();
+
+  void doFinish(PresentationModel model) {
+    final empregoDto = EmpregoDto(
+      cargaHoraria: model.cargaHoraria,
+      nomeEmprego: model.nomeEmprego,
+      bancoHoras: false,
+      diaFechamento: 25,
+      horarioSaida: "18:00",
+      porcNormal: model.pNormal,
+      porcFeriados: model.pCompleta,
+    );
+
+    empregoDto.listSalarios.add(
+      SalariosDto(
+        vigencia: Consts.defaultVigencia,
+        status: true,
+        valorSalario: model.salario,
+      ),
+    );
+
+    widget.onFinish(empregoDto);
+  }
 
   void initState() {
     _currentStep = 0;
@@ -46,7 +70,9 @@ class PageStepperState extends State<PageStepper> {
         _validatePorcentagem() ? _gotoNextStep() : print("porcentagens invalidas");
         break;
       case 3:
-        _validateNome() ? widget.onDone() : print("salário inválido");
+        if(_validateNome()){
+          doFinish(model);
+        }
         break;
       default:
     }

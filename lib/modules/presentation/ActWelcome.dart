@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:marcaii_flutter/modules/presentation/PresentationModel.dart';
-import 'package:marcaii_flutter/modules/presentation/pages/PageAllDone.dart';
 import 'package:marcaii_flutter/modules/presentation/pages/PageStepper.dart';
 import 'package:marcaii_flutter/modules/presentation/pages/PageWelcome.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
@@ -34,15 +33,8 @@ class ActWelcomeState extends State<ActWelcome> with TickerProviderStateMixin {
     model = PresentationModel();
     pages = <Widget>[
       PageWelcome(onComecar: onComecar),
-      PageStepper(onDone: onDone),
-      PageAllDone(onFinish: widget.onFinished),
+      PageStepper(onFinish: widget.onFinished),
     ];
-  }
-
-  void onDone() {
-    setState(() {
-      _pos = 2;
-    });
   }
 
   void onComecar() {
