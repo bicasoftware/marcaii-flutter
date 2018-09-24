@@ -7,6 +7,7 @@ class CalendarHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final int weekDay = DateUtils.getCurrentWeekday(DateTime.now());
     return Container(
+      color: Theme.of(context).cardColor,
       margin: EdgeInsets.symmetric(horizontal: 1.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

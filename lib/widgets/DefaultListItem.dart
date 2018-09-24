@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/Styles.dart';
 
 class DefaultListItem extends StatelessWidget {
   const DefaultListItem({
@@ -28,7 +29,6 @@ class DefaultListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = TextStyle(color: Theme.of(context).primaryColor, fontSize: 14.0);
 
     return Column(
       children: <Widget>[
@@ -40,7 +40,7 @@ class DefaultListItem extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: titleStyle,
+            style: Styles.getListTitleStyle(context),
           ),
           trailing: contentChild,
         ),

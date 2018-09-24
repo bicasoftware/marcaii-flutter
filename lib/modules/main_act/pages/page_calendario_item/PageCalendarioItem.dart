@@ -23,6 +23,7 @@ class PageCalendarioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Theme.of(context).cardColor,
       child: Column(
         children: <Widget>[
           CalendarBody(

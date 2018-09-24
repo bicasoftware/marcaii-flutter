@@ -239,6 +239,7 @@ class PageStepperState extends State<PageStepper> {
           TextFormField(
             initialValue: model.pNormal.toString(),
             autofocus: true,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: Strings.porcNormal,
               hintText: Strings.porcNormal,
@@ -256,6 +257,7 @@ class PageStepperState extends State<PageStepper> {
           Divider(),
           TextFormField(
             initialValue: model.pCompleta.toString(),
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: Strings.porcFeriados,
               hintText: Strings.porcFeriados,

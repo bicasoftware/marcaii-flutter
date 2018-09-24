@@ -6,19 +6,18 @@ import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/BtsOptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/OptionSalario.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/Styles.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetAumentos.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetPorcent.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActListSalarios.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/widgets/DiferenciaisListItem.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/widgets/PorcentagemHolder.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/DiferenciaisListItem.dart';
 import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
 import 'package:marcaii_flutter/widgets/ListHeader.dart';
 import 'package:marcaii_flutter/widgets/form_fields/IntPickerTile.dart';
-import 'package:marcaii_flutter/widgets/form_fields/TileTextField.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PresenterEmprego {
@@ -30,17 +29,27 @@ class PresenterEmprego {
     return ScopedModelDescendant<EmpregoState>(
       rebuildOnChange: false,
       builder: (ct, ch, md) {
-        return TileTextField(
-          autoValidate: false,
-          showDivider: false,
-          labelText: Strings.nomeEmprego,
-          initialValue: md.nomeEmprego,
-          hintText: Strings.nomeEmprego,
-          onSaved: (emprego) => md.setNomeEmprego(emprego),
-          validator: (s) {
-            if (s.isEmpty) return Warn.warNomeEmprego;
-            return null;
-          },
+        return Column(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: TextFormField(
+                initialValue: md.nomeEmprego,
+                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  hintText: Strings.nomeEmprego,
+                  labelText: Strings.nomeEmprego,
+                ),
+                onSaved: (emprego) => md.setNomeEmprego(emprego),
+                validator: (s) {
+                  if (s.isEmpty) return Warn.warNomeEmprego;
+                  return null;
+                },
+              ),
+            ),
+            BaseDivider(),
+          ],
         );
       },
     );
@@ -81,12 +90,13 @@ class PresenterEmprego {
     return DefaultListItem(
       title: Strings.valorSalario,
       icon: Icons.monetization_on,
-      contentChild: Text("R\$ " + Formatting.doubleToCurrency(md.valorSalario)),
+      contentChild: Text(
+        "R\$ " + Formatting.doubleToCurrency(md.valorSalario),
+        style: Styles.getListSubtitleStyle(ct),
+      ),
       onTap: () async {
         //final option = await EmpregosDialogs.showDialogOptionSalario(ct);
-        final option = await showModalBottomSheet(
-          context: ct, builder: (ct) => BtsOptionSalario()          
-        );
+        final option = await showModalBottomSheet(context: ct, builder: (ct) => BtsOptionSalario());
         if (option != null && option is OptionSalario) {
           if (option == OptionSalario.ALTERAR) {
             double salarioCorrigido = await Navigator.of(ct).push(CupertinoPageRoute(
@@ -150,24 +160,36 @@ class PresenterEmprego {
   Widget getHoraSaidaTile() {
     return ScopedModelDescendant<EmpregoState>(
       builder: (ct, ch, md) {
-        return DefaultListItem(
-          title: Strings.horarioSaida,
-          icon: Icons.exit_to_app,
-          onTap: () async {
-            var seltime = await showTimePicker(
-              context: ct,
-              initialTime: TimeOfDay.now(),
-            );
+        return Column(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text(
+                Strings.horarioSaida,
+                style: Styles.getListTitleStyle(ct),
+              ),
+              trailing: Text(
+                md.horarioSaida,
+                style: Styles.getListSubtitleStyle(ct),
+              ),
+              onTap: () async {
+                var seltime = await showTimePicker(
+                  context: ct,
+                  initialTime: TimeOfDay.now(),
+                );
 
-            if (seltime != null) {
-              md.setHorarioSaida(MaterialLocalizations.of(ct)
-                  .formatTimeOfDay(seltime, alwaysUse24HourFormat: true));
-            }
-          },
-          contentChild: Text(
-            md.horarioSaida,
-            style: TextStyle(fontSize: 16.0),
-          ),
+                if (seltime != null) {
+                  md.setHorarioSaida(
+                    MaterialLocalizations.of(ct).formatTimeOfDay(
+                      seltime,
+                      alwaysUse24HourFormat: true,
+                    ),
+                  );
+                }
+              },
+            ),
+            BaseDivider(),
+          ],
         );
       },
     );
@@ -177,38 +199,30 @@ class PresenterEmprego {
     return ScopedModelDescendant<EmpregoState>(
       rebuildOnChange: false,
       builder: (ct, ch, md) {
-        return DefaultListItem(
-          title: Strings.cargaHoraria,
-          icon: Icons.timelapse,
-          isLast: true,
-          onTap: null,
-          contentChild: DropdownButtonHideUnderline(
-            child: DropdownButton(
-              value: md.cargaHoraria,
-              onChanged: (c) {
-                md.setCargaHoraria(c);
-              },
-              items: Arrays.cargas
-                  .map((c) => int.parse(c))
-                  .map((c) => DropdownMenuItem(child: Text("$c"), value: c))
-                  .toList(),
+        return Column(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.timelapse),
+              title: Text(
+                Strings.cargaHoraria,
+                style: Styles.getListTitleStyle(ct),
+              ),
+              trailing: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  value: md.cargaHoraria,
+                  onChanged: (c) {
+                    md.setCargaHoraria(c);
+                  },
+                  items: Arrays.cargas.map((c) => int.parse(c)).map((c) {
+                    return DropdownMenuItem(
+                      child: Text("$c", style: Styles.getListSubtitleStyle(ct)),
+                      value: c,
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget getBancoHorasTile() {
-    return ScopedModelDescendant<EmpregoState>(
-      rebuildOnChange: false,
-      builder: (ct, ch, md) {
-        return DefaultListItem(
-          title: Strings.bancoHoras,
-          icon: Icons.local_activity,
-          onTap: () => md.toggleBancoHoras(),
-          isLast: true,
-          contentChild: Switch(value: md.isBancoHoras(), onChanged: (st) => md.setBancoHoras(st)),
+          ],
         );
       },
     );
@@ -218,14 +232,23 @@ class PresenterEmprego {
     return ScopedModelDescendant<EmpregoState>(
       rebuildOnChange: false,
       builder: (ct, ch, md) {
-        return PorcentagemHolder(
-          formKey: md.formKey,
-          iconColor: Colors.green,
-          title: Strings.porcNormal,
-          porcent: md.porcNormal,
-          onSave: (e) {
-            md.setPorcNormal(e);
-          },
+        return Column(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.move_to_inbox),
+              title: TextFormField(
+                keyboardType: TextInputType.number,
+                initialValue: md.porcNormal.toString(),
+                decoration: InputDecoration(
+                  hintText: Strings.valor,
+                  labelText: Strings.porcNormal,
+                ),
+                validator: (e) => Formatting.isValidPercent(e) ? null : Warn.warPorcInvalida,
+                onSaved: (e) => md.setPorcNormal(int.parse(e)),
+              ),
+            ),
+            BaseDivider(),
+          ],
         );
       },
     );
@@ -235,15 +258,18 @@ class PresenterEmprego {
     return ScopedModelDescendant<EmpregoState>(
       rebuildOnChange: false,
       builder: (ct, ch, md) {
-        return PorcentagemHolder(
-          isLast: true,
-          formKey: md.formKey,
-          iconColor: Colors.orange,
-          title: Strings.porcFeriados,
-          porcent: md.porcFeriados,
-          onSave: (e) {
-            md.setPorcFeriados(e);
-          },
+        return ListTile(
+          leading: Icon(Icons.move_to_inbox),
+          title: TextFormField(
+            initialValue: md.porcFeriados.toString(),
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: Strings.porcFeriados,
+              hintText: Strings.valor,
+            ),
+            validator: (i) => Formatting.isValidPercent(i) ? null : Warn.warPorcInvalida,
+            onSaved: (i) => md.setPorcFeriados(int.parse(i)),
+          ),
         );
       },
     );

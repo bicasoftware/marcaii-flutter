@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/Styles.dart';
 import 'package:marcaii_flutter/utils/Formatting.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class DiferenciaisListItem extends StatelessWidget {
   const DiferenciaisListItem({
@@ -21,18 +23,6 @@ class DiferenciaisListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekDayStyle =
-        TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold);
-
-    final percentStyle = weekDayStyle.copyWith(
-      color: Theme.of(context).primaryColor,
-      fontWeight: FontWeight.normal,
-    );
-
-    final valueStyle = percentStyle.copyWith(
-      color: Theme.of(context).accentColor,
-    );
-
     return Column(
       children: <Widget>[
         ListTile(
@@ -53,23 +43,25 @@ class DiferenciaisListItem extends StatelessWidget {
                 child: Text(
                   "$title",
                   textAlign: TextAlign.left,
-                  style: weekDayStyle,
+                  style: Styles.getListTitleStyle(context),
                 ),
               ),
               Expanded(
                 child: Text(
                   "$percent %",
                   textAlign: TextAlign.right,
-                  style: percentStyle,
+                  style: Styles.getListSubtitleStyle(context).copyWith(
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
               Expanded(
-                child: Text(
+                child: AutoSizeText(
                   "R\$ ${Formatting.doubleToCurrency(value)}",
                   textAlign: TextAlign.right,
-                  style: valueStyle,
+                  style: Styles.getListSubtitleStyle(context),
                 ),
-              ),              
+              ),
             ],
           ),
         ),

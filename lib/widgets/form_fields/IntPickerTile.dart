@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/dialogs/IntPicker.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/Styles.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 
 class IntPickerTile extends FormField<int> {
@@ -48,17 +49,11 @@ class IntPickerTile extends FormField<int> {
                     ),
                     title: Text(
                       hintText,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 14.0,
-                      ),
+                      style: Styles.getListTitleStyle(context),
                     ),
                     trailing: Text(
                       state.value.toString(),
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                      ),
+                      style: Styles.getListSubtitleStyle(context),
                     ),
                     subtitle: state.hasError
                         ? Row(

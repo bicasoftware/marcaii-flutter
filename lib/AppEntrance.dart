@@ -80,10 +80,7 @@ class AppEntranceState extends State<AppEntrance> {
                       brightness: Brightness.light,
                       dividerColor: Colors.grey,
                     ),
-                    //home: MainAct(hasEmprego: snapshot.data.empregos.length > 0),
-                    home: WelcomeOrMain(
-                      resultMap: snapshot.data,
-                    )),
+                    home: WelcomeOrMain(resultMap: snapshot.data)),
               );
             }
           }
@@ -120,7 +117,7 @@ class _WelcomeOrMainState extends State<WelcomeOrMain> {
 
   void _onFinished(EmpregoDto emprego) {
     SharedPreferences.getInstance().then((instance) async {
-      await instance.setBool(Consts.sharedPref_firstRun, false);      
+      await instance.setBool(Consts.sharedPref_firstRun, false);
       state.appendEmprego(emprego);
     }).whenComplete(() {
       setState(() {

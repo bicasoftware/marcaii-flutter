@@ -19,7 +19,7 @@ class Strings {
   static const String novaPorcentagem = "Nova porcentagem";
   static const String valorSalario = "Valor Salário";
   static const String valor = "Valor";
-  static const String salario = "Salário";  
+  static const String salario = "Salário";
   static const String cargaHoraria = "Carga Horária";
   static const String bancoHoras = "Banco de Horas";
   static const String diaFechamento = "Dia Fechamento";
@@ -68,7 +68,7 @@ class Strings {
 
   ///welcome screen
   static const String welcome = "Bem-vindo!";
-  static const String welcomeAntesComecar = "Antes de começar, preciso de algumas coisinhas...";
+  static const String welcomeAntesComecar = "Antes de começar, faça uma configuração básica...";
   static const String welcomeSalario = "Qual o seu salário mensal?";
   static const String welcomeCargaHoraria = "Qual a sua carga horária?";
   static const String welcomeCargaHorariaHint =
@@ -98,13 +98,7 @@ class Warn {
 }
 
 class Arrays {
-  static const cargas = ["220", "180", "150", "120"];
-  static const cargaHorariaDiaria = [
-    "220 mensais - 8 horas diárias",    
-    "180 mensais - 6 horas diárias",
-    "150 mensais - 5 horas diárias",
-    "120 mensais - 4 horas diárias",
-  ];
+  static const cargas = ["220", "200", "180", "150", "120"];  
   static const weekDays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
   static const weekDaysAbrev = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   static const opt_salarios = ["Adicionar Aumento", "Ver Todos"];

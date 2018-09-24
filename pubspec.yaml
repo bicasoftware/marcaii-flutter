@@ -13,6 +13,7 @@ dependencies:
   numberpicker: ^0.1.6
   flutter_masked_text: ^0.6.0
   shared_preferences: ^0.4.2
+  auto_size_text: ^0.2.0
 
 
 dev_dependencies:
