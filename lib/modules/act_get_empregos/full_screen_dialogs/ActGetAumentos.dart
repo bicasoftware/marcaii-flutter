@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:marcaii_flutter/Strings.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/Styles.dart';
 import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
-import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
 
 class ActGetAumentos extends StatefulWidget {
   final double initValue;
@@ -75,11 +75,14 @@ class _ActGetAumentosState extends State<ActGetAumentos> {
             ),
           ),
           BaseDivider(),
-          DefaultListItem(
-            icon: Icons.date_range,
+          ListTile(
+            leading: Icon(Icons.date_range),
             onTap: null,
-            title: Strings.mesAumento,
-            contentChild: DropdownButtonHideUnderline(
+            title: Text(
+              Strings.mesAumento,
+              style: Styles.getListTitleStyle(context),
+            ),
+            trailing: DropdownButtonHideUnderline(
               child: DropdownButton(
                   value: _mes,
                   items: Arrays.months.map((m) {
@@ -91,12 +94,15 @@ class _ActGetAumentosState extends State<ActGetAumentos> {
                   onChanged: _setMes),
             ),
           ),
-          DefaultListItem(
-            isLast: true,
-            icon: Icons.date_range,
+          BaseDivider(),
+          ListTile(
+            leading: Icon(Icons.date_range),
             onTap: null,
-            title: Strings.anoAumento,
-            contentChild: DropdownButtonHideUnderline(
+            title: Text(
+              Strings.anoAumento,
+              style: Styles.getListTitleStyle(context),
+            ),
+            trailing: DropdownButtonHideUnderline(
               child: DropdownButton(
                   value: _ano,
                   items: List.generate(11, (i) {

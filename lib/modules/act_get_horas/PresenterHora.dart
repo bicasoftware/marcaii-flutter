@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/Strings.dart';
-import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/Styles.dart';
 import 'package:marcaii_flutter/modules/act_get_horas/ModelHora.dart';
 import 'package:marcaii_flutter/utils/DateUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -46,8 +46,16 @@ class PresenterHora {
     return ScopedModelDescendant<ModelHora>(
       rebuildOnChange: true,
       builder: (context, child, model) {
-        return DefaultListItem(
-          icon: Icons.timer,
+        return ListTile(
+          leading: Icon(Icons.timer),
+          title: Text(
+            Strings.horaInicial,
+            style: Styles.getListTitleStyle(context),
+          ),
+          trailing: Text(
+            DateUtils.timeOfDayToStr(model.horaInicial),
+            style: Styles.getListSubtitleStyle(context),
+          ),
           onTap: () async {
             final time = await showTimePicker(context: context, initialTime: model.horaInicial);
 
@@ -55,8 +63,6 @@ class PresenterHora {
               model.setHoraInicio(time);
             }
           },
-          title: Strings.horaInicial,
-          contentChild: Text(DateUtils.timeOfDayToStr(model.horaInicial)),
         );
       },
     );
@@ -66,8 +72,16 @@ class PresenterHora {
     return ScopedModelDescendant<ModelHora>(
       rebuildOnChange: true,
       builder: (context, child, model) {
-        return DefaultListItem(
-          icon: Icons.timer,
+        return ListTile(
+          leading: Icon(Icons.timer),
+          title: Text(
+            Strings.horaTermino,
+            style: Styles.getListTitleStyle(context),
+          ),
+          trailing: Text(
+            DateUtils.timeOfDayToStr(model.horaTermino),
+            style: Styles.getListSubtitleStyle(context),
+          ),
           onTap: () async {
             final time = await showTimePicker(
               context: context,
@@ -78,8 +92,6 @@ class PresenterHora {
               model.setHoraTermino(time);
             }
           },
-          title: Strings.horaTermino,
-          contentChild: Text(DateUtils.timeOfDayToStr(model.horaTermino)),
         );
       },
     );
@@ -100,40 +112,38 @@ class PresenterHora {
     return ScopedModelDescendant<ModelHora>(
       rebuildOnChange: true,
       builder: (context, child, model) {
-        return Expanded(
-          child: Column(
-            children: <Widget>[
-              RadioListTile(
-                activeColor: Colors.green,
-                value: Consts.horaNormal,
-                title: Text(Strings.horaNormal, style: TextStyle(color: Colors.green)),
-                onChanged: (tipoHora) => model.setTipoHora(tipoHora),
-                groupValue: model.tipoHora,
+        return Column(
+          children: <Widget>[
+            RadioListTile(
+              activeColor: Colors.green,
+              value: Consts.horaNormal,
+              title: Text(Strings.horaNormal, style: TextStyle(color: Colors.green)),
+              onChanged: (tipoHora) => model.setTipoHora(tipoHora),
+              groupValue: model.tipoHora,
+            ),
+            RadioListTile(
+              activeColor: Colors.orange,
+              value: Consts.horaFeriados,
+              title: Text(
+                Strings.horaFeriado,
+                style: TextStyle(color: Colors.orange),
               ),
-              RadioListTile(
-                activeColor: Colors.orange,
-                value: Consts.horaFeriados,
-                title: Text(
-                  Strings.horaFeriado,
-                  style: TextStyle(color: Colors.orange),
-                ),
-                onChanged: (tipoHora) => model.setTipoHora(tipoHora),
-                groupValue: model.tipoHora,
-              ),
-              model.hasDiferencial()
-                  ? RadioListTile(
-                      activeColor: Colors.red,
-                      value: Consts.horaDiferencial,
-                      title: Text(
-                        Strings.horaDiferencial,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onChanged: (tipoHora) => model.setTipoHora(tipoHora),
-                      groupValue: model.tipoHora,
-                    )
-                  : Container(),
-            ],
-          ),
+              onChanged: (tipoHora) => model.setTipoHora(tipoHora),
+              groupValue: model.tipoHora,
+            ),
+            model.hasDiferencial()
+                ? RadioListTile(
+                    activeColor: Colors.red,
+                    value: Consts.horaDiferencial,
+                    title: Text(
+                      Strings.horaDiferencial,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onChanged: (tipoHora) => model.setTipoHora(tipoHora),
+                    groupValue: model.tipoHora,
+                  )
+                : Container(),
+          ],
         );
       },
     );

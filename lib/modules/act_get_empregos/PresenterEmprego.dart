@@ -4,6 +4,7 @@ import 'package:marcaii_flutter/Strings.dart';
 import 'package:marcaii_flutter/models/PorcDiferDto.dart';
 import 'package:marcaii_flutter/models/state/SalariosDto.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/BtsOptionSalario.dart';
+import 'package:marcaii_flutter/modules/act_get_empregos/DiferenciaisListItem.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/ModelEmprego.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/OptionSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/Styles.dart';
@@ -11,11 +12,9 @@ import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/Act
 import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetPorcent.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActGetSalario.dart';
 import 'package:marcaii_flutter/modules/act_get_empregos/full_screen_dialogs/ActListSalarios.dart';
-import 'package:marcaii_flutter/modules/act_get_empregos/DiferenciaisListItem.dart';
 import 'package:marcaii_flutter/utils/Formatting.dart';
 import 'package:marcaii_flutter/utils/YesNoDialog.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
-import 'package:marcaii_flutter/widgets/DefaultListItem.dart';
 import 'package:marcaii_flutter/widgets/ListHeader.dart';
 import 'package:marcaii_flutter/widgets/form_fields/IntPickerTile.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -87,51 +86,63 @@ class PresenterEmprego {
   }
 
   Widget _getAumentoSalarioTile(BuildContext ct, EmpregoState md) {
-    return DefaultListItem(
-      title: Strings.valorSalario,
-      icon: Icons.monetization_on,
-      contentChild: Text(
-        "R\$ " + Formatting.doubleToCurrency(md.valorSalario),
-        style: Styles.getListSubtitleStyle(ct),
-      ),
-      onTap: () async {
-        //final option = await EmpregosDialogs.showDialogOptionSalario(ct);
-        final option = await showModalBottomSheet(context: ct, builder: (ct) => BtsOptionSalario());
-        if (option != null && option is OptionSalario) {
-          if (option == OptionSalario.ALTERAR) {
-            double salarioCorrigido = await Navigator.of(ct).push(CupertinoPageRoute(
-                fullscreenDialog: true, builder: (c) => ActGetSalario(initValue: md.valorSalario)));
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.monetization_on),
+          title: Text(
+            Strings.valorSalario,
+            style: Styles.getListTitleStyle(ct),
+          ),
+          trailing: Text(
+            "R\$ " + Formatting.doubleToCurrency(md.valorSalario),
+            style: Styles.getListSubtitleStyle(ct),
+          ),
+          onTap: () async {
+            //final option = await EmpregosDialogs.showDialogOptionSalario(ct);
+            final option =
+                await showModalBottomSheet(context: ct, builder: (ct) => BtsOptionSalario());
+            if (option != null && option is OptionSalario) {
+              if (option == OptionSalario.ALTERAR) {
+                double salarioCorrigido = await Navigator.of(ct).push(CupertinoPageRoute(
+                    fullscreenDialog: true,
+                    builder: (c) => ActGetSalario(initValue: md.valorSalario)));
 
-            if (salarioCorrigido != null && salarioCorrigido > 0) {
-              md.updateSalario(salarioCorrigido);
+                if (salarioCorrigido != null && salarioCorrigido > 0) {
+                  md.updateSalario(salarioCorrigido);
+                }
+              } else if (option == OptionSalario.NOVO) {
+                final aumento = await Navigator.of(ct).push(CupertinoPageRoute(
+                    fullscreenDialog: true,
+                    builder: (c) => ActGetAumentos(initValue: md.valorSalario)));
+
+                if (aumento != null && aumento is Map<String, dynamic>) {
+                  String ano = aumento["ano"];
+                  String mes = Arrays.months
+                      .indexWhere((m) => m == aumento["mes"])
+                      .toString()
+                      .padLeft(2, "0");
+
+                  double valor = aumento["valor"];
+                  md.appendSalario("$ano-$mes", valor);
+                }
+              } else if (option == OptionSalario.LISTAR) {
+                final listSalarios = await Navigator.of(ct).push(
+                  CupertinoPageRoute(
+                    fullscreenDialog: true,
+                    builder: (BuildContext context) => ActListSalarios(salarios: md.salarios),
+                  ),
+                );
+
+                if (listSalarios != null && listSalarios is List<SalariosDto>) {
+                  md.resetSalarios(listSalarios);
+                }
+              }
             }
-          } else if (option == OptionSalario.NOVO) {
-            final aumento = await Navigator.of(ct).push(CupertinoPageRoute(
-                fullscreenDialog: true,
-                builder: (c) => ActGetAumentos(initValue: md.valorSalario)));
-
-            if (aumento != null && aumento is Map<String, dynamic>) {
-              String ano = aumento["ano"];
-              String mes =
-                  Arrays.months.indexWhere((m) => m == aumento["mes"]).toString().padLeft(2, "0");
-
-              double valor = aumento["valor"];
-              md.appendSalario("$ano-$mes", valor);
-            }
-          } else if (option == OptionSalario.LISTAR) {
-            final listSalarios = await Navigator.of(ct).push(
-              CupertinoPageRoute(
-                fullscreenDialog: true,
-                builder: (BuildContext context) => ActListSalarios(salarios: md.salarios),
-              ),
-            );
-
-            if (listSalarios != null && listSalarios is List<SalariosDto>) {
-              md.resetSalarios(listSalarios);
-            }
-          }
-        }
-      },
+          },
+        ),
+        BaseDivider(),
+      ],
     );
   }
 

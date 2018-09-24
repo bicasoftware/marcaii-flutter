@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/modules/act_get_horas/PresenterHora.dart';
+import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 
 class ViewHoras extends StatelessWidget {
   final presenter = PresenterHora();
-
-  //adicionar padding dentro da activity
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +15,14 @@ class ViewHoras extends StatelessWidget {
         ],
       ),
       body: Container(
+        margin: EdgeInsets.all(8.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             presenter.horaInicialContainer,
+            BaseDivider(),
             presenter.horaTerminoHolder,
+            BaseDivider(),
             presenter.hintTipoHora(context),
             presenter.radioGroupTipoHora,
           ],
