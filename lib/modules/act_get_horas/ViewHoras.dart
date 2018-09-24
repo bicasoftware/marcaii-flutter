@@ -4,6 +4,8 @@ import 'package:marcaii_flutter/modules/act_get_horas/PresenterHora.dart';
 class ViewHoras extends StatelessWidget {
   final presenter = PresenterHora();
 
+  //adicionar padding dentro da activity
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:marcaii_flutter/models/state/EmpregoDto.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -21,19 +22,20 @@ class AppEntrance extends StatefulWidget {
 
 class AppEntranceState extends State<AppEntrance> {
   MainState state;
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
 
-  Future<Map<String, dynamic>> prepareData() async {
-    return {
-      "isFirstRun": await isFirstRun(),
-      "data": await generateState(),
-    };
-  }
+  _fetchMe() {
+    return _memoizer.runOnce(() async {
+      bool fr = await isFirstRun();
+      final state = await MarcaiiStateBuilder.buildState();
 
-  Future<MainState> generateState() async {
-    if (state == null) {
-      state = await MarcaiiStateBuilder.buildState();
-    }
-    return state;
+      Map<String, dynamic> map = {
+        "isFirstRun": fr,
+        "data": state,
+      };
+
+      return map;
+    });
   }
 
   Future<bool> isFirstRun() async {
@@ -59,9 +61,8 @@ class AppEntranceState extends State<AppEntrance> {
         brightness: Brightness.light,
         dividerColor: Colors.grey,
       ),
-      home: FutureBuilder<Map<String, dynamic>>(
-        //future: generateState(),
-        future: prepareData(),
+      home: FutureBuilder(
+        future: _fetchMe(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text("Erro lendo dados do cliente");
@@ -72,15 +73,16 @@ class AppEntranceState extends State<AppEntrance> {
               return ScopedModel<MainState>(
                 model: snapshot.data["data"],
                 child: MaterialApp(
-                    title: Strings.app_name,
-                    theme: ThemeData(
-                      primaryColor: Colors.indigo,
-                      primaryColorLight: Colors.white70,
-                      accentColor: Colors.blueAccent,
-                      brightness: Brightness.light,
-                      dividerColor: Colors.grey,
-                    ),
-                    home: WelcomeOrMain(resultMap: snapshot.data)),
+                  title: Strings.app_name,
+                  theme: ThemeData(
+                    primaryColor: Colors.indigo,
+                    primaryColorLight: Colors.white70,
+                    accentColor: Colors.blueAccent,
+                    brightness: Brightness.light,
+                    dividerColor: Colors.grey,
+                  ),
+                  home: WelcomeOrMain(resultMap: snapshot.data),
+                ),
               );
             }
           }

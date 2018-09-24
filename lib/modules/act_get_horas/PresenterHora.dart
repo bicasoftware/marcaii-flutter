@@ -24,21 +24,22 @@ class PresenterHora {
 
   Widget get actionSalvar {
     return ScopedModelDescendant<ModelHora>(
-        rebuildOnChange: false,
-        builder: (context, child, model) {
-          return IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () {
-                final isValidated = DateUtils.isValidTimeRange(
-                  model.horaInicial,
-                  model.horaTermino,
-                );
+      rebuildOnChange: false,
+      builder: (context, child, model) {
+        return IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () {
+              final isValidated = DateUtils.isValidTimeRange(
+                model.horaInicial,
+                model.horaTermino,
+              );
 
-                if (isValidated) {
-                  Navigator.of(context).pop(model.popResult());
-                }
-              });
-        });
+              if (isValidated) {
+                Navigator.of(context).pop(model.popResult());
+              }
+            });
+      },
+    );
   }
 
   Widget get horaInicialContainer {
@@ -187,9 +188,9 @@ class PresenterHora {
     );
   }
 
-  Widget getBottomBar(){
+  Widget getBottomBar() {
     return BottomAppBar(
-      notchMargin: 1.0,      
+      notchMargin: 1.0,
       child: quantidadeMinutosCounter,
     );
   }
