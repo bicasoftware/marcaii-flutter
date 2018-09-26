@@ -17,27 +17,28 @@ class ViewPageCalendario extends StatefulWidget {
 class ViewPageCalendarioState extends State<ViewPageCalendario> with TickerProviderStateMixin {
   final presenter = const PresenterPageCalendario(Strings.calendario);
 
-  TabController tabController;
+  static TabController tabController;
 
   @override
   void dispose() {
-    tabController.dispose();
     super.dispose();
+    tabController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainState>(
-      rebuildOnChange: true,
+      rebuildOnChange: false,
       builder: (context, child, model) {
         tabController = TabController(
           vsync: this,
           length: model.empregos.length,
           initialIndex: model.currentPageViewPosition,
-        );
-        tabController.addListener(() {
-          model.setCurrentPagePosition(tabController.index);
-        });
+        )..addListener(() {
+            if (model.currentPageViewPosition > 0 && !tabController.indexIsChanging) {
+              model.setCurrentPagePosition(tabController.index);
+            }
+          },);
 
         return Scaffold(
           body: presenter.provideBody(model.empregos, controller: tabController),

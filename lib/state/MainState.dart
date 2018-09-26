@@ -75,7 +75,7 @@ class MainState extends Model {
           year: ano,
           month: mes,
           idEmprego: e.id,
-          horas: e.listHoras,          
+          horas: e.listHoras,
         );
         e.listCalendarPages.add(newPage);
         e.setCurrentPage(newPage);
@@ -86,7 +86,7 @@ class MainState extends Model {
   void appendEmprego(EmpregoDto emprego) {
     manager.insertEmprego(emprego).then((EmpregoDto e) {
       final cells = CalendarBuilder.buildCalendarByMonth(currentYear, currentMonth + 1, e.id);
-      final newPage = CalendarPageDto(year: currentYear, month: currentMonth, cells: cells);      
+      final newPage = CalendarPageDto(year: currentYear, month: currentMonth, cells: cells);
       e.listCalendarPages.add(newPage);
       empregos.add(e);
     }).whenComplete(() {
@@ -107,7 +107,7 @@ class MainState extends Model {
       );
       e.listCalendarPages.add(newPage);
       e.listHoras.addAll(horasDto);
-      
+
       empregos[pos] = e;
     }).whenComplete(() {
       notifyListeners();
@@ -116,10 +116,11 @@ class MainState extends Model {
 
   void deleteEmprego(int idEmprego) {
     manager.deleteEmprego(idEmprego).then((success) {
-      if (success) empregos.removeWhere((e) => e.id == idEmprego);
-    }).whenComplete(() {
-      notifyListeners();
-    });
+      if (success) {
+        setCurrentPagePosition(0);
+        empregos.removeWhere((e) => e.id == idEmprego);
+      }
+    }).whenComplete(() => notifyListeners());
   }
 
   void deleteHora({int idEmprego, int id}) {
@@ -139,10 +140,14 @@ class MainState extends Model {
       }
     }).whenComplete(() => notifyListeners());
   }
-  
+
   int _currentPageViewPosition = 0;
-  
+
   void setCurrentPagePosition(int pos) => _currentPageViewPosition = pos;
 
-  int get currentPageViewPosition => _currentPageViewPosition;
+  int get currentPageViewPosition {
+    final pos = _currentPageViewPosition >= empregos.length ? 0 : _currentPageViewPosition;
+    print(pos);
+    return pos;
+  }
 }

@@ -58,19 +58,19 @@ class PageStepperState extends State<PageStepper> {
     setState(() => _currentStep = _currentStep > 0 ? _currentStep - 1 : 0);
   }
 
-  void _continueStepper(PresentationModel model) {
+  void _continueStepper(BuildContext context, PresentationModel model) {
     switch (_currentStep) {
       case 0:
-        _validateSalario() ? _gotoNextStep() : print("salário inválido");
+        _validateSalario() ? _gotoNextStep() : _showSnack(context, Warn.warSalarioInvalido);
         break;
       case 1:
         _gotoNextStep();
         break;
       case 2:
-        _validatePorcentagem() ? _gotoNextStep() : print("porcentagens invalidas");
+        _validatePorcentagem() ? _gotoNextStep() : _showSnack(context, Warn.warPorcInvalida);
         break;
       case 3:
-        if(_validateNome()){
+        if (_validateNome()) {
           doFinish(model);
         }
         break;
@@ -84,6 +84,14 @@ class PageStepperState extends State<PageStepper> {
     });
   }
 
+  void _showSnack(BuildContext context, String message) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
   void _stepTapped(int step) {
     switch (_prevStep) {
       case 0:
@@ -94,7 +102,7 @@ class PageStepperState extends State<PageStepper> {
           setState(() => _currentStep = step);
         }
         break;
-      case 1:      
+      case 1:
         _prevStep = step;
         setState(() => _currentStep = step);
         break;
@@ -144,7 +152,7 @@ class PageStepperState extends State<PageStepper> {
             type: StepperType.vertical,
             currentStep: _currentStep,
             onStepCancel: _cancelStepper,
-            onStepContinue: () => _continueStepper(model),
+            onStepContinue: () => _continueStepper(context, model),
             onStepTapped: _stepTapped,
             steps: <Step>[
               Step(
@@ -190,13 +198,8 @@ class PageStepperState extends State<PageStepper> {
             hintText: Strings.valorSalario,
             labelText: Strings.valorSalario,
           ),
-          validator: (s) {
-            if (controller.numberValue <= 0) return Warn.warSalarioInvalido;
-            return null;
-          },
-          onSaved: (s) {
-            model.setSalario(controller.numberValue);
-          },
+          validator: (s) => controller.numberValue <= 0 ? Warn.warSalarioInvalido : null,
+          onSaved: (s) => model.setSalario(controller.numberValue),
         ),
       ),
     );
@@ -244,15 +247,8 @@ class PageStepperState extends State<PageStepper> {
               labelText: Strings.porcNormal,
               hintText: Strings.porcNormal,
             ),
-            validator: (v) {
-              if (!Formatting.isValidPercent(v)) {
-                return Warn.warPorcInvalida;
-              }
-              return null;
-            },
-            onSaved: (s) {
-              model.setPorcNormal(int.parse(s));
-            },
+            validator: (v) => !Formatting.isValidPercent(v) ? Warn.warPorcInvalida : null,
+            onSaved: (s) => model.setPorcNormal(int.parse(s)),
           ),
           Divider(),
           TextFormField(
@@ -262,15 +258,8 @@ class PageStepperState extends State<PageStepper> {
               labelText: Strings.porcFeriados,
               hintText: Strings.porcFeriados,
             ),
-            validator: (v) {
-              if (!Formatting.isValidPercent(v)) {
-                return Warn.warPorcInvalida;
-              }
-              return null;
-            },
-            onSaved: (s) {
-              model.setPorcCompleta(int.parse(s));
-            },
+            validator: (v) => !Formatting.isValidPercent(v) ? Warn.warPorcInvalida : null,
+            onSaved: (s) => model.setPorcCompleta(int.parse(s)),
           ),
         ],
       ),
@@ -280,19 +269,12 @@ class PageStepperState extends State<PageStepper> {
   Widget _cargoStepper(PresentationModel model) {
     return Form(
       key: nomeFormKey,
-      child: TextFormField(initialValue: model.nomeEmprego,
-        decoration: InputDecoration(
-          labelText: "Descrição",
-        ),
-        validator: (s) {
-          if (s == null || s.isEmpty) {
-            return Warn.warNomeEmprego;
-          }
-          return null;
-        },
-        onSaved: (s) {
-          model.setNome(s);
-        },
+      child: TextFormField(
+        initialValue: model.nomeEmprego,
+        textCapitalization: TextCapitalization.words,
+        decoration: InputDecoration(labelText: "Descrição"),
+        validator: (s) => s == null || s.isEmpty ? Warn.warNomeEmprego : null,
+        onSaved: (s) => model.setNome(s),
       ),
     );
   }

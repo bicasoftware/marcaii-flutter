@@ -89,6 +89,7 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
             firstChild: PageListEmpregos(title: Strings.empregos),
             secondChild: model.hasEmpregos ? ViewPageCalendario() : PlaceholderCalendario(),
             duration: Duration(milliseconds: 300),
+            alignment: Alignment.bottomCenter,
           );
         },
       ),
