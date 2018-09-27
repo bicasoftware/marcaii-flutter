@@ -187,7 +187,7 @@ class PageStepperState extends State<PageStepper> {
   }
 
   Widget _salarioStep(PresentationModel model) {
-    controller = Formatting.defaultMoneyMask(model.salario ?? 1010.0);
+    controller = Formatting.defaultMoneyMask(model.salario ?? 1200.0);
     return Form(
       key: salFormKey,
       child: ListTile(

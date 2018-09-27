@@ -16,6 +16,7 @@ class ActGetSalario extends StatefulWidget {
 
 class ActGetSalarioState extends State<ActGetSalario> {
   MoneyMaskedTextController controller;
+  final key = GlobalKey<FormState>();
 
   void initState() {
     super.initState();
@@ -30,39 +31,36 @@ class ActGetSalarioState extends State<ActGetSalario> {
       ),
       body: Card(
         elevation: 2.0,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.green,
-                child: Icon(Icons.monetization_on),
-              ),
-              title: TextFormField(
-                autofocus: true,
-                controller: controller,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: Strings.hintSalario,
-                  labelText: Strings.valorSalario,
-                ),
-                validator: (s) {
-                  if (s == "" || controller.numberValue <= 0) {
-                    return Warn.warSalarioInvalido;
-                  }
-                  return null;
-                },
-              ),
+        child: Form(
+          key: key,
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.green,
+              child: Icon(Icons.monetization_on),
             ),
-          ],
+            title: TextFormField(
+              autofocus: true,
+              controller: controller,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: Strings.hintSalario,
+                labelText: Strings.valorSalario,
+                prefix: Text("R\$"),
+              ),
+              validator: (s) {
+                return s.isEmpty || controller.numberValue <= 0 ? Warn.warSalarioInvalido : null;
+              },
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),
         onPressed: () {
-          if (controller.numberValue > 0) {
+          final state = key.currentState;
+          if(state.validate()) {
             Navigator.of(context).pop(controller.numberValue);
-          }
+          }          
         },
       ),
     );

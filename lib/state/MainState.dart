@@ -146,8 +146,6 @@ class MainState extends Model {
   void setCurrentPagePosition(int pos) => _currentPageViewPosition = pos;
 
   int get currentPageViewPosition {
-    final pos = _currentPageViewPosition >= empregos.length ? 0 : _currentPageViewPosition;
-    print(pos);
-    return pos;
+    return _currentPageViewPosition >= empregos.length ? 0 : _currentPageViewPosition;
   }
 }

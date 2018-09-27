@@ -8,16 +8,15 @@ class Formatting {
     return matches.length == 1;
   }
 
-  static bool isValidPercent(String value){
+  static bool isValidPercent(String value) {
     final isValid = RegExp(r"^\d+$").allMatches(value).length == 1;
     return isValid && int.parse(value) >= 30;
   }
 
   static MoneyMaskedTextController defaultMoneyMask(double initialValue) {
-     return MoneyMaskedTextController(
+    return MoneyMaskedTextController(
       decimalSeparator: ',',
       thousandSeparator: '.',
-      leftSymbol: "R\$",
       initialValue: initialValue,
     );
   }

@@ -64,6 +64,7 @@ class _ActGetAumentosState extends State<ActGetAumentos> {
                 decoration: InputDecoration(
                   hintText: Strings.valorSalario,
                   labelText: Strings.valorSalario,
+                  prefix: Text("R\$"),
                 ),
                 validator: (s) {
                   if (s == "" || controller.numberValue <= 0) {
