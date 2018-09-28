@@ -68,6 +68,7 @@ class Strings {
 
   ///welcome screen
   static const String welcome = "Bem-vindo!";
+  static const String welcomeAoMarcaii = "Bem-vindo ao $app_name";
   static const String welcomeAntesComecar = "Antes de começar, faça uma configuração básica...";
   static const String welcomeSalario = "Qual o seu salário mensal?";
   static const String welcomeCargaHoraria = "Qual a sua carga horária?";
