@@ -14,14 +14,20 @@ class ListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      color: color ?? Theme.of(context).primaryColor,
-      child: Text(
-        title ?? "Header",
-        textAlign: TextAlign.left,
-        style: Theme.of(context).primaryTextTheme.title,
-      ),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.all(8.0),
+            color: color ?? Theme.of(context).primaryColor,
+            child: Text(
+              title ?? "Header",
+              textAlign: TextAlign.left,
+              style: Theme.of(context).primaryTextTheme.title,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

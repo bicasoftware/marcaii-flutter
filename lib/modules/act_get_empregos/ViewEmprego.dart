@@ -23,18 +23,25 @@ class ViewEmprego extends StatelessWidget {
                   presenter.getPickerTileFechamento(),
                   presenter.getHoraSaidaTile(),
                   presenter.getCargaHorariaTile(),
-                  presenter.getHeaderPorcentagem(),
-                  presenter.getPorcNormalTile(),
-                  presenter.getPorcFeriadosTile(),
-                  presenter.getHeaderDiferenciais(),
+                  presenter.getBancoHorasTile(),
+                  !model.isBancoHoras()
+                      ? Column(children: <Widget>[
+                          presenter.getHeaderPorcentagem(),
+                          presenter.getPorcNormalTile(),
+                          presenter.getPorcFeriadosTile(),
+                          presenter.getHeaderDiferenciais(),
+                        ])
+                      : Container(),
                 ]..addAll(
-                    presenter.provideListDifer(
-                      context: context,
-                      diferDto: model.getPorcList,
-                      onClear: (dia) => model.clearPorcDifer(dia),
-                      onUpdate: (dia, newPorc) => model.setPorcDifer(dia, newPorc),
-                      salarioHora: (model.valorSalario / model.cargaHoraria),
-                    ),
+                    !model.isBancoHoras()
+                        ? presenter.provideListDifer(
+                            context: context,
+                            diferDto: model.getPorcList,
+                            onClear: (dia) => model.clearPorcDifer(dia),
+                            onUpdate: (dia, newPorc) => model.setPorcDifer(dia, newPorc),
+                            salarioHora: (model.valorSalario / model.cargaHoraria),
+                          )
+                        : [],
                   ),
               ),
             );

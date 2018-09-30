@@ -233,7 +233,27 @@ class PresenterEmprego {
                 ),
               ),
             ),
+            BaseDivider(),
           ],
+        );
+      },
+    );
+  }
+
+  Widget getBancoHorasTile() {
+    return ScopedModelDescendant<EmpregoState>(
+      rebuildOnChange: true,
+      builder: (context, child, model) {
+        return ListTile(
+          leading: Icon(Icons.timeline),
+          title: Text(
+            Strings.bancoHoras,
+            style: Styles.getListTitleStyle(context),
+          ),
+          trailing: Switch(
+            value: model.bancoHoras,
+            onChanged: (it) => model.setBancoHoras(it),
+          ),
         );
       },
     );
@@ -248,6 +268,7 @@ class PresenterEmprego {
             ListTile(
               leading: Icon(Icons.move_to_inbox),
               title: TextFormField(
+                enabled: !md.isBancoHoras(),
                 keyboardType: TextInputType.number,
                 initialValue: md.porcNormal.toString(),
                 decoration: InputDecoration(
@@ -272,6 +293,7 @@ class PresenterEmprego {
         return ListTile(
           leading: Icon(Icons.move_to_inbox),
           title: TextFormField(
+            enabled: !md.isBancoHoras(),
             initialValue: md.porcFeriados.toString(),
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
@@ -287,11 +309,11 @@ class PresenterEmprego {
   }
 
   List<Widget> provideListDifer({
-    BuildContext context,
-    double salarioHora,
-    List<PorcDiferDto> diferDto,
-    Function(int) onClear,
-    Function(int, int) onUpdate,
+    @required BuildContext context,
+    @required double salarioHora,
+    @required List<PorcDiferDto> diferDto,
+    @required Function(int) onClear,
+    @required Function(int, int) onUpdate,
   }) {
     final listDifer = List<DiferenciaisListItem>();
 
@@ -302,7 +324,7 @@ class PresenterEmprego {
         isLast: d == diferDto.last,
         title: dias[d.diaSemana],
         percent: d.porcent,
-        value: d.porcent == 0 ? 0.0 : salarioHora * (1 + (d.porcent / 100)),
+        value: d.porcent == 0  ? 0.0 : salarioHora * (1 + (d.porcent / 100)),
         onClear: () async {
           Dialogs.showConfirmationDialog(
             context: context,
@@ -314,7 +336,6 @@ class PresenterEmprego {
           });
         },
 
-        ///enquanto existir o bug que repinta o widget abaixo do dialog, continuar usando uma fullscreen dialog
         onEdit: (int percent) async {
           final result = await Navigator.of(context).push(
             CupertinoPageRoute(
