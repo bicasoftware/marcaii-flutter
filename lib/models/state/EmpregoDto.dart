@@ -153,12 +153,14 @@ class EmpregoDto {
       );
     });
 
-    return ModelRelacao()
-      ..mes = mes
-      ..inicio = inicio
-      ..termino = termino
-      ..items = items
-      ..salario = s;
+    return ModelRelacao(
+      mes: mes,
+      inicio: inicio,
+      termino: termino,
+      items: items,
+      salario: s,
+      isBancoHoras: bancoHoras,
+    );
   }
 
   int _getPorcentagem(String tipoHora, DateTime data) {

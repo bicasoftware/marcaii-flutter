@@ -8,11 +8,13 @@ import 'package:scoped_model/scoped_model.dart';
 class ActGetHoras extends StatefulWidget {
   final CalendarCellDto cell;
   final List<DiferenciaisDto> listDifer;
+  final bool isBancoHoras;
 
   const ActGetHoras({
     Key key,
     @required this.cell,
     @required this.listDifer,
+    @required this.isBancoHoras,
   }) : super(key: key);
 
   @override
@@ -22,20 +24,21 @@ class ActGetHoras extends StatefulWidget {
 }
 
 class ActGetHorasState extends State<ActGetHoras> {
-
   ModelHora model;
 
   @override
-    void initState() {
-      model = widget.cell.toState(widget.listDifer);
-      super.initState();
-    }
+  void initState() {
+    model = widget.cell.toState(widget.listDifer);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
       model: model,
-      child: ViewHoras(),
+      child: ViewHoras(
+        isBancoHoras: widget.isBancoHoras,
+      ),
     );
   }
 }

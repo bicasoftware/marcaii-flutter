@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marcaii_flutter/utils/DateUtils.dart';
 import 'package:marcaii_flutter/utils/Formatting.dart';
 
 class TotaisItem extends StatelessWidget {
@@ -23,7 +24,7 @@ class TotaisItem extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              "$minutos minutos",
+              "${DateUtils.minutesToHours(minutos)} horas",
               textAlign: TextAlign.end,
             ),
           ),

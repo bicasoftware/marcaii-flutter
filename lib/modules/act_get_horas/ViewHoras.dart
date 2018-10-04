@@ -3,7 +3,13 @@ import 'package:marcaii_flutter/modules/act_get_horas/PresenterHora.dart';
 import 'package:marcaii_flutter/widgets/BaseDivider.dart';
 
 class ViewHoras extends StatelessWidget {
+  ViewHoras({
+    Key key,
+    @required this.isBancoHoras,
+  }) : super(key: key);
+
   final presenter = PresenterHora();
+  final bool isBancoHoras;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +28,15 @@ class ViewHoras extends StatelessWidget {
             presenter.horaInicialContainer,
             BaseDivider(),
             presenter.horaTerminoHolder,
-            BaseDivider(),
-            presenter.hintTipoHora(context),
-            presenter.radioGroupTipoHora,
+            !isBancoHoras
+                ? Column(
+                    children: <Widget>[
+                      BaseDivider(),
+                      presenter.hintTipoHora(context),
+                      presenter.radioGroupTipoHora,
+                    ],
+                  )
+                : Container()
           ],
         ),
       ),

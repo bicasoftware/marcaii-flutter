@@ -64,7 +64,7 @@ class DateUtils {
     return DateFormat("dd/MM/yyyy").format(date);
   }
 
-  static DateTime parseString(String dateString){
+  static DateTime parseString(String dateString) {
     return DateFormat("yyyy-MM-dd").parse(dateString);
   }
 
@@ -86,5 +86,9 @@ class DateUtils {
     DateTime termino = DateTime.utc(ano, mes, fechamento);
 
     return {"inicio": inicio, "termino": termino};
+  }
+
+  static String minutesToHours(int minutes) {
+    return "${(minutes ~/ 60).toString().padLeft(2, "0")}:${(minutes % 60).toString().padRight(2, "0")}";
   }
 }

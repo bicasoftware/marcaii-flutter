@@ -86,8 +86,8 @@ class _MainState extends State<MainAct> with SingleTickerProviderStateMixin {
                 ],
               );
             },
-            firstChild: PageListEmpregos(title: Strings.empregos),
-            secondChild: model.hasEmpregos ? ViewPageCalendario() : PlaceholderCalendario(),
+            firstChild: const PageListEmpregos(title: Strings.empregos),
+            secondChild: model.hasEmpregos ? const ViewPageCalendario() : const PlaceholderCalendario(),
             duration: Duration(milliseconds: 300),
             alignment: Alignment.bottomCenter,
           );

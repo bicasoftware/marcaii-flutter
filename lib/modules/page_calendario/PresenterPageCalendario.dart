@@ -67,6 +67,7 @@ class PresenterPageCalendario {
             porcNormal: e.porcNormal,
             porcFeriados: e.porcFeriados,
             cargaHoraria: e.cargaHoraria,
+            isBancoHoras: e.bancoHoras,
           );
         }).toList(),
       ),
@@ -74,13 +75,11 @@ class PresenterPageCalendario {
   }
 
   Widget provideBody(List<EmpregoDto> empregos, {@required TabController controller}) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          _calendarHeader(),
-          _tabBarView(empregos, controller: controller),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        _calendarHeader(),
+        _tabBarView(empregos, controller: controller),
+      ],
     );
   }
 }

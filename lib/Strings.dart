@@ -51,6 +51,7 @@ class Strings {
   static const String anoAumento = "Ano";
   static const String mesAumento = "Mês inicial";
   static const String minutos = "minutos";
+  static const String horasBancoHoras = "Horas no Banco: ";
   static const String emptyEmprego = "Nenhum emprego adicionado.";
   static const String nadaTotalizar = "Nada a totalizar";
   static const String cancelarConfig = "Deseja cancelar a configuração?";

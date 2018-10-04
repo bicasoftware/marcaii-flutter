@@ -6,15 +6,17 @@ import 'package:scoped_model/scoped_model.dart';
 
 class ModelRelacao extends Model {
   ModelRelacao({
-    this.mes,
-    this.inicio,
-    this.termino,
-    this.items,
-    this.salario,
+    @required this.mes,
+    @required this.inicio,
+    @required this.termino,
+    @required this.items,
+    @required this.salario,
+    @required this.isBancoHoras,
   });
 
   int mes;
   DateTime inicio, termino;
+  bool isBancoHoras;
   List<RelatorioItemDto> items;
   double salario;
 

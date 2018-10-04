@@ -21,12 +21,14 @@ class CalendarBody extends StatelessWidget {
     @required this.porcFeriados,
     @required this.cargaHoraria,
     @required this.salarios,    
+    @required this.isBancoHoras,
   }) : super(key: key);
 
   final List<CalendarCellDto> cells;
   final List<DiferenciaisDto> listDifer;
   final int porcNormal, porcFeriados, cargaHoraria;
   final List<SalariosDto> salarios;
+  final bool isBancoHoras;
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +87,7 @@ class CalendarBody extends StatelessWidget {
         fullscreenDialog: true,
         builder: (context) {
           return ActGetHoras(
+            isBancoHoras: isBancoHoras,
             cell: cell,
             listDifer: listDifer,
           );
@@ -107,6 +110,7 @@ class CalendarBody extends StatelessWidget {
       context: context,
       builder: (context) {
         return BottomSheetInfoHoras(
+          isBancoHoras: isBancoHoras,
           cell: cell,
           cargaHoraria: cargaHoraria,
           salarios: salarios,

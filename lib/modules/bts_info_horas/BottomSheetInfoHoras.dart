@@ -7,6 +7,7 @@ import 'package:marcaii_flutter/modules/bts_info_horas/PresenterBtsInfoHora.dart
 class BottomSheetInfoHoras extends StatelessWidget {
   final CalendarCellDto cell;
   final int porcNormal, porcFeriados, cargaHoraria;
+  final bool isBancoHoras;
   final List<DiferenciaisDto> listDif;
   final List<SalariosDto> salarios;
 
@@ -18,6 +19,7 @@ class BottomSheetInfoHoras extends StatelessWidget {
     @required this.listDif,
     @required this.cargaHoraria,
     @required this.salarios,
+    @required this.isBancoHoras,
   }) : super(key: key);
 
   @override
@@ -51,9 +53,15 @@ class BottomSheetInfoHoras extends StatelessWidget {
           ),
           Divider(),
           presenter.getMinutesLabel(context),
-          Divider(),
-          presenter.getTipoHora(),
-          presenter.getValorHora(),
+          !isBancoHoras
+              ? Column(
+                  children: <Widget>[
+                    Divider(),
+                    presenter.getTipoHora(),
+                    presenter.getValorHora(),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );
